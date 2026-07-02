@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var pause_menu := $PauseMenu
+@onready var pause_menu := $暂停菜单
 
 
 func _ready() -> void:

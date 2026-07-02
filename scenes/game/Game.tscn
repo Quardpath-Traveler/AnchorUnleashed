@@ -5,14 +5,14 @@
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="3_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/PauseMenu.tscn" id="4_pause"]
 
-[node name="Game" type="Node2D"]
+[node name="游戏" type="Node2D"]
 script = ExtResource("1_game")
 
-[node name="World" type="Node2D" parent="."]
+[node name="世界" type="Node2D" parent="."]
 
-[node name="Player" parent="." instance=ExtResource("2_player")]
+[node name="玩家" parent="." instance=ExtResource("2_player")]
 position = Vector2(320, 180)
 
-[node name="HUD" parent="." instance=ExtResource("3_hud")]
+[node name="界面" parent="." instance=ExtResource("3_hud")]
 
-[node name="PauseMenu" parent="." instance=ExtResource("4_pause")]
+[node name="暂停菜单" parent="." instance=ExtResource("4_pause")]
