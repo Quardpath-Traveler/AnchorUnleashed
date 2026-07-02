@@ -6,6 +6,12 @@
       "sourceType": "github",
       "skillPath": "plugins/game-development/skills/godot-gdscript-patterns/SKILL.md",
       "computedHash": "da390e553f8533575a5f9b94c9a7a1aed5abf629a3f687f97c8c8d5b65bac873"
+    },
+    "godot-gamejam-git-workflow": {
+      "source": ".agents/skills/godot-gamejam-git-workflow",
+      "sourceType": "local",
+      "skillPath": "SKILL.md",
+      "computedHash": "e631d0f28ff77ed33b5c451ebbc34caeae17ddf1a409ab055f6d48deec4f88ab"
     }
   }
 }
