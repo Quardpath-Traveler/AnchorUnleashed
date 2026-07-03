@@ -1,11 +1,12 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://cy254x0hrmji6"]
 
-[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1_hud"]
+[ext_resource type="Script" uid="uid://c4vqcgv3v6400" path="res://scripts/ui/hud.gd" id="1_hud"]
 
-[node name="HUD" type="CanvasLayer"]
+[node name="HUD" type="CanvasLayer" unique_id=599779340]
 script = ExtResource("1_hud")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="HUDRoot" type="Control" parent="." unique_id=1231248000]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -13,15 +14,121 @@ offset_left = 16.0
 offset_top = 16.0
 offset_right = -16.0
 offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-offset_right = 160.0
-offset_bottom = 48.0
+[node name="TopLeftMargin" type="MarginContainer" parent="HUDRoot" unique_id=1231248011]
+layout_mode = 1
+offset_right = 200.0
+offset_bottom = 120.0
 
-[node name="ScoreLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="ScoreGroup" type="VBoxContainer" parent="HUDRoot/TopLeftMargin" unique_id=-1294967295]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ScoreLabelText" type="Label" parent="HUDRoot/TopLeftMargin/ScoreGroup" unique_id=121843104]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "SCORE"
+
+[node name="ScoreLabel" type="Label" parent="HUDRoot/TopLeftMargin/ScoreGroup" unique_id=2090811128]
 unique_name_in_owner = true
-text = "Score: 0"
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "0"
 
-[node name="StatusLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="TopRightMargin" type="MarginContainer" parent="HUDRoot" unique_id=1231248012]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -64.0
+offset_bottom = 64.0
+grow_horizontal = 0
+
+[node name="PauseButton" type="TextureButton" parent="HUDRoot/TopRightMargin" unique_id=1234567001]
 unique_name_in_owner = true
-text = "Running"
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="HUDRoot/TopRightMargin/PauseButton" unique_id=1234567002]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bars" type="HBoxContainer" parent="HUDRoot/TopRightMargin/PauseButton/CenterContainer" unique_id=1234567003]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Bar1" type="ColorRect" parent="HUDRoot/TopRightMargin/PauseButton/CenterContainer/Bars" unique_id=1234567004]
+custom_minimum_size = Vector2(8, 32)
+layout_mode = 2
+
+[node name="Bar2" type="ColorRect" parent="HUDRoot/TopRightMargin/PauseButton/CenterContainer/Bars" unique_id=1234567005]
+custom_minimum_size = Vector2(8, 32)
+layout_mode = 2
+
+[node name="BottomLeftMargin" type="MarginContainer" parent="HUDRoot" unique_id=1231248013]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -48.0
+offset_right = 200.0
+grow_vertical = 0
+
+[node name="CoinRow" type="HBoxContainer" parent="HUDRoot/BottomLeftMargin" unique_id=1987654321]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="CoinLabel" type="Label" parent="HUDRoot/BottomLeftMargin/CoinRow" unique_id=1234567890]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "0"
+
+[node name="CoinIcon" type="ColorRect" parent="HUDRoot/BottomLeftMargin/CoinRow" unique_id=987654321]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+color = Color(0.8, 0.7, 0.2, 1)
+
+[node name="BottomRightMargin" type="MarginContainer" parent="HUDRoot" unique_id=1231248014]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -152.0
+offset_top = -78.0
+offset_right = 1.0
+offset_bottom = 2.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="SavedRow" type="HBoxContainer" parent="HUDRoot/BottomRightMargin" unique_id=-1294967294]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PersonIcon" type="ColorRect" parent="HUDRoot/BottomRightMargin/SavedRow" unique_id=-1294967293]
+custom_minimum_size = Vector2(40, 48)
+layout_mode = 2
+color = Color(0.7, 0.7, 0.7, 1)
+
+[node name="SavedInfo" type="VBoxContainer" parent="HUDRoot/BottomRightMargin/SavedRow" unique_id=-1294967292]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="RescuedLabel" type="Label" parent="HUDRoot/BottomRightMargin/SavedRow/SavedInfo" unique_id=-1294967291]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "15/13"
+
+[node name="SavedIcon" type="ColorRect" parent="HUDRoot/BottomRightMargin/SavedRow/SavedInfo" unique_id=-1294967290]
+custom_minimum_size = Vector2(64, 24)
+layout_mode = 2
+color = Color(0.7, 0.7, 0.7, 1)
