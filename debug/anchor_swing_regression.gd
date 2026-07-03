@@ -19,8 +19,8 @@ const HOOK_POINT_SCENE := preload("res://scenes/mechanics/HookPoint.tscn")
 @export var fail_on_alignment: bool = false
 @export var fail_on_initial_rotation_snap: bool = false
 
-var _boat: Boat
-var _hook_point: HookPoint
+var _boat: Variant
+var _hook_point: Node2D
 var _initial_position: Vector2
 var _pre_hook_rotation: float = 0.0
 var _frame_index: int = 0
@@ -47,7 +47,7 @@ func _physics_process(_delta: float) -> void:
 	if _frame_index == frames_to_run - recovery_window_frames:
 		_recovery_window_start_position = _boat.global_position
 
-	var displacement := _boat.global_position.distance_to(_initial_position)
+	var displacement: float = _boat.global_position.distance_to(_initial_position)
 	_max_displacement = maxf(_max_displacement, displacement)
 	_max_speed = maxf(_max_speed, _boat.linear_velocity.length())
 	if _frame_index == 1:
@@ -74,8 +74,8 @@ func _physics_process(_delta: float) -> void:
 	if _frame_index < frames_to_run:
 		return
 
-	var recovery_distance := _boat.global_position.distance_to(_recovery_window_start_position)
-	var stalled := (
+	var recovery_distance: float = _boat.global_position.distance_to(_recovery_window_start_position)
+	var stalled: bool = (
 		_max_displacement < stall_distance_threshold
 		or recovery_distance < recovery_distance_threshold
 	)
@@ -110,11 +110,11 @@ func _physics_process(_delta: float) -> void:
 
 
 func _spawn_test_world() -> void:
-	_hook_point = HOOK_POINT_SCENE.instantiate() as HookPoint
+	_hook_point = HOOK_POINT_SCENE.instantiate() as Node2D
 	add_child(_hook_point)
 	_hook_point.global_position = hook_position
 
-	_boat = BOAT_SCENE.instantiate() as Boat
+	_boat = BOAT_SCENE.instantiate()
 	add_child(_boat)
 	_boat.posture_logging_enabled = false
 	_boat.freeze = true
@@ -136,8 +136,8 @@ func _attach_anchor_at_turning_point() -> void:
 	_boat.linear_velocity = Vector2.ZERO
 	_boat.angular_velocity = 0.0
 	_pre_hook_rotation = _boat.global_rotation
-	_boat.anchor.state = Anchor.State.FLYING
-	_boat.anchor.is_ready = false
+	_boat.anchor.start_aim()
+	_boat.anchor.launch(_hook_point.global_position)
 	_boat.anchor.attach_to(_hook_point)
 	_boat.freeze = false
 
@@ -153,7 +153,7 @@ func _update_alignment_result() -> void:
 	if _boat.linear_velocity.length() <= min_alignment_speed:
 		return
 
-	var posture := _boat.get_posture_log_data()
+	var posture: Dictionary = _boat.get_posture_log_data()
 	var error_variant: Variant = posture.get("anchor_swing_alignment_error_degrees", null)
 	if error_variant == null:
 		return

@@ -12,7 +12,7 @@ const ANCHOR_SCENE := preload("res://scenes/mechanics/Anchor.tscn")
 @export var max_sampled_speed: float = 980.0
 @export var fail_on_regression: bool = false
 
-var _anchor: Anchor
+var _anchor: Variant
 var _samples: Array[Vector2] = []
 var _frame_index: int = 0
 var _max_sampled_speed: float = 0.0
@@ -23,7 +23,7 @@ func _ready() -> void:
 	add_child(socket)
 	socket.global_position = Vector2(120.0, 260.0)
 
-	_anchor = ANCHOR_SCENE.instantiate() as Anchor
+	_anchor = ANCHOR_SCENE.instantiate()
 	socket.add_child(_anchor)
 	_anchor.max_length = 720.0
 	_anchor.start_aim()
@@ -144,7 +144,7 @@ func _get_max_gravity_slack(points: PackedVector2Array) -> float:
 	if points.size() < 3:
 		return 0.0
 
-	var gravity_local := _anchor.global_transform.basis_xform_inv(Vector2.DOWN).normalized()
+	var gravity_local: Vector2 = _anchor.global_transform.basis_xform_inv(Vector2.DOWN).normalized()
 	var start := points[0]
 	var end := points[points.size() - 1]
 	var max_slack := 0.0
