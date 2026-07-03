@@ -103,8 +103,11 @@ class ProjectStructureTest(unittest.TestCase):
             "scripts/autoload/EventBus.gd",
             "scripts/autoload/SceneLoader.gd",
             "debug/AnchorThrowRegression.tscn",
+            "debug/AnchorRelativeLaunchVelocityRegression.tscn",
             "debug/anchor_throw_regression.gd",
             "debug/anchor_throw_regression.gd.uid",
+            "debug/anchor_relative_launch_velocity_regression.gd",
+            "debug/anchor_relative_launch_velocity_regression.gd.uid",
         ]:
             self.assertTrue((ROOT / relative_path).is_file(), relative_path)
 
@@ -126,6 +129,7 @@ class ProjectStructureTest(unittest.TestCase):
             "scenes/ui/ResultScreen.tscn": "res://scripts/ui/result_screen.gd",
             "scenes/ui/TutorialPrompt.tscn": "res://scripts/ui/tutorial_prompt.gd",
             "debug/AnchorThrowRegression.tscn": "res://debug/anchor_throw_regression.gd",
+            "debug/AnchorRelativeLaunchVelocityRegression.tscn": "res://debug/anchor_relative_launch_velocity_regression.gd",
         }
 
         for scene_path, script_path in expected_references.items():
@@ -250,6 +254,7 @@ class ProjectStructureTest(unittest.TestCase):
             "@export var launch_speed",
             "var throw_origin_global",
             "var launch_velocity",
+            "var launch_carrier_velocity",
             "func _physics_process(delta: float)",
             "func is_active() -> bool",
             "func is_hooked() -> bool",
@@ -287,6 +292,9 @@ class ProjectStructureTest(unittest.TestCase):
             "@export var anchor_log_prefix",
             "var launch_elapsed_seconds",
             "var launch_initial_velocity",
+            "launch_carrier_velocity",
+            "func _get_launch_carrier_velocity() -> Vector2",
+            "direction * launch_speed + carrier_velocity",
             "func launch(target_position: Vector2)",
             "func get_anchor_log_data() -> Dictionary",
             "func emit_anchor_log() -> void",
@@ -331,6 +339,24 @@ class ProjectStructureTest(unittest.TestCase):
             "_get_max_gravity_slack",
         ]:
             self.assertIn(expected, debug_script)
+
+        relative_debug_scene = self.read("debug/AnchorRelativeLaunchVelocityRegression.tscn")
+        relative_debug_script = self.read("debug/anchor_relative_launch_velocity_regression.gd")
+        for expected in [
+            "res://debug/anchor_relative_launch_velocity_regression.gd",
+            "fail_on_regression = true",
+        ]:
+            self.assertIn(expected, relative_debug_scene)
+
+        for expected in [
+            "ANCHOR_RELATIVE_LAUNCH_RESULT",
+            "boat_velocity",
+            "relative_velocity",
+            "expected_velocity",
+            "launch_initial_velocity",
+            "velocity_error",
+        ]:
+            self.assertIn(expected, relative_debug_script)
 
     def test_boat_drives_anchor_input_swing_constraint_and_airborne_rotation(self):
         script = self.read("scripts/player/boat.gd")

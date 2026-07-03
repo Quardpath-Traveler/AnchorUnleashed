@@ -23,6 +23,7 @@ var state: State = State.READY
 var throw_origin_global: Vector2
 var launch_velocity: Vector2
 var launch_initial_velocity: Vector2
+var launch_carrier_velocity: Vector2
 var launch_elapsed_seconds: float = 0.0
 var launch_target_global: Vector2
 var rope_length: float = 0.0
@@ -83,7 +84,8 @@ func launch(target_position: Vector2) -> void:
 
 	top_level = true
 	global_position = throw_origin_global
-	launch_initial_velocity = _get_launch_initial_velocity(direction)
+	launch_carrier_velocity = _get_launch_carrier_velocity()
+	launch_initial_velocity = _get_launch_initial_velocity(direction, launch_carrier_velocity)
 	launch_velocity = launch_initial_velocity
 	launch_elapsed_seconds = 0.0
 	rope_length = 0.0
@@ -154,6 +156,7 @@ func get_anchor_log_data() -> Dictionary:
 		"launch_target_global": _vector_to_log_data(launch_target_global),
 		"launch_velocity": _vector_to_log_data(launch_velocity),
 		"launch_initial_velocity": _vector_to_log_data(launch_initial_velocity),
+		"launch_carrier_velocity": _vector_to_log_data(launch_carrier_velocity),
 		"launch_elapsed_seconds": snappedf(launch_elapsed_seconds, 0.001),
 		"rope_length": snappedf(rope_length, 0.001),
 		"max_length": snappedf(max_length, 0.001),
@@ -196,8 +199,18 @@ func _get_parabolic_flight_position(delta: float) -> Vector2:
 	)
 
 
-func _get_launch_initial_velocity(direction: Vector2) -> Vector2:
-	return direction * launch_speed
+func _get_launch_initial_velocity(direction: Vector2, carrier_velocity: Vector2) -> Vector2:
+	return direction * launch_speed + carrier_velocity
+
+
+func _get_launch_carrier_velocity() -> Vector2:
+	var current_node := get_parent()
+	while current_node != null:
+		if current_node is RigidBody2D:
+			return (current_node as RigidBody2D).linear_velocity
+		current_node = current_node.get_parent()
+
+	return Vector2.ZERO
 
 
 func _get_gravity_direction() -> Vector2:
@@ -256,6 +269,7 @@ func _reset_to_socket() -> void:
 	launch_elapsed_seconds = 0.0
 	launch_velocity = Vector2.ZERO
 	launch_initial_velocity = Vector2.ZERO
+	launch_carrier_velocity = Vector2.ZERO
 	head.position = Vector2.ZERO
 	rope_line.points = PackedVector2Array([
 		Vector2.ZERO,
