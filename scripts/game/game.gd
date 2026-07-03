@@ -1,5 +1,7 @@
 extends Node2D
 
+@onready var level := $世界/关卡原型
+@onready var player := $玩家
 @onready var pause_menu := $暂停菜单
 
 
@@ -8,6 +10,8 @@ func _ready() -> void:
 	GameState.reset()
 	GameState.pause_changed.connect(_on_pause_changed)
 	pause_menu.resume_requested.connect(_on_resume_requested)
+	if level.has_method("get_start_position"):
+		player.global_position = level.get_start_position()
 	_on_pause_changed(GameState.is_paused)
 
 

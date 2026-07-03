@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://be70x01usqr0h"]
+
+[ext_resource type="Script" uid="uid://dnhku54aginkk" path="res://scripts/level_parts/water_surface.gd" id="1_water"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_water"]
+size = Vector2(1400, 208)
+
+[node name="WaterSurface" type="Area2D" unique_id=155695590]
+script = ExtResource("1_water")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1633081023]
+unique_name_in_owner = true
+position = Vector2(0, 20)
+shape = SubResource("RectangleShape2D_water")

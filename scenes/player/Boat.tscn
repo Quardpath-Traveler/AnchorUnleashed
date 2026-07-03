@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://cgdpl2y4glvwl"]
+
+[ext_resource type="Script" uid="uid://bbohlaa00mhar" path="res://scripts/player/boat.gd" id="1_boat"]
+[ext_resource type="PackedScene" path="res://scenes/mechanics/Anchor.tscn" id="2_anchor"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_boat"]
+size = Vector2(72, 28)
+
+[node name="Boat" type="RigidBody2D" unique_id=489026178]
+mass = 10.0
+gravity_scale = 1.2
+script = ExtResource("1_boat")
+
+[node name="HullVisual" type="Polygon2D" parent="." unique_id=216690964]
+color = Color(0.18, 0.42, 0.65, 1)
+polygon = PackedVector2Array(-42, -10, 38, -10, 26, 16, -30, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=963683348]
+shape = SubResource("RectangleShape2D_boat")
+
+[node name="AnchorSocket" type="Marker2D" parent="." unique_id=792766921]
+position = Vector2(34, -8)
+
+[node name="Anchor" parent="AnchorSocket" unique_id=2089304412 instance=ExtResource("2_anchor")]
+unique_name_in_owner = true

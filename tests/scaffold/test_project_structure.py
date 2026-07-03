@@ -28,6 +28,10 @@ class ProjectStructureTest(unittest.TestCase):
         ]:
             self.assertIn(f'{action}={{', project)
 
+        confirm_mapping = project[project.index("confirm={"):project.index("cancel={")]
+        self.assertIn("InputEventMouseButton", confirm_mapping)
+        self.assertIn('"button_index":1', confirm_mapping)
+
     def test_required_directories_exist(self):
         for relative_path in [
             "assets/art",
@@ -37,12 +41,20 @@ class ProjectStructureTest(unittest.TestCase):
             "debug",
             "scenes/main",
             "scenes/game",
+            "scenes/items",
+            "scenes/level_parts",
+            "scenes/levels",
+            "scenes/mechanics",
             "scenes/player",
             "scenes/ui",
             "scripts/autoload",
             "scripts/components",
             "scripts/resources",
+            "scripts/items",
+            "scripts/level_parts",
+            "scripts/levels",
             "scripts/main",
+            "scripts/mechanics",
             "scripts/game",
             "scripts/player",
             "scripts/ui",
@@ -53,14 +65,34 @@ class ProjectStructureTest(unittest.TestCase):
         for relative_path in [
             "scenes/main/Main.tscn",
             "scenes/game/Game.tscn",
+            "scenes/items/CanCollectible.tscn",
+            "scenes/level_parts/Obstacle.tscn",
+            "scenes/level_parts/WaterSurface.tscn",
+            "scenes/level_parts/WaveChaser.tscn",
+            "scenes/levels/LevelPrototypeSlope.tscn",
+            "scenes/mechanics/Anchor.tscn",
+            "scenes/mechanics/HookPoint.tscn",
+            "scenes/player/Boat.tscn",
             "scenes/player/Player.tscn",
             "scenes/ui/HUD.tscn",
             "scenes/ui/PauseMenu.tscn",
+            "scenes/ui/ResultScreen.tscn",
+            "scenes/ui/TutorialPrompt.tscn",
+            "scripts/items/can_collectible.gd",
+            "scripts/level_parts/obstacle.gd",
+            "scripts/level_parts/water_surface.gd",
+            "scripts/level_parts/wave_chaser.gd",
+            "scripts/levels/level_prototype_slope.gd",
             "scripts/main/main.gd",
+            "scripts/mechanics/anchor.gd",
+            "scripts/mechanics/hook_point.gd",
             "scripts/game/game.gd",
+            "scripts/player/boat.gd",
             "scripts/player/player.gd",
             "scripts/ui/hud.gd",
             "scripts/ui/pause_menu.gd",
+            "scripts/ui/result_screen.gd",
+            "scripts/ui/tutorial_prompt.gd",
             "scripts/autoload/GameState.gd",
             "scripts/autoload/EventBus.gd",
             "scripts/autoload/SceneLoader.gd",
@@ -71,9 +103,19 @@ class ProjectStructureTest(unittest.TestCase):
         expected_references = {
             "scenes/main/Main.tscn": "res://scripts/main/main.gd",
             "scenes/game/Game.tscn": "res://scripts/game/game.gd",
+            "scenes/items/CanCollectible.tscn": "res://scripts/items/can_collectible.gd",
+            "scenes/level_parts/Obstacle.tscn": "res://scripts/level_parts/obstacle.gd",
+            "scenes/level_parts/WaterSurface.tscn": "res://scripts/level_parts/water_surface.gd",
+            "scenes/level_parts/WaveChaser.tscn": "res://scripts/level_parts/wave_chaser.gd",
+            "scenes/levels/LevelPrototypeSlope.tscn": "res://scripts/levels/level_prototype_slope.gd",
+            "scenes/mechanics/Anchor.tscn": "res://scripts/mechanics/anchor.gd",
+            "scenes/mechanics/HookPoint.tscn": "res://scripts/mechanics/hook_point.gd",
+            "scenes/player/Boat.tscn": "res://scripts/player/boat.gd",
             "scenes/player/Player.tscn": "res://scripts/player/player.gd",
             "scenes/ui/HUD.tscn": "res://scripts/ui/hud.gd",
             "scenes/ui/PauseMenu.tscn": "res://scripts/ui/pause_menu.gd",
+            "scenes/ui/ResultScreen.tscn": "res://scripts/ui/result_screen.gd",
+            "scenes/ui/TutorialPrompt.tscn": "res://scripts/ui/tutorial_prompt.gd",
         }
 
         for scene_path, script_path in expected_references.items():
@@ -82,9 +124,201 @@ class ProjectStructureTest(unittest.TestCase):
     def test_game_scene_contains_player_hud_and_pause_menu(self):
         scene = self.read("scenes/game/Game.tscn")
 
-        self.assertIn("res://scenes/player/Player.tscn", scene)
+        self.assertIn("res://scenes/levels/LevelPrototypeSlope.tscn", scene)
+        self.assertIn("res://scenes/player/Boat.tscn", scene)
         self.assertIn("res://scenes/ui/HUD.tscn", scene)
         self.assertIn("res://scenes/ui/PauseMenu.tscn", scene)
+
+    def test_prototype_level_contains_core_gameplay_parts(self):
+        scene = self.read("scenes/levels/LevelPrototypeSlope.tscn")
+
+        for scene_path in [
+            "res://scenes/mechanics/HookPoint.tscn",
+            "res://scenes/level_parts/WaterSurface.tscn",
+            "res://scenes/level_parts/WaveChaser.tscn",
+            "res://scenes/level_parts/Obstacle.tscn",
+            "res://scenes/items/CanCollectible.tscn",
+        ]:
+            self.assertIn(scene_path, scene)
+
+        self.assertIn('[node name="WaterSurface" parent="Slope"', scene)
+        self.assertIn('instance=ExtResource("3_water")', scene)
+        self.assertIn("rotation = 0.244979", scene)
+        self.assertIn("water_width = 560.0", scene)
+
+    def test_water_surface_is_animated_and_gameplay_ready(self):
+        scene = self.read("scenes/level_parts/WaterSurface.tscn")
+        script = self.read("scripts/level_parts/water_surface.gd")
+        boat_scene = self.read("scenes/player/Boat.tscn")
+
+        self.assertNotIn('type="Polygon2D" parent="."', scene)
+        self.assertIn("mass = 10.0", boat_scene)
+        for expected in [
+            "signal boat_landed_safely",
+            "signal boat_bad_landing",
+            "reference_boat_mass",
+            "current_flow_speed",
+            "fountain_impulse",
+            "buoyancy_force",
+            "target_float_depth",
+            "max_buoyancy_force",
+            "buoyancy_damping",
+            "enable_waterfall",
+            "waterfall_side",
+            "waterfall_width",
+            "waterfall_height",
+            "waterfall_down_force",
+            "waterfall_lip_length",
+            "angular_stability_torque",
+            "angular_damping_torque",
+            "max_water_angular_velocity",
+            "angular_stability_blend",
+            "water_stability_min_submerged_ratio",
+            "func _process(delta: float)",
+            "func _physics_process(_delta: float)",
+            "func _draw()",
+            "func get_surface_depth_at_global_position(global_position: Vector2) -> float",
+            "func get_water_up_direction() -> Vector2",
+            "func get_water_flow_direction() -> Vector2",
+            "func get_waterfall_drop_direction() -> Vector2",
+            "func get_boat_target_rotation() -> float",
+            "func _apply_buoyancy_to_boat(boat: Node2D)",
+            "func _apply_stability_to_boat",
+            "func _refresh_overlapping_boats()",
+            "func _is_in_waterfall_edge(local_position: Vector2) -> bool",
+            "func _draw_waterfall()",
+            "func _build_waterfall_lip_points(edge_point: Vector2, lip_end: Vector2) -> PackedVector2Array",
+            "func _draw_waterfall_splash(center: Vector2)",
+            "basis_xform_inv(Vector2.DOWN)",
+            "edge_point + water_flow_direction * waterfall_lip_length",
+            "get_overlapping_bodies()",
+            "queue_redraw()",
+            "draw_colored_polygon",
+            "draw_polyline",
+            "draw_arc",
+            "apply_central_force",
+            "get_mass_force_scale",
+            "rigid_body.mass / reference_boat_mass",
+            "float_force * mass_force_scale",
+            "current_force * mass_force_scale",
+            "waterfall_down_force * mass_force_scale",
+            "linear_velocity.dot(water_up_direction)",
+            "rigid_boat.apply_torque(stability_torque)",
+            "rigid_boat.angular_velocity = lerpf",
+            "clampf(-rotation_error * angular_recovery_speed",
+            "if submerged_ratio < water_stability_min_submerged_ratio",
+            "body.enter_water()",
+            "body.exit_water()",
+            "lose_crew",
+        ]:
+            self.assertIn(expected, script)
+
+    def test_anchor_supports_launch_hook_recall_and_rope_state(self):
+        script = self.read("scripts/mechanics/anchor.gd")
+
+        for expected in [
+            "enum State",
+            "State.READY",
+            "State.AIMING",
+            "State.FLYING",
+            "State.HOOKED",
+            "@export var launch_speed",
+            "var throw_origin_global",
+            "var launch_velocity",
+            "func _physics_process(delta: float)",
+            "func is_active() -> bool",
+            "func is_hooked() -> bool",
+            "func get_rope_length() -> float",
+            "func get_hook_global_position() -> Vector2",
+            "func _update_rope_visual()",
+            "global_position.distance_to(throw_origin_global)",
+            "recall()",
+            "attached_hook_point.global_position",
+            "head.global_position",
+        ]:
+            self.assertIn(expected, script)
+
+        for removed_cooldown in [
+            "COOLDOWN",
+            "cooldown_seconds",
+            "_start_cooldown",
+            "create_timer",
+        ]:
+            self.assertNotIn(removed_cooldown, script)
+
+        self.assertIn("state = State.READY", script)
+        self.assertIn("is_ready = true", script)
+
+    def test_boat_drives_anchor_input_swing_constraint_and_airborne_rotation(self):
+        script = self.read("scripts/player/boat.gd")
+
+        for expected in [
+            "posture_logging_enabled",
+            "posture_log_interval_seconds",
+            "posture_log_prefix",
+            "airborne_nose_down_torque",
+            "airborne_nose_down_damping",
+            "var aim_time_scale",
+            "var rope_pull_stiffness",
+            "var swing_turnaround_speed",
+            "var anchor_swing_alignment_torque",
+            "var anchor_swing_alignment_damping",
+            "var anchor_swing_alignment_max_angular_velocity",
+            "var anchor_swing_target_turn_speed",
+            "var _swing_locked_energy",
+            "var _swing_tangent_sign",
+            "var _anchor_swing_target_rotation",
+            "@onready var anchor: Anchor = %Anchor",
+            "func _unhandled_input(event: InputEvent)",
+            "event.is_action_pressed(\"confirm\")",
+            "event.is_action_released(\"confirm\")",
+            "anchor.start_aim()",
+            "anchor.launch(get_global_mouse_position())",
+            "anchor.recall()",
+            "func _integrate_forces(state: PhysicsDirectBodyState2D)",
+            "state.get_contact_count()",
+            "func _apply_anchor_constraint(state: PhysicsDirectBodyState2D)",
+            "anchor.is_hooked()",
+            "anchor.get_hook_global_position()",
+            "anchor.get_rope_length()",
+            "state.linear_velocity",
+            "_reset_anchor_swing_state()",
+            "_capture_anchor_swing_state",
+            "_get_tangent_direction",
+            "_align_bow_to_anchor_swing",
+            "_update_anchor_swing_target_rotation",
+            "_update_swing_direction_from_gravity",
+            "sqrt(2.0 * maxf(_swing_locked_energy - potential_energy, 0.0))",
+            "state.linear_velocity = tangent_direction * target_tangent_speed * _swing_tangent_sign",
+            "_update_anchor_swing_target_rotation(state.linear_velocity.angle(), state)",
+            "state.angular_velocity = desired_angular_velocity",
+            "is_airborne()",
+            "func _apply_airborne_nose_down",
+            "Vector2.DOWN.angle()",
+            "wrapf(global_rotation - nose_down_rotation, -PI, PI)",
+            "apply_torque(nose_down_torque)",
+            "is_in_water()",
+            "enter_water()",
+            "exit_water()",
+            "_water_contact_count > 0",
+            "_contact_count == 0 and not is_in_water()",
+            "func get_posture_log_data() -> Dictionary",
+            "func emit_posture_log() -> void",
+            "JSON.stringify(get_posture_log_data())",
+            "rotation_degrees",
+            "nose_angle_degrees",
+            "anchor_swing_target_degrees",
+            "anchor_swing_alignment_error_degrees",
+            "angular_velocity",
+            "linear_velocity",
+            "contact_count",
+            "water_contact_count",
+            "in_water",
+            "airborne",
+            "Engine.time_scale = aim_time_scale",
+            "Engine.time_scale = 1.0",
+        ]:
+            self.assertIn(expected, script)
 
 
 if __name__ == "__main__":

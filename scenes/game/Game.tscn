@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/game/game.gd" id="1_game"]
-[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/levels/LevelPrototypeSlope.tscn" id="2_level"]
+[ext_resource type="PackedScene" path="res://scenes/player/Boat.tscn" id="3_boat"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="3_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/PauseMenu.tscn" id="4_pause"]
 
@@ -10,8 +11,10 @@ script = ExtResource("1_game")
 
 [node name="世界" type="Node2D" parent="."]
 
-[node name="玩家" parent="." instance=ExtResource("2_player")]
-position = Vector2(320, 180)
+[node name="关卡原型" parent="世界" instance=ExtResource("2_level")]
+
+[node name="玩家" parent="." instance=ExtResource("3_boat")]
+position = Vector2(120, 130)
 
 [node name="界面" parent="." instance=ExtResource("3_hud")]
 

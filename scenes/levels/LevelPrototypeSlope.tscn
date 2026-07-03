@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://cwhya4qsjrxpm"]
+
+[ext_resource type="Script" uid="uid://dy6he7jj56ad4" path="res://scripts/levels/level_prototype_slope.gd" id="1_level"]
+[ext_resource type="PackedScene" path="res://scenes/mechanics/HookPoint.tscn" id="2_hook"]
+[ext_resource type="PackedScene" uid="uid://be70x01usqr0h" path="res://scenes/level_parts/WaterSurface.tscn" id="3_water"]
+[ext_resource type="PackedScene" path="res://scenes/level_parts/WaveChaser.tscn" id="4_wave"]
+[ext_resource type="PackedScene" path="res://scenes/level_parts/Obstacle.tscn" id="5_obstacle"]
+[ext_resource type="PackedScene" path="res://scenes/items/CanCollectible.tscn" id="6_can"]
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_slope"]
+points = PackedVector2Array(-260, -20, 300, 120, 300, 170, -260, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_finish"]
+size = Vector2(80, 170)
+
+[node name="LevelPrototypeSlope" type="Node2D" unique_id=323909850]
+script = ExtResource("1_level")
+
+[node name="StartMarker" type="Marker2D" parent="." unique_id=1082883030]
+unique_name_in_owner = true
+position = Vector2(120, 130)
+
+[node name="Slope" type="StaticBody2D" parent="." unique_id=1077218905]
+position = Vector2(240, 260)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Slope" unique_id=1163150987]
+shape = SubResource("ConvexPolygonShape2D_slope")
+
+[node name="Visual" type="Polygon2D" parent="Slope" unique_id=1216908833]
+color = Color(0.46, 0.38, 0.28, 1)
+polygon = PackedVector2Array(-260, -20, 300, 120, 300, 170, -260, 30)
+
+[node name="WaterSurface" parent="Slope" unique_id=194159359 instance=ExtResource("3_water")]
+position = Vector2(20, 46)
+rotation = 0.244979
+water_width = 560.0
+water_depth = 72.0
+surface_y = -36.0
+wave_amplitude = 9.0
+secondary_wave_amplitude = 4.0
+current_flow_speed = 260.0
+buoyancy_force = 5000.0
+max_buoyancy_force = 11130.0
+
+[node name="HookPointA" parent="." unique_id=329637448 instance=ExtResource("2_hook")]
+position = Vector2(657, 285)
+
+[node name="HookPointB" parent="." unique_id=1824416324 instance=ExtResource("2_hook")]
+position = Vector2(1012.03394, 244.42358)
+
+[node name="WaveChaser" parent="." unique_id=10999686 instance=ExtResource("4_wave")]
+position = Vector2(-120, 270)
+
+[node name="Obstacle" parent="." unique_id=66557457 instance=ExtResource("5_obstacle")]
+position = Vector2(867, 138)
+
+[node name="CanCollectible" parent="." unique_id=1479361518 instance=ExtResource("6_can")]
+position = Vector2(787, 157)
+
+[node name="FinishArea" type="Area2D" parent="." unique_id=1950458681]
+unique_name_in_owner = true
+position = Vector2(1375.0114, 383.18896)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FinishArea" unique_id=1897859782]
+shape = SubResource("RectangleShape2D_finish")
+
+[node name="Visual" type="Polygon2D" parent="FinishArea" unique_id=1327184217]
+color = Color(0.24, 0.76, 0.36, 0.35)
+polygon = PackedVector2Array(-40, -85, 40, -85, 40, 85, -40, 85)

@@ -1,4 +1,4 @@
-# CGJ2026 — Claude Code Project Notes
+# CGJ2026 - Codex Project Notes
 
 - **Engine:** Godot 4.7, Jolt Physics, Forward Plus renderer
 - **Team:** 2 technical + 2 art members
