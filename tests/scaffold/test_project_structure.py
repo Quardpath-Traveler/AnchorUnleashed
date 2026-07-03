@@ -25,6 +25,7 @@ class ProjectStructureTest(unittest.TestCase):
             "pause",
             "debug_reset",
             "confirm",
+            "bullet_time",
             "cancel",
         ]:
             self.assertIn(f'{action}={{', project)
@@ -33,9 +34,16 @@ class ProjectStructureTest(unittest.TestCase):
         self.assertIn("InputEventKey", debug_reset_mapping)
         self.assertIn('"keycode":82', debug_reset_mapping)
 
-        confirm_mapping = project[project.index("confirm={"):project.index("cancel={")]
+        confirm_mapping = project[project.index("confirm={"):project.index("bullet_time={")]
         self.assertIn("InputEventMouseButton", confirm_mapping)
         self.assertIn('"button_index":1', confirm_mapping)
+        self.assertIn('"keycode":4194309', confirm_mapping)
+        self.assertNotIn('"keycode":32', confirm_mapping)
+
+        bullet_time_mapping = project[project.index("bullet_time={"):project.index("cancel={")]
+        self.assertIn("InputEventKey", bullet_time_mapping)
+        self.assertIn('"keycode":32', bullet_time_mapping)
+        self.assertNotIn("InputEventMouseButton", bullet_time_mapping)
 
     def test_required_directories_exist(self):
         for relative_path in [
@@ -104,10 +112,13 @@ class ProjectStructureTest(unittest.TestCase):
             "scripts/autoload/SceneLoader.gd",
             "debug/AnchorThrowRegression.tscn",
             "debug/AnchorRelativeLaunchVelocityRegression.tscn",
+            "debug/AnchorBulletTimeRegression.tscn",
             "debug/anchor_throw_regression.gd",
             "debug/anchor_throw_regression.gd.uid",
             "debug/anchor_relative_launch_velocity_regression.gd",
             "debug/anchor_relative_launch_velocity_regression.gd.uid",
+            "debug/anchor_bullet_time_regression.gd",
+            "debug/anchor_bullet_time_regression.gd.uid",
         ]:
             self.assertTrue((ROOT / relative_path).is_file(), relative_path)
 
@@ -130,6 +141,7 @@ class ProjectStructureTest(unittest.TestCase):
             "scenes/ui/TutorialPrompt.tscn": "res://scripts/ui/tutorial_prompt.gd",
             "debug/AnchorThrowRegression.tscn": "res://debug/anchor_throw_regression.gd",
             "debug/AnchorRelativeLaunchVelocityRegression.tscn": "res://debug/anchor_relative_launch_velocity_regression.gd",
+            "debug/AnchorBulletTimeRegression.tscn": "res://debug/anchor_bullet_time_regression.gd",
         }
 
         for scene_path, script_path in expected_references.items():
@@ -368,6 +380,8 @@ class ProjectStructureTest(unittest.TestCase):
             "airborne_nose_down_torque",
             "airborne_nose_down_damping",
             "var aim_time_scale",
+            "var bullet_time_slowdown_seconds",
+            "var bullet_time_recover_seconds",
             "var rope_pull_stiffness",
             "var swing_turnaround_speed",
             "var anchor_swing_alignment_torque",
@@ -377,7 +391,7 @@ class ProjectStructureTest(unittest.TestCase):
             "var _swing_locked_energy",
             "var _swing_tangent_sign",
             "var _anchor_swing_target_rotation",
-            "@onready var anchor: Anchor = %Anchor",
+            "@onready var anchor: Variant = %Anchor",
             "func _unhandled_input(event: InputEvent)",
             "event.is_action_pressed(\"confirm\")",
             "event.is_action_released(\"confirm\")",
@@ -424,8 +438,11 @@ class ProjectStructureTest(unittest.TestCase):
             "water_contact_count",
             "in_water",
             "airborne",
-            "Engine.time_scale = aim_time_scale",
-            "Engine.time_scale = 1.0",
+            "Input.is_action_pressed(\"bullet_time\")",
+            "func _update_manual_bullet_time(delta: float) -> void",
+            "func _get_unscaled_delta(delta: float) -> float",
+            "smoothstep",
+            "Engine.time_scale = lerpf",
         ]:
             self.assertIn(expected, script)
 
@@ -437,6 +454,48 @@ class ProjectStructureTest(unittest.TestCase):
             "_reset_anchor_charge",
         ]:
             self.assertNotIn(removed_charge, script)
+
+    def test_space_controls_bullet_time_smoothly(self):
+        script = self.read("scripts/player/boat.gd")
+        debug_scene = self.read("debug/AnchorBulletTimeRegression.tscn")
+        debug_script = self.read("debug/anchor_bullet_time_regression.gd")
+
+        for expected in [
+            "@export_range(0.01, 2.0, 0.01) var bullet_time_slowdown_seconds",
+            "@export_range(0.01, 2.0, 0.01) var bullet_time_recover_seconds",
+            "func _update_manual_bullet_time(delta: float) -> void",
+            "func _get_manual_bullet_time_target_scale() -> float",
+            "func _get_unscaled_delta(delta: float) -> float",
+            "Input.is_action_pressed(\"bullet_time\")",
+            "smoothstep",
+            "Engine.time_scale = lerpf",
+        ]:
+            self.assertIn(expected, script)
+
+        for removed_auto_bullet_time in [
+            "_bullet_time_target_hook_point",
+            "_bullet_time_launch_x_direction",
+            "_bullet_time_start_hook_distance_x",
+            "_find_nearest_anchor_bullet_time_hook_point",
+            "get_nodes_in_group(\"hook_points\")",
+            "anchor.launch_initial_velocity.x",
+        ]:
+            self.assertNotIn(removed_auto_bullet_time, script)
+
+        for expected in [
+            "res://debug/anchor_bullet_time_regression.gd",
+            "fail_on_regression = true",
+        ]:
+            self.assertIn(expected, debug_scene)
+
+        for expected in [
+            "ANCHOR_BULLET_TIME_RESULT",
+            "space: halfway through slowdown",
+            "space: held reaches bullet time",
+            "space: halfway through release",
+            "anchor: launch no longer changes time scale",
+        ]:
+            self.assertIn(expected, debug_script)
 
 
 if __name__ == "__main__":

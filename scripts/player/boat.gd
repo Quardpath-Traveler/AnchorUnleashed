@@ -11,6 +11,8 @@ signal crew_lost(count: int)
 @export_range(0.05, 5.0, 0.05) var posture_log_interval_seconds: float = 0.25
 @export var posture_log_prefix: String = "BOAT_POSTURE"
 @export_range(0.05, 1.0) var aim_time_scale: float = 0.25
+@export_range(0.01, 2.0, 0.01) var bullet_time_slowdown_seconds: float = 0.18
+@export_range(0.01, 2.0, 0.01) var bullet_time_recover_seconds: float = 0.25
 @export_range(0.0, 1.0) var rope_pull_stiffness: float = 1.0
 @export var swing_turnaround_speed: float = 40.0
 @export var anchor_swing_alignment_torque: float = 48.0
@@ -29,8 +31,11 @@ var _swing_locked_energy: float = -1.0
 var _swing_tangent_sign: float = 1.0
 var _anchor_swing_target_rotation: float = 0.0
 var _has_anchor_swing_target_rotation: bool = false
+var _manual_bullet_time_target_scale: float = 1.0
+var _manual_bullet_time_start_scale: float = 1.0
+var _manual_bullet_time_transition_elapsed: float = 0.0
 
-@onready var anchor: Anchor = %Anchor
+@onready var anchor: Variant = %Anchor
 
 
 func _ready() -> void:
@@ -44,6 +49,8 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	_update_manual_bullet_time(delta)
+
 	var rotation_input := Input.get_axis("move_left", "move_right")
 	if is_airborne():
 		if not anchor.is_hooked():
@@ -131,18 +138,18 @@ func _apply_anchor_constraint(state: PhysicsDirectBodyState2D) -> void:
 		_reset_anchor_swing_state()
 		return
 
-	var hook_position := anchor.get_hook_global_position()
-	var rope_limit := anchor.get_rope_length()
+	var hook_position: Vector2 = anchor.get_hook_global_position()
+	var rope_limit: float = anchor.get_rope_length()
 	if rope_limit <= 0.0:
 		return
 
-	var from_hook := state.transform.origin - hook_position
-	var distance := from_hook.length()
+	var from_hook: Vector2 = state.transform.origin - hook_position
+	var distance: float = from_hook.length()
 	if is_zero_approx(distance):
 		from_hook = Vector2.DOWN * rope_limit
 		distance = rope_limit
 
-	var rope_direction := from_hook / distance
+	var rope_direction: Vector2 = from_hook / distance
 	var corrected_transform := state.transform
 	corrected_transform.origin = hook_position + rope_direction * rope_limit
 	state.transform = corrected_transform
@@ -184,6 +191,41 @@ func _reset_anchor_swing_state() -> void:
 	_swing_locked_energy = -1.0
 	_swing_tangent_sign = 1.0
 	_has_anchor_swing_target_rotation = false
+
+
+func _update_manual_bullet_time(delta: float) -> void:
+	var next_target_scale := _get_manual_bullet_time_target_scale()
+	if not is_equal_approx(next_target_scale, _manual_bullet_time_target_scale):
+		_manual_bullet_time_target_scale = next_target_scale
+		_manual_bullet_time_start_scale = Engine.time_scale
+		_manual_bullet_time_transition_elapsed = 0.0
+
+	var transition_seconds := bullet_time_slowdown_seconds
+	if is_equal_approx(_manual_bullet_time_target_scale, 1.0):
+		transition_seconds = bullet_time_recover_seconds
+
+	_manual_bullet_time_transition_elapsed += _get_unscaled_delta(delta)
+	var transition_progress := clampf(
+		_manual_bullet_time_transition_elapsed / maxf(transition_seconds, 0.001),
+		0.0,
+		1.0
+	)
+	Engine.time_scale = lerpf(
+		_manual_bullet_time_start_scale,
+		_manual_bullet_time_target_scale,
+		smoothstep(0.0, 1.0, transition_progress)
+	)
+
+
+func _get_manual_bullet_time_target_scale() -> float:
+	if Input.is_action_pressed("bullet_time"):
+		return aim_time_scale
+
+	return 1.0
+
+
+func _get_unscaled_delta(delta: float) -> float:
+	return delta / maxf(Engine.time_scale, 0.001)
 
 
 func _get_tangent_direction(rope_direction: Vector2) -> Vector2:
@@ -284,12 +326,11 @@ func _vector_to_log_data(value: Vector2) -> Dictionary:
 
 
 func _on_anchor_aim_started() -> void:
-	Engine.time_scale = aim_time_scale
+	pass
 
 
 func _on_anchor_launched(_target_position: Vector2) -> void:
 	_reset_anchor_swing_state()
-	Engine.time_scale = 1.0
 
 
 func _on_anchor_hooked(_hook_point: Node2D) -> void:
@@ -298,4 +339,3 @@ func _on_anchor_hooked(_hook_point: Node2D) -> void:
 
 func _on_anchor_recalled() -> void:
 	_reset_anchor_swing_state()
-	Engine.time_scale = 1.0
