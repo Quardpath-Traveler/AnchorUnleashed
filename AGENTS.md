@@ -18,6 +18,10 @@ Agents should read this GDD whenever implementing or reviewing gameplay, UI, sce
 lark-cli docs +fetch --doc C54QdoaCko2b6wxtNDpcp385nQb --format json
 ```
 
+## Testing workflow
+
+Before testing new gameplay, UI, scene, physics, or node logic features, agents should first check `docs/testing/new-feature-testing.md`. Use it to plan what needs to be tested, what pre-work is required, how to add temporary logs, how to build a focused debug scene, and how to verify behavior by running the scene and inspecting logs.
+
 ## Git workflow
 
 For every commit, push, pull, or conflict in this project, invoke the `godot-gamejam-git-workflow` skill.

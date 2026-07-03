@@ -23,10 +23,15 @@ class ProjectStructureTest(unittest.TestCase):
             "move_up",
             "move_down",
             "pause",
+            "debug_reset",
             "confirm",
             "cancel",
         ]:
             self.assertIn(f'{action}={{', project)
+
+        debug_reset_mapping = project[project.index("debug_reset={"):project.index("confirm={")]
+        self.assertIn("InputEventKey", debug_reset_mapping)
+        self.assertIn('"keycode":82', debug_reset_mapping)
 
         confirm_mapping = project[project.index("confirm={"):project.index("cancel={")]
         self.assertIn("InputEventMouseButton", confirm_mapping)
@@ -39,6 +44,7 @@ class ProjectStructureTest(unittest.TestCase):
             "assets/fonts",
             "assets/materials",
             "debug",
+            "debug/screenshots",
             "scenes/main",
             "scenes/game",
             "scenes/items",
@@ -96,6 +102,9 @@ class ProjectStructureTest(unittest.TestCase):
             "scripts/autoload/GameState.gd",
             "scripts/autoload/EventBus.gd",
             "scripts/autoload/SceneLoader.gd",
+            "debug/AnchorThrowRegression.tscn",
+            "debug/anchor_throw_regression.gd",
+            "debug/anchor_throw_regression.gd.uid",
         ]:
             self.assertTrue((ROOT / relative_path).is_file(), relative_path)
 
@@ -116,6 +125,7 @@ class ProjectStructureTest(unittest.TestCase):
             "scenes/ui/PauseMenu.tscn": "res://scripts/ui/pause_menu.gd",
             "scenes/ui/ResultScreen.tscn": "res://scripts/ui/result_screen.gd",
             "scenes/ui/TutorialPrompt.tscn": "res://scripts/ui/tutorial_prompt.gd",
+            "debug/AnchorThrowRegression.tscn": "res://debug/anchor_throw_regression.gd",
         }
 
         for scene_path, script_path in expected_references.items():
@@ -123,11 +133,26 @@ class ProjectStructureTest(unittest.TestCase):
 
     def test_game_scene_contains_player_hud_and_pause_menu(self):
         scene = self.read("scenes/game/Game.tscn")
+        script = self.read("scripts/game/game.gd")
 
         self.assertIn("res://scenes/levels/LevelPrototypeSlope.tscn", scene)
         self.assertIn("res://scenes/player/Boat.tscn", scene)
         self.assertIn("res://scenes/ui/HUD.tscn", scene)
         self.assertIn("res://scenes/ui/PauseMenu.tscn", scene)
+        for expected in [
+            "event.is_action_pressed(\"debug_reset\")",
+            "func _reset_current_scene() -> void",
+            "Engine.time_scale = 1.0",
+            "GameState.set_paused(false)",
+            "get_tree().reload_current_scene()",
+            "get_viewport().set_input_as_handled()",
+        ]:
+            self.assertIn(expected, script)
+        debug_reset_branch = script[script.index("event.is_action_pressed(\"debug_reset\")"):]
+        self.assertLess(
+            debug_reset_branch.index("get_viewport().set_input_as_handled()"),
+            debug_reset_branch.index("_reset_current_scene()"),
+        )
 
     def test_prototype_level_contains_core_gameplay_parts(self):
         scene = self.read("scenes/levels/LevelPrototypeSlope.tscn")
@@ -249,6 +274,64 @@ class ProjectStructureTest(unittest.TestCase):
         self.assertIn("state = State.READY", script)
         self.assertIn("is_ready = true", script)
 
+    def test_anchor_throw_uses_parabola_slack_chain_and_debug_logs(self):
+        script = self.read("scripts/mechanics/anchor.gd")
+        debug_scene = self.read("debug/AnchorThrowRegression.tscn")
+        debug_script = self.read("debug/anchor_throw_regression.gd")
+
+        for expected in [
+            "@export var launch_gravity_scale",
+            "@export var rope_visual_segments",
+            "@export var rope_slack_pixels",
+            "@export var debug_logging_enabled",
+            "@export var anchor_log_prefix",
+            "var launch_elapsed_seconds",
+            "var launch_initial_velocity",
+            "func launch(target_position: Vector2)",
+            "func get_anchor_log_data() -> Dictionary",
+            "func emit_anchor_log() -> void",
+            "func _get_parabolic_flight_position(delta: float) -> Vector2",
+            "func _build_slack_rope_points",
+            "func _get_rope_slack_offset",
+            "JSON.stringify(get_anchor_log_data())",
+            "rope_line.points = _build_slack_rope_points",
+        ]:
+            self.assertIn(expected, script)
+
+        self.assertNotIn("global_position += launch_velocity * delta", script)
+        for removed_charge in [
+            "min_launch_speed",
+            "launch_charge_ratio",
+            "charge_ratio",
+            "_get_charged_launch_speed",
+            "charged_launch_speed",
+        ]:
+            self.assertNotIn(removed_charge, script)
+
+        for expected in [
+            "res://debug/anchor_throw_regression.gd",
+            "fail_on_regression = true",
+        ]:
+            self.assertIn(expected, debug_scene)
+
+        for expected in [
+            "ANCHOR_THROW_RESULT",
+            "min_arc_deviation",
+            "min_apex_recovery",
+            "min_upward_travel",
+            "min_chain_points",
+            "min_chain_slack",
+            "max_sampled_speed",
+            "get_anchor_log_data",
+            "emit_anchor_log",
+            "rope_line.points.size()",
+            "_get_max_line_deviation",
+            "_has_parabolic_apex",
+            "_get_max_upward_travel",
+            "_get_max_gravity_slack",
+        ]:
+            self.assertIn(expected, debug_script)
+
     def test_boat_drives_anchor_input_swing_constraint_and_airborne_rotation(self):
         script = self.read("scripts/player/boat.gd")
 
@@ -319,6 +402,15 @@ class ProjectStructureTest(unittest.TestCase):
             "Engine.time_scale = 1.0",
         ]:
             self.assertIn(expected, script)
+
+        for removed_charge in [
+            "max_anchor_charge_seconds",
+            "_anchor_charge",
+            "_get_anchor_charge_ratio",
+            "_update_anchor_charge",
+            "_reset_anchor_charge",
+        ]:
+            self.assertNotIn(removed_charge, script)
 
 
 if __name__ == "__main__":
