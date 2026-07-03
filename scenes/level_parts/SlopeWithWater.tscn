@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dx5hef8dqaqjf"]
+[gd_scene format=3 uid="uid://dx5hef8dqaqjf"]
 
 [ext_resource type="Script" uid="uid://c5h6msfr1saa0" path="res://scripts/level_parts/slope_with_water.gd" id="1_slope_with_water"]
 [ext_resource type="PackedScene" uid="uid://be70x01usqr0h" path="res://scenes/level_parts/WaterSurface.tscn" id="2_water_surface"]
