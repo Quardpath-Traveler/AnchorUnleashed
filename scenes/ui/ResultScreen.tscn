@@ -8,10 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://2nrgo6uw8h3w" path="res://assets/art/UI/result_screen/score.png" id="5_h3i1y"]
 [ext_resource type="Texture2D" uid="uid://3yr360v5akmj" path="res://assets/art/UI/result_screen/restart.png" id="6_1tvin"]
 [ext_resource type="Texture2D" uid="uid://cb4asucl55p2s" path="res://assets/art/UI/result_screen/rescue_count_logo.png" id="6_o5afk"]
+[ext_resource type="FontFile" uid="uid://cyojbog2ulc66" path="res://assets/fonts/Bebas-Neue/BebasNeue-1.otf" id="6_rikjr"]
 [ext_resource type="Texture2D" uid="uid://btmoqwbgb27gu" path="res://assets/art/UI/result_screen/return_to_main_menu.png" id="7_2ck2r"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_h3i1y"]
-font_size = 100
 
 [node name="ResultScreen" type="CanvasLayer" unique_id=1630884730]
 script = ExtResource("1_result")
@@ -73,9 +71,9 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 43.0
-offset_top = 115.0
-offset_right = -74.0
+offset_left = 39.0
+offset_top = 110.0
+offset_right = -78.0
 offset_bottom = -12.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -111,8 +109,9 @@ layout_mode = 2
 size_flags_vertical = 2
 size_flags_stretch_ratio = 3.56
 offset_transform_enabled = true
+theme_override_fonts/font = ExtResource("6_rikjr")
+theme_override_font_sizes/font_size = 128
 text = "36888"
-label_settings = SubResource("LabelSettings_h3i1y")
 
 [node name="CoinRow" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer" unique_id=1182124503]
 layout_mode = 2
@@ -122,6 +121,7 @@ theme_override_constants/separation = 8
 [node name="CoinLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/CoinRow" unique_id=1805681156]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_fonts/font = ExtResource("6_rikjr")
 theme_override_font_sizes/font_size = 48
 text = "325"
 
@@ -138,7 +138,8 @@ size_flags_horizontal = 3
 [node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2" unique_id=1208065997]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/margin_bottom = 70
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 50
 
 [node name="RescuedRow" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer" unique_id=329485970]
 layout_mode = 2
@@ -152,7 +153,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.4
 
-[node name="RescuedIcon" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer/RescuedRow" unique_id=625896861]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer/RescuedRow" unique_id=289442147]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="RescuedIcon" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer/RescuedRow/MarginContainer" unique_id=625896861]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -163,8 +170,9 @@ expand_mode = 3
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.05
-theme_override_font_sizes/font_size = 36
+offset_transform_scale = Vector2(1.5, 1.5)
+theme_override_fonts/font = ExtResource("6_rikjr")
+theme_override_font_sizes/font_size = 48
 text = "15/15"
 
 [node name="MarginContainer2" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2" unique_id=765963021]

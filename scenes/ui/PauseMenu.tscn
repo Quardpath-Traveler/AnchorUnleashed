@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dgshdpvcap2qv" path="res://assets/art/UI/pause_menu/score.png" id="2_rw35d"]
 [ext_resource type="Texture2D" uid="uid://daphmmtsswb3d" path="res://assets/art/UI/pause_menu/paused.png" id="2_v5pi0"]
 [ext_resource type="Texture2D" uid="uid://d4bbk5eohk34q" path="res://assets/art/UI/pause_menu/restart.png" id="3_5twic"]
+[ext_resource type="FontFile" uid="uid://cyojbog2ulc66" path="res://assets/fonts/Bebas-Neue/BebasNeue-1.otf" id="3_o0a0r"]
 [ext_resource type="Texture2D" uid="uid://cpss7co81jd1b" path="res://assets/art/UI/game_hud/coin.png" id="3_px486"]
 [ext_resource type="Texture2D" uid="uid://ckdygmo28wm2o" path="res://assets/art/UI/pause_menu/rescue_count_logo.png" id="4_px486"]
 [ext_resource type="Texture2D" uid="uid://c6qba4d3xp4o7" path="res://assets/art/UI/pause_menu/return_to_main_menu.png" id="4_v5pi0"]
@@ -39,11 +40,11 @@ offset_bottom = 280.0
 
 [node name="DataColumn" type="VBoxContainer" parent="Root/TopLeftMargin" unique_id=2000000002]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 10
 
 [node name="ScoreGroup" type="VBoxContainer" parent="Root/TopLeftMargin/DataColumn" unique_id=2000000003]
 layout_mode = 2
-theme_override_constants/separation = -19
+theme_override_constants/separation = -15
 
 [node name="ScoreLabelText" type="TextureRect" parent="Root/TopLeftMargin/DataColumn/ScoreGroup" unique_id=1700888103]
 custom_minimum_size = Vector2(64, 0)
@@ -57,6 +58,7 @@ expand_mode = 5
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("3_o0a0r")
 theme_override_font_sizes/font_size = 72
 text = "36888"
 
@@ -67,7 +69,8 @@ theme_override_constants/separation = 4
 [node name="CoinLabel" type="Label" parent="Root/TopLeftMargin/DataColumn/CoinRow" unique_id=2000000007]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme_override_fonts/font = ExtResource("3_o0a0r")
+theme_override_font_sizes/font_size = 48
 text = "0"
 
 [node name="CoinIcon" type="TextureRect" parent="Root/TopLeftMargin/DataColumn/CoinRow" unique_id=317012310]
@@ -91,11 +94,14 @@ anchor_top = 0.66300005
 anchor_right = 0.51900005
 anchor_bottom = 0.66300005
 offset_left = -0.8000183
-offset_top = -48.41001
-offset_right = 126.19999
-offset_bottom = -3.4100113
-theme_override_font_sizes/font_size = 32
-text = "0/0"
+offset_top = -52.41001
+offset_right = 96.19999
+offset_bottom = 6.5899887
+theme_override_fonts/font = ExtResource("3_o0a0r")
+theme_override_font_sizes/font_size = 48
+text = "13/15"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="TopRightMargin" type="MarginContainer" parent="Root" unique_id=2000000014]
 layout_mode = 1
