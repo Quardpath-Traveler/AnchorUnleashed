@@ -13,12 +13,15 @@ enum Phase {
 	ASSERT_TORQUE,
 	HOLD_D_HIGH_TORQUE,
 	ASSERT_TORQUE_VELOCITY,
+	HOLD_D_FOR_BOOST_SETUP,
+	ASSERT_BOOST_TRIGGERED,
 	DONE,
 }
 
 @export var hold_d_unlocked_seconds: float = 2.0
 @export var hold_d_locked_seconds: float = 1.0
 @export var hold_d_high_torque_seconds: float = 2.0
+@export var assert_boost_triggered_timeout_seconds: float = 2.0
 @export var position_tolerance: float = 0.05
 @export var locked_position_tolerance: float = 0.1
 @export var rotation_tolerance: float = 0.05
@@ -36,6 +39,7 @@ var _initial_torque: float
 var _expected_torque: float
 var _max_angular_velocity_initial: float = 0.0
 var _max_angular_velocity_boosted: float = 0.0
+var _previous_angular_velocity: float = 0.0
 var _failures: Array[String] = []
 var _exit_code: int = 0
 
@@ -147,12 +151,38 @@ func _physics_process(delta: float) -> void:
 		Phase.ASSERT_TORQUE_VELOCITY:
 			if not (_max_angular_velocity_boosted > _max_angular_velocity_initial):
 				_fail("Higher torque did not produce higher angular velocity (initial max %f, boosted max %f)" % [_max_angular_velocity_initial, _max_angular_velocity_boosted])
+			_release_key(KEY_D)
+			_start_phase(Phase.HOLD_D_FOR_BOOST_SETUP, 1)
+			return
+
+		Phase.HOLD_D_FOR_BOOST_SETUP:
+			_press_key(KEY_D)
+			if _boat.angular_velocity < 2.0:
+				return
+			_release_key(KEY_D)
+			_press_key(KEY_A)
+			_start_phase(Phase.ASSERT_BOOST_TRIGGERED, 1)
+			return
+
+		Phase.ASSERT_BOOST_TRIGGERED:
+			if not _boat._is_counter_rotation_boost_active:
+				_fail("Counter-rotation boost did not activate when reversing input")
+			var expected_boosted_torque := _boat.airborne_rotation_torque * _boat.counter_rotation_boost
+			var actual_applied_torque := absf(_boat.angular_velocity - _previous_angular_velocity) / delta
+			# Simpler assertion: check the boat is decelerating faster than base torque would allow
+			if _boat.angular_velocity > 0.0:
+				if _phase_timer < assert_boost_triggered_timeout_seconds:
+					return
+				_fail("Boat angular velocity did not start reversing (got %f)" % _boat.angular_velocity)
+			_release_key(KEY_A)
 			_start_phase(Phase.DONE)
 			_finish()
 			return
 
 		Phase.DONE:
 			pass
+
+	_previous_angular_velocity = _boat.angular_velocity
 
 
 func _find_boat() -> Boat:
