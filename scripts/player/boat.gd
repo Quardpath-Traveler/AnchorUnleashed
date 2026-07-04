@@ -19,7 +19,8 @@ signal crew_lost(count: int)
 @export var swing_turnaround_speed: float = 40.0
 @export var anchor_swing_alignment_torque: float = 48.0
 @export var anchor_swing_alignment_damping: float = 0.2
-@export var anchor_swing_alignment_max_angular_velocity: float = 12.0
+@export var anchor_swing_alignment_max_angular_velocity: float = 9.0
+@export var max_angular_velocity: float = 9.0
 @export var anchor_swing_target_turn_speed: float = 10.0
 @export var crew_count: int = 3:
 	set(value):
@@ -81,6 +82,11 @@ func _unhandled_input(event: InputEvent) -> void:
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	_contact_count = state.get_contact_count()
 	_apply_anchor_constraint(state)
+	state.angular_velocity = clampf(
+		state.angular_velocity,
+		-max_angular_velocity,
+		max_angular_velocity
+	)
 
 
 func is_airborne() -> bool:
