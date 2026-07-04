@@ -26,11 +26,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _reset_current_scene() -> void:
-	Engine.time_scale = 1.0
-	GameState.set_paused(false)
-	var error := get_tree().reload_current_scene()
-	if error != OK:
-		push_error("Failed to reload current scene: %s" % error)
+	SceneLoader.reload_scene()
 
 
 func _on_pause_changed(is_paused: bool) -> void:

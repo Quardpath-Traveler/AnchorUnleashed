@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://r44h9dl41wc6d"]
+
+[ext_resource type="Script" uid="uid://4iyogfa162vxj" path="res://debug/transition_regression.gd" id="1_regression"]
+
+[node name="TransitionRegression" type="Node2D"]
+script = ExtResource("1_regression")
