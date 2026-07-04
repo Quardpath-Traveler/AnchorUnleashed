@@ -1,6 +1,18 @@
-[gd_scene format=3 uid="uid://dikm6ybyfw1sc"]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" uid="uid://761y0t6bd2p" path="res://scripts/main/main.gd" id="1_main"]
+[ext_resource type="Script" path="res://scripts/main/main.gd" id="1_main"]
+[ext_resource type="PackedScene" path="res://scenes/ui/MainScreen.tscn" id="2_main_screen"]
 
 [node name="Main" type="Node" unique_id=431661044]
 script = ExtResource("1_main")
+
+[node name="背景" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Background" type="ColorRect" parent="背景"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.518, 0.741, 0.882, 1)
+
+[node name="主界面UI" parent="." instance=ExtResource("2_main_screen")]

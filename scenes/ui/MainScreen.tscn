@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://chudh2m0juvxv"]
+
+[ext_resource type="Script" uid="uid://7af10b7kswif" path="res://scripts/ui/main_screen.gd" id="1_main_screen"]
+
+[node name="MainScreen" type="CanvasLayer" unique_id=899972478]
+script = ExtResource("1_main_screen")
+
+[node name="Root" type="Control" parent="." unique_id=1450862878]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="StartButton" type="Button" parent="Root" unique_id=49270862]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 72.0
+offset_top = -129.0
+offset_right = 272.0
+offset_bottom = -49.0
+grow_vertical = 0
+text = "开始游戏"
