@@ -10,6 +10,8 @@ func _ready() -> void:
 	GameState.reset()
 	GameState.pause_changed.connect(_on_pause_changed)
 	pause_menu.resume_requested.connect(_on_resume_requested)
+	if level.has_method("setup"):
+		level.setup(player)
 	if level.has_method("get_start_position"):
 		player.global_position = level.get_start_position()
 	_on_pause_changed(GameState.is_paused)
