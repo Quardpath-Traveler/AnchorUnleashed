@@ -1,3 +1,4 @@
+@tool
 ## Area that renders animated water, applies buoyancy/current forces to boats,
 ## and reports boat landing quality when a boat enters the water.
 class_name WaterSurface
@@ -80,21 +81,28 @@ signal boat_bad_landing(boat: Node2D, landing_angle_degrees: float)
 var _time: float = 0.0
 var _boats_in_water: Array[Node2D] = []
 
-@onready var collision_shape: CollisionShape2D = %CollisionShape2D
+func _get_collision_shape() -> CollisionShape2D:
+	return get_node_or_null("CollisionShape2D") as CollisionShape2D
 
 
 func _ready() -> void:
-	body_entered.connect(_on_body_entered)
-	body_exited.connect(_on_body_exited)
+	if not Engine.is_editor_hint():
+		body_entered.connect(_on_body_entered)
+		body_exited.connect(_on_body_exited)
 	_sync_collision_shape()
 
 
 func _process(delta: float) -> void:
 	_time += delta
 	queue_redraw()
+	if Engine.is_editor_hint():
+		_sync_collision_shape()
 
 
 func _physics_process(_delta: float) -> void:
+	if Engine.is_editor_hint():
+		return
+
 	_refresh_overlapping_boats()
 
 	for boat in _boats_in_water:
@@ -285,6 +293,9 @@ func _is_in_waterfall_edge(local_position: Vector2) -> bool:
 
 
 func _sync_collision_shape() -> void:
+	var collision_shape := _get_collision_shape()
+	if collision_shape == null:
+		return
 	if collision_shape.shape is RectangleShape2D:
 		var rectangle := collision_shape.shape as RectangleShape2D
 		var extra_height := waterfall_height if enable_waterfall else 0.0
