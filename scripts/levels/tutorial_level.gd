@@ -40,17 +40,17 @@ func _on_tutorial_trigger_body_entered(body: Node2D, trigger: TutorialTrigger) -
 		return
 
 	trigger.mark_triggered()
+	_prompt_sequence_id += 1
+	var prompt_sequence_id := _prompt_sequence_id
 	tutorial_prompt.show_prompt(trigger.prompt_text)
 
 	if trigger.auto_hide_seconds > 0.0:
-		_hide_prompt_after(trigger.auto_hide_seconds)
+		_hide_prompt_after(trigger.auto_hide_seconds, prompt_sequence_id)
 
 
-func _hide_prompt_after(seconds: float) -> void:
-	_prompt_sequence_id += 1
-	var sequence_id := _prompt_sequence_id
+func _hide_prompt_after(seconds: float, prompt_sequence_id: int) -> void:
 	await get_tree().create_timer(seconds).timeout
-	if sequence_id == _prompt_sequence_id:
+	if prompt_sequence_id == _prompt_sequence_id:
 		tutorial_prompt.hide_prompt()
 
 
