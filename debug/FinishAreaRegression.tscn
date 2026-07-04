@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://debug/finish_area_regression.gd" id="1_regression"]
+[ext_resource type="PackedScene" uid="uid://bqx7auto8finish" path="res://scenes/levels/LevelAutoFinish.tscn" id="2_level"]
+[ext_resource type="PackedScene" uid="uid://cgdpl2y4glvwl" path="res://scenes/player/Boat.tscn" id="3_boat"]
+[ext_resource type="PackedScene" path="res://scenes/camera/GameCamera.tscn" id="4_camera"]
+
+[node name="FinishAreaRegression" type="Node2D"]
+script = ExtResource("1_regression")
+
+[node name="Level" parent="." instance=ExtResource("2_level")]
+
+[node name="Boat" parent="." instance=ExtResource("3_boat")]
+posture_logging_enabled = false
+
+[node name="GameCamera" parent="Boat" instance=ExtResource("4_camera")]

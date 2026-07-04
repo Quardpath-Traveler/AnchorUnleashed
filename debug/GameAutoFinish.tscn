@@ -1,0 +1,24 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/game/game.gd" id="1_game"]
+[ext_resource type="PackedScene" uid="uid://bqx7auto8finish" path="res://scenes/levels/LevelAutoFinish.tscn" id="2_level"]
+[ext_resource type="PackedScene" uid="uid://cgdpl2y4glvwl" path="res://scenes/player/Boat.tscn" id="3_boat"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/PauseMenu.tscn" id="5_pause"]
+[ext_resource type="PackedScene" path="res://scenes/camera/GameCamera.tscn" id="6_camera"]
+
+[node name="GameAutoFinish" type="Node2D"]
+script = ExtResource("1_game")
+
+[node name="世界" type="Node2D" parent="."]
+
+[node name="关卡" parent="世界" instance=ExtResource("2_level")]
+
+[node name="玩家" parent="." instance=ExtResource("3_boat")]
+position = Vector2(120, 130)
+
+[node name="GameCamera" parent="玩家" instance=ExtResource("6_camera")]
+
+[node name="界面" parent="." instance=ExtResource("4_hud")]
+
+[node name="暂停菜单" parent="." instance=ExtResource("5_pause")]
