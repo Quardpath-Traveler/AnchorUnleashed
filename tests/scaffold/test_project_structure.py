@@ -264,7 +264,7 @@ class ProjectStructureTest(unittest.TestCase):
         script = self.read("scripts/items/can_collectible.gd")
         collect_branch = script[script.index('if body.is_in_group("boats"):'):]
 
-        self.assertIn("GameState.add_coin(value)", collect_branch)
+        self.assertIn("GameState.award_coin_pickup(value)", collect_branch)
         self.assertIn("collected.emit(value)", collect_branch)
         self.assertIn("queue_free()", collect_branch)
 
