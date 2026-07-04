@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://scenes/level_parts/WaveChaser.tscn" id="4_litjp"]
 [ext_resource type="PackedScene" path="res://scenes/level_parts/Obstacle.tscn" id="5_mn2x6"]
 [ext_resource type="PackedScene" path="res://scenes/items/CanCollectible.tscn" id="6_wlcp4"]
+[ext_resource type="PackedScene" uid="uid://15x2tduve777" path="res://scenes/characters/NPC.tscn" id="7_a3ws7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_finish"]
 size = Vector2(80, 170)
@@ -31,23 +32,23 @@ max_buoyancy_force = 11130.0
 enable_waterfall = false
 
 [node name="HookPointA" parent="." unique_id=329637448 instance=ExtResource("3_iv3rn")]
-position = Vector2(653, 295)
+position = Vector2(732, 338)
 
 [node name="HookPointB" parent="." unique_id=1824416324 instance=ExtResource("3_iv3rn")]
-position = Vector2(926, 335)
+position = Vector2(1552, 530)
 
 [node name="WaveChaser" parent="." unique_id=10999686 instance=ExtResource("4_litjp")]
 position = Vector2(-120, 270)
 
 [node name="Obstacle" parent="." unique_id=66557457 instance=ExtResource("5_mn2x6")]
-position = Vector2(871, 140)
+position = Vector2(908, 213)
 
 [node name="CanCollectible" parent="." unique_id=1479361518 instance=ExtResource("6_wlcp4")]
-position = Vector2(1020, 352)
+position = Vector2(1063, 450)
 
 [node name="FinishArea" type="Area2D" parent="." unique_id=1950458681]
 unique_name_in_owner = true
-position = Vector2(1608, 588)
+position = Vector2(1950, 175)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FinishArea" unique_id=1897859782]
 shape = SubResource("RectangleShape2D_finish")
@@ -70,4 +71,7 @@ max_buoyancy_force = 11130.0
 enable_waterfall = false
 
 [node name="Obstacle2" parent="." unique_id=1626380398 instance=ExtResource("5_mn2x6")]
-position = Vector2(1252, 168)
+position = Vector2(1146, 251)
+
+[node name="NPC" parent="." unique_id=252872777 instance=ExtResource("7_a3ws7")]
+position = Vector2(1156, 561)

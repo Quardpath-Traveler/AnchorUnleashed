@@ -118,6 +118,7 @@ class ProjectStructureTest(unittest.TestCase):
             "debug/AnchorBulletTimeRegression.tscn",
             "debug/TutorialLevelRegression.tscn",
             "debug/TutorialLevelPlaytest.tscn",
+            "debug/DebugLevel.tscn",
             "debug/anchor_throw_regression.gd",
             "debug/anchor_throw_regression.gd.uid",
             "debug/anchor_relative_launch_velocity_regression.gd",
@@ -128,6 +129,8 @@ class ProjectStructureTest(unittest.TestCase):
             "debug/tutorial_level_regression.gd.uid",
             "debug/tutorial_level_playtest.gd",
             "debug/tutorial_level_playtest.gd.uid",
+            "debug/debug_level.gd",
+            "debug/debug_level.gd.uid",
         ]:
             self.assertTrue((ROOT / relative_path).is_file(), relative_path)
 
@@ -154,6 +157,7 @@ class ProjectStructureTest(unittest.TestCase):
             "debug/AnchorBulletTimeRegression.tscn": "res://debug/anchor_bullet_time_regression.gd",
             "debug/TutorialLevelRegression.tscn": "res://debug/tutorial_level_regression.gd",
             "debug/TutorialLevelPlaytest.tscn": "res://debug/tutorial_level_playtest.gd",
+            "debug/DebugLevel.tscn": "res://debug/debug_level.gd",
         }
 
         for scene_path, script_path in expected_references.items():
@@ -298,6 +302,44 @@ class ProjectStructureTest(unittest.TestCase):
             "event.is_action_pressed(\"pause\")",
             "event.is_action_pressed(\"debug_reset\")",
             "get_tree().reload_current_scene()",
+        ]:
+            self.assertIn(expected, script)
+
+    def test_debug_level_scene_runs_level_with_minimal_game_environment(self):
+        scene = self.read("debug/DebugLevel.tscn")
+        script = self.read("debug/debug_level.gd")
+
+        for scene_path in [
+            "res://debug/debug_level.gd",
+            "res://scenes/levels/Level.tscn",
+            "res://scenes/player/Boat.tscn",
+            "res://scenes/camera/GameCamera.tscn",
+            "res://scenes/ui/HUD.tscn",
+            "res://scenes/ui/PauseMenu.tscn",
+        ]:
+            self.assertIn(scene_path, scene)
+
+        for node_name in [
+            "DebugLevel",
+            "World",
+            "Level",
+            "Player",
+            "GameCamera",
+            "HUD",
+            "PauseMenu",
+        ]:
+            self.assertIn(f'name="{node_name}"', scene)
+
+        for expected in [
+            "var level: Node2D = $World/Level",
+            "var player: Boat = $Player",
+            "GameState.reset()",
+            "level.setup(player)",
+            "player.global_position = level.get_start_position()",
+            "event.is_action_pressed(\"pause\")",
+            "event.is_action_pressed(\"debug_reset\")",
+            "get_tree().reload_current_scene()",
+            "pause_menu.resume_requested.connect(_on_resume_requested)",
         ]:
             self.assertIn(expected, script)
 
@@ -519,6 +561,7 @@ class ProjectStructureTest(unittest.TestCase):
             "var anchor_swing_alignment_damping",
             "var anchor_swing_alignment_max_angular_velocity",
             "var anchor_swing_target_turn_speed",
+            "var max_linear_speed",
             "var _swing_locked_energy",
             "var _swing_tangent_sign",
             "var _anchor_swing_target_rotation",
@@ -532,6 +575,10 @@ class ProjectStructureTest(unittest.TestCase):
             "func _integrate_forces(state: PhysicsDirectBodyState2D)",
             "state.get_contact_count()",
             "func _apply_anchor_constraint(state: PhysicsDirectBodyState2D)",
+            "func _limit_linear_speed(state: PhysicsDirectBodyState2D)",
+            "if max_linear_speed <= 0.0:",
+            "if state.linear_velocity.length() > max_linear_speed:",
+            "state.linear_velocity = state.linear_velocity.normalized() * max_linear_speed",
             "anchor.is_hooked()",
             "anchor.get_hook_global_position()",
             "anchor.get_rope_length()",
@@ -576,6 +623,15 @@ class ProjectStructureTest(unittest.TestCase):
             "Engine.time_scale = lerpf",
         ]:
             self.assertIn(expected, script)
+
+        integrate_forces_body = script[
+            script.index("func _integrate_forces(state: PhysicsDirectBodyState2D)"):
+            script.index("func is_airborne() -> bool")
+        ]
+        self.assertLess(
+            integrate_forces_body.index("_apply_anchor_constraint(state)"),
+            integrate_forces_body.index("_limit_linear_speed(state)"),
+        )
 
         for removed_charge in [
             "max_anchor_charge_seconds",

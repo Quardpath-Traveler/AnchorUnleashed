@@ -1,9 +1,10 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://15x2tduve777"]
 
 [ext_resource type="Texture2D" uid="uid://hksw5ao11y1i" path="res://assets/art/Character Art Assets/Protagonist Assets/npc.png" id="1_npc"]
 
-[node name="NPC" type="Node2D"]
+[node name="NPC" type="Node2D" unique_id=759507777]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -107.5)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=58462542]
+position = Vector2(0, -33.000004)
+scale = Vector2(0.30371904, 0.30371907)
 texture = ExtResource("1_npc")

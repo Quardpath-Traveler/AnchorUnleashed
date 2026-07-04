@@ -11,6 +11,7 @@ size = Vector2(72, 28)
 mass = 10.0
 gravity_scale = 1.2
 script = ExtResource("1_boat")
+max_linear_speed = 1000.0
 
 [node name="KayakSprite" type="Sprite2D" parent="." unique_id=216690964]
 scale = Vector2(0.12, 0.12)

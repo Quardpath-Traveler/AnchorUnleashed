@@ -1,0 +1,23 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://debug/debug_level.gd" id="1_debug"]
+[ext_resource type="PackedScene" path="res://scenes/levels/Level.tscn" id="2_level"]
+[ext_resource type="PackedScene" path="res://scenes/player/Boat.tscn" id="3_boat"]
+[ext_resource type="PackedScene" path="res://scenes/camera/GameCamera.tscn" id="4_camera"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="5_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/PauseMenu.tscn" id="6_pause"]
+
+[node name="DebugLevel" type="Node2D"]
+script = ExtResource("1_debug")
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="Level" parent="World" instance=ExtResource("2_level")]
+
+[node name="Player" parent="." instance=ExtResource("3_boat")]
+
+[node name="GameCamera" parent="Player" instance=ExtResource("4_camera")]
+
+[node name="HUD" parent="." instance=ExtResource("5_hud")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("6_pause")]
