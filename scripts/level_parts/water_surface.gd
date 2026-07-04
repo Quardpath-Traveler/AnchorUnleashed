@@ -185,6 +185,12 @@ func get_boat_target_rotation() -> float:
 	return global_rotation
 
 
+## Returns the animated water surface world Y coordinate at the given world X position.
+func get_surface_height_at_global_position(global_position: Vector2) -> float:
+	var local_position := to_local(global_position)
+	return to_global(Vector2(local_position.x, _sample_surface_y(local_position.x))).y
+
+
 ## Returns the force/impulse multiplier needed to preserve tuned acceleration for this body mass.
 func get_mass_force_scale(rigid_body: RigidBody2D) -> float:
 	if reference_boat_mass <= 0.0:
