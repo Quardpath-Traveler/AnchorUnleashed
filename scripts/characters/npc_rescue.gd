@@ -21,8 +21,12 @@ func _on_body_entered(body: Node2D) -> void:
 	if not body.has_method("gain_crew"):
 		return
 
-	_rescued = true
+	var previous_crew_count: int = body.crew_count
 	body.gain_crew(rescue_value)
+	if body.crew_count <= previous_crew_count:
+		return
+
+	_rescued = true
 	GameState.award_rescue(rescue_value)
 	var rescued_npc := get_parent()
 	if rescued_npc != null:
