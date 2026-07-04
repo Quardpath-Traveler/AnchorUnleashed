@@ -203,6 +203,7 @@ class ProjectStructureTest(unittest.TestCase):
             "var _airborne_rotation_total: float = 0.0",
             "var _last_trick_rotation: float = 0.0",
             "var _pending_360_tricks: int = 0",
+            "var _was_tracking_airborne_trick: bool = false",
             "_update_airborne_trick_tracking()",
             "func on_safe_landing(landing_angle_degrees: float, water_surface: Node2D) -> void:",
             "GameState.award_trick(TRICK_360_NAME, GameState.TRICK_360_SCORE_VALUE)",
