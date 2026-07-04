@@ -8,10 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://2nrgo6uw8h3w" path="res://assets/art/UI/result_screen/score.png" id="5_h3i1y"]
 [ext_resource type="Texture2D" uid="uid://3yr360v5akmj" path="res://assets/art/UI/result_screen/restart.png" id="6_1tvin"]
 [ext_resource type="Texture2D" uid="uid://cb4asucl55p2s" path="res://assets/art/UI/result_screen/rescue_count_logo.png" id="6_o5afk"]
+[ext_resource type="FontFile" uid="uid://cyojbog2ulc66" path="res://assets/fonts/Bebas-Neue/BebasNeue-1.otf" id="6_rikjr"]
 [ext_resource type="Texture2D" uid="uid://btmoqwbgb27gu" path="res://assets/art/UI/result_screen/return_to_main_menu.png" id="7_2ck2r"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_h3i1y"]
-font_size = 72
 
 [node name="ResultScreen" type="CanvasLayer" unique_id=1630884730]
 script = ExtResource("1_result")
@@ -25,6 +23,7 @@ grow_vertical = 2
 color = Color(0.5529412, 0.8784314, 0.85490197, 0.8509804)
 
 [node name="Panel" type="TextureRect" parent="." unique_id=1615119198]
+unique_name_in_owner = true
 offset_left = 100.0
 offset_top = 53.0
 offset_right = 1052.0
@@ -46,19 +45,22 @@ theme_override_constants/margin_bottom = 70
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer" unique_id=289749457]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer" unique_id=752712181]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_constants/separation = 50
 
 [node name="CharacterAvatar" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1023486421]
+unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("2_tw81d")
 expand_mode = 3
 
 [node name="TitleImage" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1298882113]
+unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("4_fasgb")
 expand_mode = 3
@@ -69,15 +71,15 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 43.0
-offset_top = 109.0
-offset_right = -66.0
-offset_bottom = -10.0
+offset_left = 39.0
+offset_top = 110.0
+offset_right = -78.0
+offset_bottom = -12.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.64705884, 0.25490198, 0.078431375, 1)
 theme_override_font_sizes/font_size = 20
-text = "成功救援全场NPC (0/0)"
+text = "成功救援全场NPC (1/1)"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer" unique_id=68205863]
 layout_mode = 2
@@ -89,7 +91,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="ScoreTitleLabel" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer" unique_id=1075869068]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer" unique_id=1285806191]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = -30
+
+[node name="ScoreTitleLabel" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/MarginContainer" unique_id=1075869068]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -102,8 +109,9 @@ layout_mode = 2
 size_flags_vertical = 2
 size_flags_stretch_ratio = 3.56
 offset_transform_enabled = true
+theme_override_fonts/font = ExtResource("6_rikjr")
+theme_override_font_sizes/font_size = 128
 text = "36888"
-label_settings = SubResource("LabelSettings_h3i1y")
 
 [node name="CoinRow" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer" unique_id=1182124503]
 layout_mode = 2
@@ -113,8 +121,9 @@ theme_override_constants/separation = 8
 [node name="CoinLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/CoinRow" unique_id=1805681156]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "0"
+theme_override_fonts/font = ExtResource("6_rikjr")
+theme_override_font_sizes/font_size = 48
+text = "325"
 
 [node name="CoinIcon" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/CoinRow" unique_id=2056087982]
 custom_minimum_size = Vector2(32, 32)
@@ -125,50 +134,66 @@ expand_mode = 3
 [node name="VBoxContainer2" type="VBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1655736979]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 50
 
-[node name="RescuedRow" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2" unique_id=329485970]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2" unique_id=1208065997]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 50
+
+[node name="RescuedRow" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer" unique_id=329485970]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 3
 theme_override_constants/separation = 8
 alignment = 2
 
-[node name="Control" type="Control" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/RescuedRow" unique_id=1641726858]
+[node name="Control" type="Control" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer/RescuedRow" unique_id=1641726858]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.4
 
-[node name="RescuedIcon" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/RescuedRow" unique_id=625896861]
+[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer/RescuedRow" unique_id=289442147]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="RescuedIcon" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer/RescuedRow/MarginContainer" unique_id=625896861]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("6_o5afk")
 expand_mode = 3
 
-[node name="RescuedLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/RescuedRow" unique_id=1805268519]
+[node name="RescuedLabel" type="Label" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer/RescuedRow" unique_id=1805268519]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.05
-theme_override_font_sizes/font_size = 36
-text = "0/0"
+offset_transform_scale = Vector2(1.5, 1.5)
+theme_override_fonts/font = ExtResource("6_rikjr")
+theme_override_font_sizes/font_size = 48
+text = "15/15"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2" unique_id=1659920909]
-custom_minimum_size = Vector2(300, 150)
+[node name="MarginContainer2" type="MarginContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2" unique_id=765963021]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 10
-size_flags_stretch_ratio = 3.0
-theme_override_constants/separation = 50
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 30
 
-[node name="RetryButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer" unique_id=1084920065]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer2" unique_id=1659920909]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+theme_override_constants/separation = 70
+
+[node name="RetryButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer2/HBoxContainer" unique_id=1084920065]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 flat = true
 
-[node name="RetryIcon" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/RetryButton" unique_id=1917796230]
+[node name="RetryIcon" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer2/HBoxContainer/RetryButton" unique_id=1917796230]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -176,15 +201,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_1tvin")
-expand_mode = 1
+expand_mode = 3
 
-[node name="MainMenuButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer" unique_id=161292076]
+[node name="MainMenuButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer2/HBoxContainer" unique_id=161292076]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 flat = true
 
-[node name="TextureRect" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/HBoxContainer/MainMenuButton" unique_id=1523971562]
+[node name="TextureRect" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer2/HBoxContainer/MainMenuButton" unique_id=1523971562]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -192,4 +217,4 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("7_2ck2r")
-expand_mode = 1
+expand_mode = 3
