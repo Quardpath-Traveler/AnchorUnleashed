@@ -140,6 +140,8 @@ func _on_body_entered(body: Node2D) -> void:
 			var target_rotation := get_boat_target_rotation()
 			if body.has_method("on_bad_landing"):
 				body.on_bad_landing(landing_angle, target_rotation, self)
+			elif body.has_method("lose_crew"):
+				body.lose_crew()
 			boat_bad_landing.emit(body, landing_angle, target_rotation, self)
 		else:
 			boat_landed_safely.emit(body, landing_angle)
