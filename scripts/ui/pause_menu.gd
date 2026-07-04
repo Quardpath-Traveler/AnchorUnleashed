@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+signal resume_requested
+
 @onready var score_label: Label = %ScoreLabel
 @onready var coin_label: Label = %CoinLabel
 @onready var rescued_label: Label = %RescuedLabel
@@ -60,10 +62,12 @@ func _on_rescued_changed(count: int, target: int) -> void:
 
 func _on_resume_button_pressed() -> void:
 	GameState.set_paused(false)
+	resume_requested.emit()
 
 
 func _on_continue_button_pressed() -> void:
 	GameState.set_paused(false)
+	resume_requested.emit()
 
 
 func _on_restart_button_pressed() -> void:

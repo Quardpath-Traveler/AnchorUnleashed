@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var level := $世界/关卡
 @onready var player := $玩家
+@onready var pause_menu := $PauseMenu
 
 
 func _ready() -> void:
@@ -13,6 +14,7 @@ func _ready() -> void:
 		level.setup(player)
 	if level.has_method("get_start_position"):
 		player.global_position = level.get_start_position()
+	_on_pause_changed(GameState.is_paused)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -30,3 +32,11 @@ func _reset_current_scene() -> void:
 	var error := get_tree().reload_current_scene()
 	if error != OK:
 		push_error("Failed to reload current scene: %s" % error)
+
+
+func _on_pause_changed(is_paused: bool) -> void:
+	pause_menu.visible = is_paused
+
+
+func _on_resume_requested() -> void:
+	GameState.set_paused(false)
