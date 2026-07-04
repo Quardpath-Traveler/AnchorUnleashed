@@ -2,13 +2,18 @@
 
 [ext_resource type="Script" uid="uid://dnhku54aginkk" path="res://scripts/level_parts/water_surface.gd" id="1_water"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_water"]
-size = Vector2(1400, 208)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tuj54"]
+resource_local_to_scene = true
+size = Vector2(1400, 388)
 
 [node name="WaterSurface" type="Area2D" unique_id=155695590]
 script = ExtResource("1_water")
+safe_landing_angle_degrees = 60.0
+water_color = Color(0.6509804, 0.827451, 0.827451, 1)
+deep_water_color = Color(0.4, 0.7058824, 0.72156864, 1)
+foam_color = Color(0.81960785, 0.9490196, 1, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1633081023]
 unique_name_in_owner = true
-position = Vector2(0, 20)
-shape = SubResource("RectangleShape2D_water")
+position = Vector2(0, 110)
+shape = SubResource("RectangleShape2D_tuj54")
