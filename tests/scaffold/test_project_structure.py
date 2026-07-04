@@ -135,6 +135,7 @@ class ProjectStructureTest(unittest.TestCase):
             "debug/OutOfBoundsRespawnTest.tscn",
             "debug/NPCRescueRegression.tscn",
             "debug/CrewVisualRegression.tscn",
+            "debug/ScoreRewardsRegression.tscn",
             "debug/anchor_throw_regression.gd",
             "debug/anchor_throw_regression.gd.uid",
             "debug/anchor_relative_launch_velocity_regression.gd",
@@ -153,6 +154,7 @@ class ProjectStructureTest(unittest.TestCase):
             "debug/npc_rescue_regression.gd.uid",
             "debug/crew_visual_regression.gd",
             "debug/crew_visual_regression.gd.uid",
+            "debug/score_rewards_regression.gd",
         ]:
             self.assertTrue((ROOT / relative_path).is_file(), relative_path)
 
@@ -252,6 +254,7 @@ class ProjectStructureTest(unittest.TestCase):
             "debug/OutOfBoundsRespawnTest.tscn": "res://debug/out_of_bounds_respawn_test.gd",
             "debug/NPCRescueRegression.tscn": "res://debug/npc_rescue_regression.gd",
             "debug/CrewVisualRegression.tscn": "res://debug/crew_visual_regression.gd",
+            "debug/ScoreRewardsRegression.tscn": "res://debug/score_rewards_regression.gd",
         }
 
         for scene_path, script_path in expected_references.items():
