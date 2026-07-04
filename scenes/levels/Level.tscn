@@ -76,9 +76,9 @@ skew = -0.006321907
 texture = ExtResource("19_cloud5")
 
 [node name="CloudMidWide" type="Sprite2D" parent="Background/Clouds/CloudMid" unique_id=812059943]
-position = Vector2(123.91208, -207.00932)
+position = Vector2(149.78383, -186.12729)
 rotation = 0.05533065
-scale = Vector2(1.6631638, 1.5818046)
+scale = Vector2(1.5043335, 1.3672206)
 skew = -0.0074493885
 texture = ExtResource("16_cloud4")
 
@@ -640,6 +640,7 @@ skew = -0.05771911
 texture = ExtResource("15_fill_gaps2")
 
 [node name="FillGaps4" type="Sprite2D" parent="Mountain5" unique_id=2132964451]
+modulate = Color(0.54009044, 0.6387092, 0.7193972, 1)
 show_behind_parent = true
 position = Vector2(-11.298584, 780.0885)
 rotation = -0.0021644935
@@ -901,3 +902,27 @@ texture = ExtResource("12_mountain4")
 show_behind_parent = true
 position = Vector2(3816, 2181)
 texture = ExtResource("10_mountain3")
+
+[node name="Cloud4" type="Sprite2D" parent="." unique_id=1146814474]
+position = Vector2(3471, 940)
+rotation = 0.0787596
+scale = Vector2(1.0481299, 1.0842538)
+texture = ExtResource("16_cloud4")
+
+[node name="Cloud5" type="Sprite2D" parent="." unique_id=1886254736]
+position = Vector2(3342, 995)
+rotation = -0.004914421
+scale = Vector2(0.8214711, 0.8042245)
+texture = ExtResource("19_cloud5")
+
+[node name="Cloud6" type="Sprite2D" parent="." unique_id=574577206]
+position = Vector2(2584, 1415)
+rotation = 0.11693535
+scale = Vector2(0.852071, 0.8314917)
+texture = ExtResource("16_cloud4")
+
+[node name="Cloud1" type="Sprite2D" parent="." unique_id=418186363]
+position = Vector2(2791.875, 1416.625)
+rotation = -0.06698592
+scale = Vector2(0.75421906, 0.8035215)
+texture = ExtResource("18_cloud1")
