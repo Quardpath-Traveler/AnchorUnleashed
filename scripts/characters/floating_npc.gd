@@ -54,6 +54,8 @@ func _drift_with_current(delta: float) -> void:
 
 
 func _update_facing() -> void:
+	if sprite == null:
+		return
 	var flow_direction := _current_water.get_water_flow_direction()
 	if flow_direction.x < 0.0:
 		sprite.flip_h = true
