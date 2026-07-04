@@ -1,21 +1,21 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene format=3 uid="uid://dok12jc4dbvx1"]
 
-[ext_resource type="Script" path="res://scripts/mechanics/anchor.gd" id="1_anchor"]
+[ext_resource type="Script" uid="uid://7nqdcc6im176" path="res://scripts/mechanics/anchor.gd" id="1_anchor"]
 [ext_resource type="Texture2D" uid="uid://ds17c0s58r4j" path="res://assets/art/Character Prop Assets/anchor.png" id="2_anchor_texture"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_head"]
 radius = 8.0
 
-[node name="Anchor" type="Node2D"]
+[node name="Anchor" type="Node2D" unique_id=345779189]
 script = ExtResource("1_anchor")
 
-[node name="RopeLine" type="Line2D" parent="."]
+[node name="RopeLine" type="Line2D" parent="." unique_id=133670759]
 unique_name_in_owner = true
 points = PackedVector2Array(0, 0, 32, 0)
 width = 3.0
 default_color = Color(0.92, 0.86, 0.66, 1)
 
-[node name="AimDirectionLine" type="Line2D" parent="."]
+[node name="AimDirectionLine" type="Line2D" parent="." unique_id=1611666862]
 unique_name_in_owner = true
 visible = false
 z_index = 4
@@ -25,7 +25,7 @@ default_color = Color(1, 0.91, 0.36, 0.72)
 begin_cap_mode = 2
 end_cap_mode = 2
 
-[node name="AimDirectionHead" type="Line2D" parent="."]
+[node name="AimDirectionHead" type="Line2D" parent="." unique_id=965186665]
 unique_name_in_owner = true
 visible = false
 z_index = 4
@@ -35,13 +35,13 @@ default_color = Color(1, 0.91, 0.36, 0.72)
 begin_cap_mode = 2
 end_cap_mode = 2
 
-[node name="Head" type="Area2D" parent="."]
+[node name="Head" type="Area2D" parent="." unique_id=643780116]
 unique_name_in_owner = true
 position = Vector2(32, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head" unique_id=1210938449]
 shape = SubResource("CircleShape2D_head")
 
-[node name="AnchorSprite" type="Sprite2D" parent="Head"]
+[node name="AnchorSprite" type="Sprite2D" parent="Head" unique_id=48152984]
 scale = Vector2(0.06, 0.06)
 texture = ExtResource("2_anchor_texture")

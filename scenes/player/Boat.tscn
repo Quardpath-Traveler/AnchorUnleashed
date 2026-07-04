@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cgdpl2y4glvwl"]
+[gd_scene load_steps=5 format=3 uid="uid://cgdpl2y4glvwl"]
 
 [ext_resource type="Script" uid="uid://bbohlaa00mhar" path="res://scripts/player/boat.gd" id="1_boat"]
 [ext_resource type="PackedScene" path="res://scenes/mechanics/Anchor.tscn" id="2_anchor"]
 [ext_resource type="Texture2D" uid="uid://d3fsljulrym1l" path="res://assets/art/Character Prop Assets/kayak.png" id="2_kayak"]
+[ext_resource type="PackedScene" path="res://scenes/characters/Boatman.tscn" id="3_boatman"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_boat"]
 size = Vector2(72, 28)
@@ -30,6 +31,13 @@ shape = SubResource("RectangleShape2D_boat")
 [node name="AnchorSocket" type="Marker2D" parent="." unique_id=792766921]
 position = Vector2(34, -8)
 
-[node name="Anchor" parent="AnchorSocket" unique_id=2089304412 instance=ExtResource("2_anchor")]
+[node name="Boatman" parent="." instance=ExtResource("3_boatman")]
+position = Vector2(28, -8)
+
+[node name="Anchor" parent="Boatman/HandPivot" unique_id=2089304412 instance=ExtResource("2_anchor")]
 unique_name_in_owner = true
 launch_gravity_scale = 0.3
+socket_offset = Vector2(6, 10)
+socket_rotation = 2.599
+
+[editable path="Boatman"]
