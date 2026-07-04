@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://dsnsku2sstyo2"]
 
-[ext_resource type="Script" path="res://debug/finish_area_regression.gd" id="1_regression"]
+[ext_resource type="Script" uid="uid://c8kfin2harea1" path="res://debug/finish_area_regression.gd" id="1_regression"]
 [ext_resource type="PackedScene" uid="uid://cyduhc81yum6i" path="res://scenes/levels/LevelAutoFinish.tscn" id="2_level"]
 [ext_resource type="PackedScene" uid="uid://cgdpl2y4glvwl" path="res://scenes/player/Boat.tscn" id="3_boat"]
 [ext_resource type="PackedScene" uid="uid://b1vag8n54dels" path="res://scenes/camera/GameCamera.tscn" id="4_camera"]
+[ext_resource type="PackedScene" uid="uid://cy254x0hrmji6" path="res://scenes/ui/HUD.tscn" id="5_h8h77"]
+[ext_resource type="PackedScene" uid="uid://chya0leno7ddn" path="res://scenes/ui/PauseMenu.tscn" id="6_uq7bu"]
 
 [node name="FinishAreaRegression" type="Node2D" unique_id=2008098860]
 script = ExtResource("1_regression")
@@ -14,3 +16,7 @@ script = ExtResource("1_regression")
 posture_logging_enabled = false
 
 [node name="GameCamera" parent="Boat" unique_id=1375011777 instance=ExtResource("4_camera")]
+
+[node name="HUD" parent="." unique_id=599779340 instance=ExtResource("5_h8h77")]
+
+[node name="PauseMenu" parent="." unique_id=1242282370 instance=ExtResource("6_uq7bu")]

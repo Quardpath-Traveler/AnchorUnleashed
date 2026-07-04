@@ -9,7 +9,6 @@ func _ready() -> void:
 	GameState.reset()
 	GameState.pause_changed.connect(_on_pause_changed)
 	pause_menu.resume_requested.connect(_on_resume_requested)
-	EventBus.level_restart_requested.connect(_reset_current_scene)
 	if level.has_method("setup"):
 		level.setup(player)
 	if level.has_method("get_start_position"):

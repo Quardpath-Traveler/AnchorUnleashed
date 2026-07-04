@@ -33,7 +33,7 @@ func _on_rescued_changed(count: int, target: int) -> void:
 
 
 func _on_retry_button_pressed() -> void:
-	EventBus.scene_transition_requested.emit("res://scenes/game/Game.tscn")
+	EventBus.scene_transition_requested.emit(GameState.current_level_scene)
 
 
 func _on_main_menu_button_pressed() -> void:

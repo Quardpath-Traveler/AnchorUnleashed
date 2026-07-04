@@ -11,6 +11,7 @@ var _completed: bool = false
 
 
 func _ready() -> void:
+	GameState.current_level_scene = "res://debug/FinishAreaRegression.tscn"
 	_boat.global_position = _level.get_start_position()
 	_level.level_completed.connect(_on_level_completed)
 
@@ -50,7 +51,9 @@ func _finish(success: bool, reason: String) -> void:
 		)
 	)
 
-	if fail_on_timeout and not success:
+	if success:
+		EventBus.game_completed.emit()
+	elif fail_on_timeout:
 		get_tree().quit(1)
 	else:
 		get_tree().quit()

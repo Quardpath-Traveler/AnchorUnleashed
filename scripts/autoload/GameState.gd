@@ -10,6 +10,7 @@ var coin: int = 0
 var rescued_count: int = 0
 var rescued_target: int = 0
 var is_paused: bool = false
+var current_level_scene: String = ""
 
 
 func reset() -> void:
