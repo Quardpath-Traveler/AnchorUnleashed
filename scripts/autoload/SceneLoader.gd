@@ -33,10 +33,10 @@ func reload_scene() -> void:
 func _perform_transition(scene_path: String, is_reload: bool) -> void:
 	get_tree().paused = true
 
+	Engine.time_scale = 1.0
+
 	_transition_overlay.play_enter()
 	await _transition_overlay.enter_complete
-
-	Engine.time_scale = 1.0
 
 	if is_reload:
 		get_tree().reload_current_scene()

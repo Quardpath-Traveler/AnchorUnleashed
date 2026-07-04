@@ -31,6 +31,7 @@ func play_enter() -> void:
 
 	var tween := create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tween.set_ignore_time_scale(true)
 	tween.tween_property(wipe_image, "position:x", 0.0, enter_duration)
 	tween.tween_callback(func() -> void: enter_complete.emit())
 
@@ -42,6 +43,7 @@ func play_exit() -> void:
 
 	var tween := create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tween.set_ignore_time_scale(true)
 	tween.tween_property(wipe_image, "position:x", viewport_size.x, exit_duration)
 	tween.tween_callback(func() -> void:
 		visible = false
