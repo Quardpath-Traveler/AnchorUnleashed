@@ -20,7 +20,7 @@ enum Phase {
 @export var hold_d_locked_seconds: float = 1.0
 @export var hold_d_high_torque_seconds: float = 2.0
 @export var position_tolerance: float = 0.05
-@export var locked_position_tolerance: float = 1.0
+@export var locked_position_tolerance: float = 0.1
 @export var rotation_tolerance: float = 0.05
 @export var angular_velocity_tolerance: float = 0.05
 @export var fall_distance_threshold: float = 50.0
@@ -43,6 +43,7 @@ var _exit_code: int = 0
 func _ready() -> void:
 	_debug = DEBUG_SCENE.instantiate() as BoatRotationDebug
 	add_child(_debug)
+	_debug.process_physics_priority = -1
 
 	_boat = _find_boat()
 	if _boat == null or not is_instance_valid(_boat):
@@ -67,8 +68,7 @@ func _physics_process(delta: float) -> void:
 
 	if _settle_frames > 0:
 		_settle_frames -= 1
-		if _settle_frames > 0:
-			return
+		return
 
 	match _phase:
 		Phase.DISABLE_LOCK:
@@ -93,13 +93,13 @@ func _physics_process(delta: float) -> void:
 				_fail("Boat did not rotate while unlocked (max angular velocity %f)" % _max_angular_velocity_initial)
 			_press_key(KEY_R)
 			_release_key(KEY_R)
-			_start_phase(Phase.ASSERT_RESET, 1)
+			_press_key(KEY_L)
+			_release_key(KEY_L)
+			_start_phase(Phase.ASSERT_RESET, 0)
 			return
 
 		Phase.ASSERT_RESET:
 			_assert_reset()
-			_press_key(KEY_L)
-			_release_key(KEY_L)
 			_start_phase(Phase.ASSERT_LOCK, 1)
 			return
 
@@ -113,7 +113,6 @@ func _physics_process(delta: float) -> void:
 		Phase.HOLD_D_LOCKED:
 			if _phase_timer < hold_d_locked_seconds:
 				return
-			_release_key(KEY_D)
 			_start_phase(Phase.ASSERT_LOCKED_ROTATION, 1)
 			return
 
@@ -132,6 +131,7 @@ func _physics_process(delta: float) -> void:
 		Phase.ASSERT_TORQUE:
 			if not is_equal_approx(_boat.airborne_rotation_torque, _expected_torque):
 				_fail("PageUp 3x did not increase torque as expected (expected %f, got %f)" % [_expected_torque, _boat.airborne_rotation_torque])
+			_assert_applied_torque_label(_expected_torque)
 			_press_key(KEY_D)
 			_start_phase(Phase.HOLD_D_HIGH_TORQUE, 1)
 			return
@@ -174,6 +174,24 @@ func _assert_reset() -> void:
 		_fail("Reset did not zero linear velocity (%v)" % _boat.linear_velocity)
 	if absf(_boat.angular_velocity) > angular_velocity_tolerance:
 		_fail("Reset did not zero angular velocity within tolerance (got %f)" % _boat.angular_velocity)
+
+
+func _assert_applied_torque_label(expected_torque: float) -> void:
+	var panel := _debug.get_node_or_null("CanvasLayer/DebugValuePanel")
+	if panel == null:
+		_fail("DebugValuePanel not found")
+		return
+	var vbox := panel.get_node_or_null("VBoxContainer")
+	if vbox == null:
+		_fail("DebugValuePanel VBoxContainer not found")
+		return
+	var label := vbox.get_node_or_null("applied_torque") as Label
+	if label == null:
+		_fail("Applied Torque label not found")
+		return
+	var expected_str := "%.0f" % expected_torque
+	if not label.text.contains(expected_str):
+		_fail("Applied Torque label does not show expected value (expected '%s' in '%s')" % [expected_str, label.text])
 
 
 func _start_phase(next_phase: Phase, frames_to_settle: int = 0) -> void:
