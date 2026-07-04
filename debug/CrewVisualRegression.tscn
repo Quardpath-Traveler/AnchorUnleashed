@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://debug/crew_visual_regression.gd" id="1_test"]
+[ext_resource type="PackedScene" uid="uid://cgdpl2y4glvwl" path="res://scenes/player/Boat.tscn" id="2_boat"]
+
+[node name="CrewVisualRegression" type="Node2D"]
+script = ExtResource("1_test")

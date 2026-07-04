@@ -1,3 +1,8 @@
-[gd_scene format=3 uid="uid://b1vag8n54dels"]
+[gd_scene load_steps=2 format=3 uid="uid://b1vag8n54dels"]
+
+[ext_resource type="Script" uid="uid://cgrkltp3q8j1w" path="res://scripts/camera/game_camera.gd" id="1_game_camera"]
 
 [node name="GameCamera" type="Camera2D"]
+script = ExtResource("1_game_camera")
+camera_offset = Vector2(0, -150)
+zoom_level = Vector2(1.3, 1.3)

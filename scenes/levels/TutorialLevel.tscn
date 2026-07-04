@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://scenes/level_parts/Obstacle.tscn" id="6_obstacle"]
 [ext_resource type="PackedScene" path="res://scenes/items/CanCollectible.tscn" id="7_can"]
 [ext_resource type="PackedScene" path="res://scenes/ui/TutorialPrompt.tscn" id="8_prompt"]
+[ext_resource type="PackedScene" uid="uid://tRLM6HrD4JUa8" path="res://scenes/mechanics/DeathZone.tscn" id="9_death"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_finish"]
 size = Vector2(90, 190)
@@ -18,12 +19,22 @@ size = Vector2(180, 180)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_prompt_wide"]
 size = Vector2(260, 200)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_death_tutorial"]
+size = Vector2(3000, 200)
+
 [node name="TutorialLevel" type="Node2D" unique_id=226315810]
 script = ExtResource("1_level")
 
 [node name="StartMarker" type="Marker2D" parent="." unique_id=1855019591]
 unique_name_in_owner = true
 position = Vector2(120, 130)
+
+[node name="DeathZone" parent="." node_paths=PackedStringArray("respawn_marker") instance=ExtResource("9_death")]
+position = Vector2(1200, 850)
+respawn_marker = NodePath("../StartMarker")
+
+[node name="CollisionShape2D" parent="DeathZone" index="0"]
+shape = SubResource("RectangleShape2D_death_tutorial")
 
 [node name="WaterSurface" parent="." unique_id=313835308 instance=ExtResource("4_water")]
 position = Vector2(285, 212)

@@ -9,7 +9,6 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	GameState.reset()
 	GameState.pause_changed.connect(_on_pause_changed)
-	pause_menu.resume_requested.connect(_on_resume_requested)
 	level.setup(player)
 	player.global_position = level.get_start_position()
 	_on_pause_changed(GameState.is_paused)
@@ -34,7 +33,3 @@ func _reset_current_scene() -> void:
 
 func _on_pause_changed(is_paused: bool) -> void:
 	pause_menu.visible = is_paused
-
-
-func _on_resume_requested() -> void:
-	GameState.set_paused(false)

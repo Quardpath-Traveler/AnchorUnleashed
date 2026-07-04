@@ -1,8 +1,11 @@
 class_name Boat
 extends RigidBody2D
 
+const CREW_MEMBER_SCENE := preload("res://scenes/characters/BoatCrewNPC.tscn")
+
 signal crew_count_changed(count: int)
 signal crew_lost(count: int)
+signal crew_gained(count: int)
 
 @export var airborne_rotation_torque: float = 90000.0
 @export var counter_rotation_boost: float = 2.0
@@ -27,12 +30,17 @@ signal crew_lost(count: int)
 @export var bad_landing_righting_duration: float = 0.5
 @export var bad_landing_righting_damping: float = 3200.0
 @export var bad_landing_min_trigger_interval: float = 0.3
-@export var respawn_launch_velocity: float = 900.0
 @export var respawn_recovery_grace: float = 0.5
+@export var max_crew_count: int = 5
+@export var crew_visual_origin: Vector2 = Vector2(0.0, 13.0)
+@export var crew_visual_spacing: float = 12.5
+@export var crew_visual_scale: Vector2 = Vector2(0.42, 0.42)
 @export var crew_count: int = 3:
 	set(value):
-		crew_count = max(value, 0)
+		crew_count = clampi(value, 0, max_crew_count)
 		crew_count_changed.emit(crew_count)
+		if is_inside_tree():
+			_sync_crew_visuals()
 
 var _contact_count: int = 0
 var _water_contact_count: int = 0
@@ -57,10 +65,12 @@ var _last_bad_landing_water: Node2D = null
 var _last_bad_landing_time: float = -1000.0
 
 @onready var anchor: Variant = %Anchor
+@onready var crew_visuals: Node2D = %CrewVisuals
 
 
 func _ready() -> void:
 	add_to_group("boats")
+	_sync_crew_visuals()
 	EventBus.player_spawned.emit(self)
 	crew_count_changed.emit(crew_count)
 	anchor.aim_started.connect(_on_anchor_aim_started)
@@ -182,10 +192,41 @@ func emit_posture_log() -> void:
 
 func lose_crew(amount: int = 1) -> void:
 	var previous_count := crew_count
-	crew_count = max(crew_count - amount, 0)
+	crew_count -= amount
 
 	if crew_count < previous_count:
 		crew_lost.emit(crew_count)
+
+
+func gain_crew(amount: int = 1) -> void:
+	var previous_count := crew_count
+	crew_count += amount
+
+	if crew_count > previous_count:
+		crew_gained.emit(crew_count)
+
+
+func _sync_crew_visuals() -> void:
+	if crew_visuals == null:
+		return
+
+	for child in crew_visuals.get_children():
+		crew_visuals.remove_child(child)
+		child.queue_free()
+
+	if crew_count <= 0:
+		return
+
+	var row_width := crew_visual_spacing * float(crew_count - 1)
+	for index in range(crew_count):
+		var crew_member := CREW_MEMBER_SCENE.instantiate() as Node2D
+		crew_member.name = "CrewMember%d" % (index + 1)
+		crew_member.position = crew_visual_origin + Vector2(
+			float(index) * crew_visual_spacing - row_width * 0.5,
+			0.0
+		)
+		crew_member.scale = crew_visual_scale
+		crew_visuals.add_child(crew_member)
 
 
 func is_respawning() -> bool:
@@ -464,7 +505,7 @@ func _recall_anchor_for_respawn() -> void:
 
 func _execute_respawn_launch(state: PhysicsDirectBodyState2D) -> void:
 	state.transform.origin = _respawn_target
-	state.linear_velocity = Vector2.UP * respawn_launch_velocity
+	state.linear_velocity = Vector2.ZERO
 	state.angular_velocity = 0.0
 	if crew_count > 0:
 		lose_crew(1)

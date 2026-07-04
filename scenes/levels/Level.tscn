@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://scenes/level_parts/Obstacle.tscn" id="5_mn2x6"]
 [ext_resource type="PackedScene" path="res://scenes/items/CanCollectible.tscn" id="6_wlcp4"]
 [ext_resource type="PackedScene" uid="uid://15x2tduve777" path="res://scenes/characters/NPC.tscn" id="7_a3ws7"]
+[ext_resource type="PackedScene" path="res://scenes/mechanics/DeathZone.tscn" id="8_iv3rn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_finish"]
 size = Vector2(80, 170)
@@ -41,7 +42,7 @@ position = Vector2(1552, 530)
 position = Vector2(-120, 270)
 
 [node name="Obstacle" parent="." unique_id=66557457 instance=ExtResource("5_mn2x6")]
-position = Vector2(908, 213)
+position = Vector2(1009, 285)
 
 [node name="CanCollectible" parent="." unique_id=1479361518 instance=ExtResource("6_wlcp4")]
 position = Vector2(1063, 450)
@@ -71,7 +72,17 @@ max_buoyancy_force = 11130.0
 enable_waterfall = false
 
 [node name="Obstacle2" parent="." unique_id=1626380398 instance=ExtResource("5_mn2x6")]
-position = Vector2(1146, 251)
+position = Vector2(1747, 502)
 
-[node name="NPC" parent="." unique_id=252872777 instance=ExtResource("7_a3ws7")]
+[node name="NPC_RescueTest" parent="." unique_id=252872777 instance=ExtResource("7_a3ws7")]
 position = Vector2(1156, 561)
+
+[node name="DeathZone" parent="." unique_id=724025732 node_paths=PackedStringArray("respawn_marker") instance=ExtResource("8_iv3rn")]
+position = Vector2(648, 673)
+rotation = 0.2655507
+respawn_marker = NodePath("StartMarker2")
+
+[node name="StartMarker2" type="Marker2D" parent="DeathZone" unique_id=481139926]
+unique_name_in_owner = true
+position = Vector2(218.77106, -296.8185)
+rotation = -0.2655507

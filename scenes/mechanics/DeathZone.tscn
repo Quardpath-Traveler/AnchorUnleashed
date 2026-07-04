@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://twmufh71yhn7" path="res://scripts/mechanics/death_zone.gd" id="1_death_zone"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_death"]
-size = Vector2(128, 128)
+size = Vector2(800, 100)
 
 [node name="DeathZone" type="Area2D" node_paths=PackedStringArray("respawn_marker")]
 script = ExtResource("1_death_zone")
@@ -13,3 +13,4 @@ respawn_marker = NodePath("RespawnMarker")
 shape = SubResource("RectangleShape2D_death")
 
 [node name="RespawnMarker" type="Marker2D" parent="."]
+position = Vector2(0, -200)

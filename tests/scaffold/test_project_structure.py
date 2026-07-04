@@ -12,7 +12,10 @@ class ProjectStructureTest(unittest.TestCase):
     def test_project_has_main_scene_autoloads_and_input_actions(self):
         project = self.read("project.godot")
 
-        self.assertIn('run/main_scene="res://scenes/main/Main.tscn"', project)
+        self.assertTrue(
+            'run/main_scene="res://scenes/main/Main.tscn"' in project
+            or 'run/main_scene="uid://c0hl712jsx7pn"' in project
+        )
         self.assertIn('GameState="*res://scripts/autoload/GameState.gd"', project)
         self.assertIn('EventBus="*res://scripts/autoload/EventBus.gd"', project)
         self.assertIn('SceneLoader="*res://scripts/autoload/SceneLoader.gd"', project)
@@ -62,6 +65,7 @@ class ProjectStructureTest(unittest.TestCase):
             "scenes/player",
             "scenes/ui",
             "scripts/autoload",
+            "scripts/characters",
             "scripts/components",
             "scripts/resources",
             "scripts/items",
@@ -86,7 +90,9 @@ class ProjectStructureTest(unittest.TestCase):
             "scenes/levels/LevelPrototypeSlope.tscn",
             "scenes/levels/TutorialLevel.tscn",
             "scenes/mechanics/Anchor.tscn",
+            "scenes/mechanics/DeathZone.tscn",
             "scenes/mechanics/HookPoint.tscn",
+            "scenes/characters/BoatCrewNPC.tscn",
             "scenes/player/Boat.tscn",
             "scenes/player/Player.tscn",
             "scenes/ui/HUD.tscn",
@@ -102,7 +108,10 @@ class ProjectStructureTest(unittest.TestCase):
             "scripts/levels/tutorial_trigger.gd",
             "scripts/main/main.gd",
             "scripts/mechanics/anchor.gd",
+            "scripts/mechanics/death_zone.gd",
             "scripts/mechanics/hook_point.gd",
+            "scripts/characters/floating_npc.gd",
+            "scripts/characters/npc_rescue.gd",
             "scripts/game/game.gd",
             "scripts/player/boat.gd",
             "scripts/player/player.gd",
@@ -119,6 +128,9 @@ class ProjectStructureTest(unittest.TestCase):
             "debug/TutorialLevelRegression.tscn",
             "debug/TutorialLevelPlaytest.tscn",
             "debug/DebugLevel.tscn",
+            "debug/OutOfBoundsRespawnTest.tscn",
+            "debug/NPCRescueRegression.tscn",
+            "debug/CrewVisualRegression.tscn",
             "debug/anchor_throw_regression.gd",
             "debug/anchor_throw_regression.gd.uid",
             "debug/anchor_relative_launch_velocity_regression.gd",
@@ -131,6 +143,12 @@ class ProjectStructureTest(unittest.TestCase):
             "debug/tutorial_level_playtest.gd.uid",
             "debug/debug_level.gd",
             "debug/debug_level.gd.uid",
+            "debug/out_of_bounds_respawn_test.gd",
+            "debug/out_of_bounds_respawn_test.gd.uid",
+            "debug/npc_rescue_regression.gd",
+            "debug/npc_rescue_regression.gd.uid",
+            "debug/crew_visual_regression.gd",
+            "debug/crew_visual_regression.gd.uid",
         ]:
             self.assertTrue((ROOT / relative_path).is_file(), relative_path)
 
@@ -158,6 +176,9 @@ class ProjectStructureTest(unittest.TestCase):
             "debug/TutorialLevelRegression.tscn": "res://debug/tutorial_level_regression.gd",
             "debug/TutorialLevelPlaytest.tscn": "res://debug/tutorial_level_playtest.gd",
             "debug/DebugLevel.tscn": "res://debug/debug_level.gd",
+            "debug/OutOfBoundsRespawnTest.tscn": "res://debug/out_of_bounds_respawn_test.gd",
+            "debug/NPCRescueRegression.tscn": "res://debug/npc_rescue_regression.gd",
+            "debug/CrewVisualRegression.tscn": "res://debug/crew_visual_regression.gd",
         }
 
         for scene_path, script_path in expected_references.items():
@@ -166,11 +187,18 @@ class ProjectStructureTest(unittest.TestCase):
     def test_character_prop_art_is_bound_to_gameplay_scenes(self):
         anchor_scene = self.read("scenes/mechanics/Anchor.tscn")
         boat_scene = self.read("scenes/player/Boat.tscn")
+        crew_scene = self.read("scenes/characters/BoatCrewNPC.tscn")
 
         self.assertIn("res://assets/art/Character Prop Assets/anchor.png", anchor_scene)
         self.assertIn('[node name="AnchorSprite" type="Sprite2D" parent="Head"]', anchor_scene)
         self.assertIn("res://assets/art/Character Prop Assets/kayak.png", boat_scene)
         self.assertIn('[node name="KayakSprite" type="Sprite2D" parent="."', boat_scene)
+        self.assertIn('[node name="CrewVisuals" type="Node2D" parent="."', boat_scene)
+        self.assertIn("res://assets/art/Character Art Assets/Protagonist Assets/npc.png", crew_scene)
+        self.assertIn('[node name="BoatCrewNPC" type="Node2D"]', crew_scene)
+        self.assertIn('[node name="Sprite2D" type="Sprite2D" parent="."]', crew_scene)
+        self.assertNotIn("Area2D", crew_scene)
+        self.assertNotIn("res://assets/art/Character Art Assets/Protagonist Assets/sailor.png", crew_scene)
 
     def test_environment_art_has_reusable_scenes(self):
         mountain_scene = self.read("scenes/environment/Mountain.tscn")
@@ -200,6 +228,7 @@ class ProjectStructureTest(unittest.TestCase):
             "level.setup(player)",
         ]:
             self.assertIn(expected, script)
+        self.assertNotIn("resume_requested", script)
         debug_reset_branch = script[script.index("event.is_action_pressed(\"debug_reset\")"):]
         self.assertLess(
             debug_reset_branch.index("get_viewport().set_input_as_handled()"),
@@ -304,6 +333,7 @@ class ProjectStructureTest(unittest.TestCase):
             "get_tree().reload_current_scene()",
         ]:
             self.assertIn(expected, script)
+        self.assertNotIn("resume_requested", script)
 
     def test_debug_level_scene_runs_level_with_minimal_game_environment(self):
         scene = self.read("debug/DebugLevel.tscn")
@@ -339,9 +369,10 @@ class ProjectStructureTest(unittest.TestCase):
             "event.is_action_pressed(\"pause\")",
             "event.is_action_pressed(\"debug_reset\")",
             "get_tree().reload_current_scene()",
-            "pause_menu.resume_requested.connect(_on_resume_requested)",
+            "func _on_pause_changed(is_paused: bool) -> void",
         ]:
             self.assertIn(expected, script)
+        self.assertNotIn("resume_requested", script)
 
     def test_prototype_level_contains_core_gameplay_parts(self):
         scene = self.read("scenes/levels/LevelPrototypeSlope.tscn")
@@ -423,9 +454,24 @@ class ProjectStructureTest(unittest.TestCase):
             "if submerged_ratio < water_stability_min_submerged_ratio",
             "body.enter_water()",
             "body.exit_water()",
-            "lose_crew",
+            "body.on_bad_landing(landing_angle, target_rotation, self)",
+            "boat_bad_landing.emit(body, landing_angle, target_rotation, self)",
+            "func get_landing_angle_degrees(body: Node2D) -> float",
+            "wrapf(body.global_rotation - get_boat_target_rotation(), -PI, PI)",
+            "func get_surface_height_at_global_position(global_position: Vector2) -> float",
         ]:
             self.assertIn(expected, script)
+
+        boat_script = self.read("scripts/player/boat.gd")
+        for expected in [
+            "func on_bad_landing(angle_degrees: float, target_rotation: float, water_surface: Node2D) -> void:",
+            "lose_crew(1)",
+            "_righting_timer = bad_landing_righting_duration",
+            "_righting_target_rotation = target_rotation",
+            "func _apply_bad_landing_righting(state: PhysicsDirectBodyState2D) -> void:",
+            "state.apply_torque(righting_torque)",
+        ]:
+            self.assertIn(expected, boat_script)
 
     def test_anchor_supports_launch_hook_recall_and_rope_state(self):
         script = self.read("scripts/mechanics/anchor.gd")
@@ -562,6 +608,13 @@ class ProjectStructureTest(unittest.TestCase):
             "var anchor_swing_alignment_max_angular_velocity",
             "var anchor_swing_target_turn_speed",
             "var max_linear_speed",
+            "var crew_visual_origin",
+            "var crew_visual_spacing",
+            "var crew_visual_scale",
+            "const CREW_MEMBER_SCENE := preload(\"res://scenes/characters/BoatCrewNPC.tscn\")",
+            "@onready var crew_visuals: Node2D = %CrewVisuals",
+            "func _sync_crew_visuals() -> void",
+            "CREW_MEMBER_SCENE.instantiate()",
             "var _swing_locked_energy",
             "var _swing_tangent_sign",
             "var _anchor_swing_target_rotation",
@@ -628,9 +681,11 @@ class ProjectStructureTest(unittest.TestCase):
             script.index("func _integrate_forces(state: PhysicsDirectBodyState2D)"):
             script.index("func is_airborne() -> bool")
         ]
+        normal_physics_branch = integrate_forces_body[
+            integrate_forces_body.index("_apply_anchor_constraint(state)"):]
         self.assertLess(
-            integrate_forces_body.index("_apply_anchor_constraint(state)"),
-            integrate_forces_body.index("_limit_linear_speed(state)"),
+            normal_physics_branch.index("_apply_anchor_constraint(state)"),
+            normal_physics_branch.index("_limit_linear_speed(state)"),
         )
 
         for removed_charge in [
@@ -683,6 +738,123 @@ class ProjectStructureTest(unittest.TestCase):
             "anchor: launch no longer changes time scale",
         ]:
             self.assertIn(expected, debug_script)
+
+    def test_rescue_mechanic_adds_crew_caps_and_hud_display(self):
+        boat_script = self.read("scripts/player/boat.gd")
+        rescue_script = self.read("scripts/characters/npc_rescue.gd")
+        npc_scene = self.read("scenes/characters/NPC.tscn")
+        hud_scene = self.read("scenes/ui/HUD.tscn")
+        hud_script = self.read("scripts/ui/hud.gd")
+        level_scene = self.read("scenes/levels/Level.tscn")
+
+        for expected in [
+            "signal crew_gained(count: int)",
+            "@export var max_crew_count: int = 5",
+            "crew_count = clampi(value, 0, max_crew_count)",
+            "func gain_crew(amount: int = 1) -> void:",
+            "crew_gained.emit(crew_count)",
+        ]:
+            self.assertIn(expected, boat_script)
+
+        for expected in [
+            "class_name NPCRescue",
+            "extends Area2D",
+            "@export var rescue_value: int = 1",
+            "body_entered.connect(_on_body_entered)",
+            "body.is_in_group(\"boats\")",
+            "body.has_method(\"gain_crew\")",
+            "body.gain_crew(rescue_value)",
+            "var rescued_npc := get_parent()",
+            "rescued_npc.queue_free()",
+        ]:
+            self.assertIn(expected, rescue_script)
+
+        for expected in [
+            "res://scripts/characters/floating_npc.gd",
+            "res://scripts/characters/npc_rescue.gd",
+            "name=\"WaterDetector\"",
+            "name=\"RescueArea\"",
+            "type=\"CircleShape2D\"",
+            "radius = 32.0",
+        ]:
+            self.assertIn(expected, npc_scene)
+
+        for expected in [
+            "name=\"CrewLabel\"",
+            "text = \"Crew: 3/5\"",
+        ]:
+            self.assertIn(expected, hud_scene)
+
+        for expected in [
+            "@onready var crew_label: Label = %CrewLabel",
+            "EventBus.player_spawned.connect(_on_player_spawned)",
+            "boat.crew_count_changed.connect(_on_crew_count_changed)",
+            "crew_label.text = \"Crew: %d/%d\"",
+            "boat.max_crew_count",
+        ]:
+            self.assertIn(expected, hud_script)
+
+        self.assertIn("res://scenes/characters/NPC.tscn", level_scene)
+        self.assertIn('name="NPC_RescueTest"', level_scene)
+
+    def test_out_of_bounds_respawn_has_death_zones_and_regression_scene(self):
+        boat_script = self.read("scripts/player/boat.gd")
+        death_zone_script = self.read("scripts/mechanics/death_zone.gd")
+        death_zone_scene = self.read("scenes/mechanics/DeathZone.tscn")
+        debug_scene = self.read("debug/OutOfBoundsRespawnTest.tscn")
+        debug_script = self.read("debug/out_of_bounds_respawn_test.gd")
+        tutorial_scene = self.read("scenes/levels/TutorialLevel.tscn")
+        prototype_scene = self.read("scenes/levels/LevelPrototypeSlope.tscn")
+
+        for expected in [
+            "enum RespawnState",
+            "func is_respawning() -> bool:",
+            "func respawn_at(target_position: Vector2) -> void:",
+            "_recall_anchor_for_respawn()",
+            "_execute_respawn_launch(state)",
+            "lose_crew(1)",
+            "if _respawn_state != RespawnState.NONE:",
+        ]:
+            self.assertIn(expected, boat_script)
+
+        for expected in [
+            "class_name DeathZone",
+            "@export var respawn_marker: Marker2D",
+            "body.respawn_at(respawn_marker.global_position)",
+        ]:
+            self.assertIn(expected, death_zone_script)
+
+        for expected in [
+            "res://scripts/mechanics/death_zone.gd",
+            'name="DeathZone"',
+            'name="RespawnMarker"',
+            "size = Vector2(800, 100)",
+            "position = Vector2(0, -200)",
+            "respawn_marker = NodePath(\"RespawnMarker\")",
+        ]:
+            self.assertIn(expected, death_zone_scene)
+
+        for expected in [
+            "res://debug/out_of_bounds_respawn_test.gd",
+            "res://scenes/player/Boat.tscn",
+            "res://scenes/mechanics/DeathZone.tscn",
+            "res://scenes/level_parts/WaterSurface.tscn",
+        ]:
+            self.assertIn(expected, debug_scene)
+
+        for expected in [
+            "PASS: Out-of-bounds respawn works.",
+            "FAIL: Out-of-bounds respawn test failed:",
+            "_boat.is_respawning()",
+            "_boat.crew_count != 2",
+            "get_tree().quit(_exit_code)",
+        ]:
+            self.assertIn(expected, debug_script)
+
+        for scene in [tutorial_scene, prototype_scene]:
+            self.assertIn("res://scenes/mechanics/DeathZone.tscn", scene)
+            self.assertIn('name="DeathZone"', scene)
+            self.assertIn("respawn_marker = NodePath(\"../StartMarker\")", scene)
 
 
 if __name__ == "__main__":

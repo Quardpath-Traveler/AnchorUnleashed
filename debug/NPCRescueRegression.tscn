@@ -1,0 +1,8 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://debug/npc_rescue_regression.gd" id="1_test"]
+[ext_resource type="PackedScene" uid="uid://cgdpl2y4glvwl" path="res://scenes/player/Boat.tscn" id="2_boat"]
+[ext_resource type="PackedScene" uid="uid://15x2tduve777" path="res://scenes/characters/NPC.tscn" id="3_npc"]
+
+[node name="NPCRescueRegression" type="Node2D"]
+script = ExtResource("1_test")

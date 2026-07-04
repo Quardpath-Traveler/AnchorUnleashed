@@ -1,0 +1,9 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://debug/out_of_bounds_respawn_test.gd" id="1_test"]
+[ext_resource type="PackedScene" uid="uid://cgdpl2y4glvwl" path="res://scenes/player/Boat.tscn" id="2_boat"]
+[ext_resource type="PackedScene" uid="uid://tRLM6HrD4JUa8" path="res://scenes/mechanics/DeathZone.tscn" id="3_death"]
+[ext_resource type="PackedScene" uid="uid://be70x01usqr0h" path="res://scenes/level_parts/WaterSurface.tscn" id="4_water"]
+
+[node name="OutOfBoundsRespawnTest" type="Node2D"]
+script = ExtResource("1_test")
