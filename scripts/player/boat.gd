@@ -83,11 +83,6 @@ func _unhandled_input(event: InputEvent) -> void:
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	_contact_count = state.get_contact_count()
 	_apply_anchor_constraint(state)
-	state.angular_velocity = clampf(
-		state.angular_velocity,
-		-max_angular_velocity,
-		max_angular_velocity
-	)
 	_limit_linear_speed(state)
 
 
