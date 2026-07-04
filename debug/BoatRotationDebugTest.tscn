@@ -1,9 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://c8n2w3p7x1q0r"]
+[gd_scene load_steps=2 format=3 uid="uid://c8n2w3p7x1q0r"]
 
-[ext_resource type="PackedScene" path="res://debug/BoatRotationDebug.tscn" id="1_debug_scene"]
-[ext_resource type="Script" path="res://debug/boat_rotation_debug_test.gd" id="2_test_controller"]
+[ext_resource type="Script" path="res://debug/boat_rotation_debug_test.gd" id="1_test_controller"]
 
 [node name="BoatRotationDebugTest" type="Node2D"]
-script = ExtResource("2_test_controller")
-
-[node name="BoatRotationDebug" parent="." instance=ExtResource("1_debug_scene")]
+script = ExtResource("1_test_controller")
