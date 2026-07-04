@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://47a11b80759941789b1c590ef418ff0e"]
+
+[ext_resource type="Script" path="res://debug/boat_rotation_debug.gd" id="1_debug"]
+[ext_resource type="PackedScene" path="res://debug/ui/DebugValuePanel.tscn" id="2_value_panel"]
+[ext_resource type="PackedScene" path="res://debug/ui/DebugGraph.tscn" id="3_graph"]
+[ext_resource type="PackedScene" path="res://debug/ui/DebugRotationIndicator.tscn" id="4_indicator"]
+
+[node name="BoatRotationDebug" type="Node2D"]
+script = ExtResource("1_debug")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2(1, 1)
+
+[node name="BoatContainer" type="Node2D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DebugValuePanel" parent="CanvasLayer" instance=ExtResource("2_value_panel")]
+
+[node name="DebugGraph" parent="CanvasLayer" instance=ExtResource("3_graph")]
+
+[node name="DebugRotationIndicator" parent="." instance=ExtResource("4_indicator")]
