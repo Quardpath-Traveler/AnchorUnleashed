@@ -30,7 +30,7 @@ func _check_pickup_reward() -> void:
 	var collectible := CAN_COLLECTIBLE_SCENE.instantiate() as CanCollectible
 	add_child(collectible)
 
-	collectible._on_body_entered(_boat)
+	collectible.body_entered.emit(_boat)
 	_assert_equal(GameState.coin, 1, "coin after pickup")
 	_assert_equal(GameState.score, GameState.COIN_SCORE_VALUE, "score after pickup")
 	_assert_true(collectible.is_queued_for_deletion(), "collectible queues free after pickup")
@@ -51,7 +51,7 @@ func _check_rescue_reward() -> void:
 	var previous_crew_count := _boat.crew_count
 	var expected_crew_count := mini(previous_crew_count + rescue_value, _boat.max_crew_count)
 
-	rescue_area._on_body_entered(_boat)
+	rescue_area.body_entered.emit(_boat)
 	await get_tree().process_frame
 
 	_assert_equal(_boat.crew_count, expected_crew_count, "crew after rescue")
@@ -89,6 +89,12 @@ func _check_bad_landing_does_not_award_trick() -> void:
 	_boat.on_bad_landing(90.0, 0.0, self)
 
 	_assert_equal(GameState.score, previous_score, "bad landing does not award pending trick")
+	_boat.on_safe_landing(0.0, self)
+	_assert_equal(
+		GameState.score,
+		previous_score,
+		"safe landing after bad landing does not award cleared pending trick"
+	)
 
 
 func _check_no_pending_trick_does_not_award() -> void:
