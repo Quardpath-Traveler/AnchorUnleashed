@@ -8,3 +8,6 @@ __pycache__/
 
 # Claude worktrees
 .claude/worktrees/
+
+# Git worktrees
+.worktree/
