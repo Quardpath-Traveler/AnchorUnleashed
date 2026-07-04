@@ -19,6 +19,8 @@ enum State { READY, AIMING, FLYING, HOOKED }
 @export var debug_logging_enabled: bool = false
 @export var debug_log_interval_seconds: float = 0.25
 @export var anchor_log_prefix: String = "ANCHOR_DEBUG"
+@export var socket_offset: Vector2 = Vector2.ZERO
+@export var socket_rotation: float = 0.0
 
 var is_ready: bool = true
 var is_aiming: bool = false
@@ -196,7 +198,8 @@ func _on_head_area_entered(area: Area2D) -> void:
 func _get_rope_start_global() -> Vector2:
 	var parent_node := get_parent()
 	if parent_node is Node2D:
-		return (parent_node as Node2D).global_position
+		var parent_2d := parent_node as Node2D
+		return parent_2d.global_position + socket_offset.rotated(parent_2d.global_rotation)
 
 	return throw_origin_global
 
@@ -322,8 +325,8 @@ func _get_rope_slack_offset(ratio: float, start_local: Vector2, end_local: Vecto
 
 func _reset_to_socket() -> void:
 	top_level = false
-	position = Vector2.ZERO
-	rotation = 0.0
+	position = socket_offset
+	rotation = socket_rotation
 	rope_length = 0.0
 	launch_elapsed_seconds = 0.0
 	launch_velocity = Vector2.ZERO

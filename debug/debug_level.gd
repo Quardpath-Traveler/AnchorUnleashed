@@ -8,12 +8,20 @@ extends Node2D
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	GameState.reset()
+	_sync_crew_tracking()
 	GameState.pause_changed.connect(_on_pause_changed)
 	if level.has_method("setup"):
 		level.setup(player)
 	if level.has_method("get_start_position"):
 		player.global_position = level.get_start_position()
 	_on_pause_changed(GameState.is_paused)
+
+
+func _sync_crew_tracking() -> void:
+	var npc_count := level.find_children("*", "FloatingNPC").size()
+	var initial_crew := player.crew_count
+	GameState.set_rescued_count(initial_crew)
+	GameState.set_rescued_target(npc_count + initial_crew)
 
 
 func _unhandled_input(event: InputEvent) -> void:

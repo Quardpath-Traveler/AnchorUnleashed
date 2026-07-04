@@ -205,6 +205,7 @@ func lose_crew(amount: int = 1) -> void:
 
 	if crew_count < previous_count:
 		crew_lost.emit(crew_count)
+		GameState.set_rescued_count(crew_count)
 
 
 func gain_crew(amount: int = 1) -> void:
