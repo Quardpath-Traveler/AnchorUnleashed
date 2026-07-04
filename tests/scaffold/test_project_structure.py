@@ -739,6 +739,47 @@ class ProjectStructureTest(unittest.TestCase):
         ]:
             self.assertIn(expected, debug_script)
 
+    def test_gameplay_tempo_is_slightly_slower(self):
+        boat_script = self.read("scripts/player/boat.gd")
+        boat_scene = self.read("scenes/player/Boat.tscn")
+        anchor_script = self.read("scripts/mechanics/anchor.gd")
+        wave_script = self.read("scripts/level_parts/wave_chaser.gd")
+        slope_script = self.read("scripts/level_parts/slope_with_water.gd")
+        slope_scene = self.read("scenes/level_parts/SlopeWithWater.tscn")
+        level_scene = self.read("scenes/levels/Level.tscn")
+        auto_finish_scene = self.read("scenes/levels/LevelAutoFinish.tscn")
+        prototype_scene = self.read("scenes/levels/LevelPrototypeSlope.tscn")
+        tutorial_scene = self.read("scenes/levels/TutorialLevel.tscn")
+
+        for expected in [
+            "@export var airborne_rotation_torque: float = 78000.0",
+            "@export var airborne_nose_down_torque: float = 15000.0",
+            "@export var anchor_swing_alignment_max_angular_velocity: float = 9.0",
+            "@export var max_angular_velocity: float = 9.0",
+            "@export var anchor_swing_target_turn_speed: float = 10.0",
+        ]:
+            self.assertIn(expected, boat_script)
+
+        for expected in [
+            "gravity_scale = 1.2",
+            "max_linear_speed = 880.0",
+        ]:
+            self.assertIn(expected, boat_scene)
+
+        self.assertIn("@export var launch_speed: float = 500.0", anchor_script)
+        self.assertIn("@export var chase_speed: float = 76.0", wave_script)
+
+        self.assertIn("current_flow_speed: float = 220.0", slope_script)
+        self.assertIn("current_force: float = 220.0", slope_script)
+
+        for text in [slope_scene, level_scene, auto_finish_scene, prototype_scene]:
+            self.assertIn("current_flow_speed = 220.0", text)
+            self.assertIn("current_force = 220.0", text)
+
+        self.assertIn("current_flow_speed = 195.0", tutorial_scene)
+        self.assertIn("current_force = 220.0", tutorial_scene)
+        self.assertIn("chase_speed = 52.0", tutorial_scene)
+
     def test_rescue_mechanic_adds_crew_caps_and_hud_display(self):
         boat_script = self.read("scripts/player/boat.gd")
         rescue_script = self.read("scripts/characters/npc_rescue.gd")

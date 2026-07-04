@@ -65,14 +65,14 @@ extends StaticBody2D
 			_sync_water_surface()
 
 ## Visual flow speed and entry impulse strength along the water direction.
-@export var current_flow_speed: float = 260.0:
+@export var current_flow_speed: float = 220.0:
 	set(value):
 		current_flow_speed = value
 		if is_node_ready():
 			_sync_water_surface()
 
 ## Continuous force applied to floating boats along the water direction.
-@export var current_force: float = 260.0:
+@export var current_force: float = 220.0:
 	set(value):
 		current_force = value
 		if is_node_ready():

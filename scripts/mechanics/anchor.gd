@@ -9,7 +9,7 @@ signal recalled
 enum State { READY, AIMING, FLYING, HOOKED }
 
 @export var max_length: float = 360.0
-@export var launch_speed: float = 570.0
+@export var launch_speed: float = 500.0
 @export var launch_gravity_scale: float = 1.05
 @export var rope_visual_segments: int = 8
 @export var rope_slack_pixels: float = 32.0

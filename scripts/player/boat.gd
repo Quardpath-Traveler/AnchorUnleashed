@@ -7,10 +7,10 @@ signal crew_count_changed(count: int)
 signal crew_lost(count: int)
 signal crew_gained(count: int)
 
-@export var airborne_rotation_torque: float = 90000.0
+@export var airborne_rotation_torque: float = 78000.0
 @export var counter_rotation_boost: float = 2.0
 @export var counter_rotation_zero_threshold: float = 0.05
-@export var airborne_nose_down_torque: float = 18000.0
+@export var airborne_nose_down_torque: float = 15000.0
 @export var airborne_nose_down_damping: float = 1200.0
 @export var posture_logging_enabled: bool = true
 @export_range(0.05, 5.0, 0.05) var posture_log_interval_seconds: float = 0.25

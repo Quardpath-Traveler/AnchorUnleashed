@@ -1,7 +1,7 @@
 class_name WaveChaser
 extends Area2D
 
-@export var chase_speed: float = 90.0
+@export var chase_speed: float = 76.0
 @export var max_distance_from_target: float = 520.0
 @export var target_path: NodePath
 
