@@ -84,6 +84,7 @@ class ProjectStructureTest(unittest.TestCase):
             "scenes/level_parts/WaterSurface.tscn",
             "scenes/level_parts/WaveChaser.tscn",
             "scenes/levels/LevelPrototypeSlope.tscn",
+            "scenes/levels/TutorialLevel.tscn",
             "scenes/mechanics/Anchor.tscn",
             "scenes/mechanics/HookPoint.tscn",
             "scenes/player/Boat.tscn",
@@ -97,6 +98,8 @@ class ProjectStructureTest(unittest.TestCase):
             "scripts/level_parts/water_surface.gd",
             "scripts/level_parts/wave_chaser.gd",
             "scripts/levels/level_prototype_slope.gd",
+            "scripts/levels/tutorial_level.gd",
+            "scripts/levels/tutorial_trigger.gd",
             "scripts/main/main.gd",
             "scripts/mechanics/anchor.gd",
             "scripts/mechanics/hook_point.gd",
@@ -113,12 +116,18 @@ class ProjectStructureTest(unittest.TestCase):
             "debug/AnchorThrowRegression.tscn",
             "debug/AnchorRelativeLaunchVelocityRegression.tscn",
             "debug/AnchorBulletTimeRegression.tscn",
+            "debug/TutorialLevelRegression.tscn",
+            "debug/TutorialLevelPlaytest.tscn",
             "debug/anchor_throw_regression.gd",
             "debug/anchor_throw_regression.gd.uid",
             "debug/anchor_relative_launch_velocity_regression.gd",
             "debug/anchor_relative_launch_velocity_regression.gd.uid",
             "debug/anchor_bullet_time_regression.gd",
             "debug/anchor_bullet_time_regression.gd.uid",
+            "debug/tutorial_level_regression.gd",
+            "debug/tutorial_level_regression.gd.uid",
+            "debug/tutorial_level_playtest.gd",
+            "debug/tutorial_level_playtest.gd.uid",
         ]:
             self.assertTrue((ROOT / relative_path).is_file(), relative_path)
 
@@ -131,6 +140,7 @@ class ProjectStructureTest(unittest.TestCase):
             "scenes/level_parts/WaterSurface.tscn": "res://scripts/level_parts/water_surface.gd",
             "scenes/level_parts/WaveChaser.tscn": "res://scripts/level_parts/wave_chaser.gd",
             "scenes/levels/LevelPrototypeSlope.tscn": "res://scripts/levels/level_prototype_slope.gd",
+            "scenes/levels/TutorialLevel.tscn": "res://scripts/levels/tutorial_level.gd",
             "scenes/mechanics/Anchor.tscn": "res://scripts/mechanics/anchor.gd",
             "scenes/mechanics/HookPoint.tscn": "res://scripts/mechanics/hook_point.gd",
             "scenes/player/Boat.tscn": "res://scripts/player/boat.gd",
@@ -142,6 +152,8 @@ class ProjectStructureTest(unittest.TestCase):
             "debug/AnchorThrowRegression.tscn": "res://debug/anchor_throw_regression.gd",
             "debug/AnchorRelativeLaunchVelocityRegression.tscn": "res://debug/anchor_relative_launch_velocity_regression.gd",
             "debug/AnchorBulletTimeRegression.tscn": "res://debug/anchor_bullet_time_regression.gd",
+            "debug/TutorialLevelRegression.tscn": "res://debug/tutorial_level_regression.gd",
+            "debug/TutorialLevelPlaytest.tscn": "res://debug/tutorial_level_playtest.gd",
         }
 
         for scene_path, script_path in expected_references.items():
@@ -169,7 +181,7 @@ class ProjectStructureTest(unittest.TestCase):
         scene = self.read("scenes/game/Game.tscn")
         script = self.read("scripts/game/game.gd")
 
-        self.assertIn("res://scenes/levels/LevelPrototypeSlope.tscn", scene)
+        self.assertIn("res://scenes/levels/TutorialLevel.tscn", scene)
         self.assertIn("res://scenes/player/Boat.tscn", scene)
         self.assertIn("res://scenes/ui/HUD.tscn", scene)
         self.assertIn("res://scenes/ui/PauseMenu.tscn", scene)
@@ -180,6 +192,8 @@ class ProjectStructureTest(unittest.TestCase):
             "GameState.set_paused(false)",
             "get_tree().reload_current_scene()",
             "get_viewport().set_input_as_handled()",
+            "if level.has_method(\"setup\"):",
+            "level.setup(player)",
         ]:
             self.assertIn(expected, script)
         debug_reset_branch = script[script.index("event.is_action_pressed(\"debug_reset\")"):]
@@ -187,6 +201,105 @@ class ProjectStructureTest(unittest.TestCase):
             debug_reset_branch.index("get_viewport().set_input_as_handled()"),
             debug_reset_branch.index("_reset_current_scene()"),
         )
+
+    def test_tutorial_level_contains_prompt_triggers_and_core_parts(self):
+        scene = self.read("scenes/levels/TutorialLevel.tscn")
+        script = self.read("scripts/levels/tutorial_level.gd")
+        trigger_script = self.read("scripts/levels/tutorial_trigger.gd")
+
+        for scene_path in [
+            "res://scripts/levels/tutorial_trigger.gd",
+            "res://scripts/levels/tutorial_level.gd",
+            "res://scenes/mechanics/HookPoint.tscn",
+            "res://scenes/level_parts/WaterSurface.tscn",
+            "res://scenes/level_parts/WaveChaser.tscn",
+            "res://scenes/level_parts/Obstacle.tscn",
+            "res://scenes/items/CanCollectible.tscn",
+            "res://scenes/ui/TutorialPrompt.tscn",
+        ]:
+            self.assertIn(scene_path, scene)
+
+        for node_name in [
+            "StartMarker",
+            "FinishArea",
+            "TutorialPrompt",
+            "TutorialTriggers",
+            "HookPointThrowIntro",
+            "HookPointFinal",
+            "WaveChaser",
+            "CanCollectible",
+            "Obstacle",
+        ]:
+            self.assertIn(f'name="{node_name}"', scene)
+
+        for prompt_text in [
+            "顺着坡道前进。",
+            "按住鼠标左键瞄准。",
+            "松开发射锚。",
+            "勾住后让船甩起来。",
+            "再次点击收回锚，借惯性飞出去。",
+            "空中按 A / D 调整船体倾角。",
+            "收集罐子，避开障碍。",
+            "巨浪会追上来，继续向终点前进。",
+            "到达终点。",
+        ]:
+            self.assertIn(prompt_text, scene)
+
+        for expected in [
+            "class_name TutorialLevel",
+            "signal level_completed",
+            "func setup(active_player: Node2D) -> void",
+            "func get_start_position() -> Vector2",
+            "func _connect_tutorial_triggers() -> void",
+            "func _on_tutorial_trigger_body_entered(body: Node2D, trigger: TutorialTrigger) -> void",
+            "tutorial_prompt.show_prompt(trigger.prompt_text)",
+            "wave_chaser.target = active_player",
+        ]:
+            self.assertIn(expected, script)
+
+        for expected in [
+            "class_name TutorialTrigger",
+            "@export_multiline var prompt_text",
+            "@export var one_shot",
+            "@export_range(0.0, 10.0, 0.1) var auto_hide_seconds",
+            "func can_trigger(body: Node2D) -> bool",
+            "func mark_triggered() -> void",
+            "body.is_in_group(\"boats\")",
+        ]:
+            self.assertIn(expected, trigger_script)
+
+    def test_tutorial_level_playtest_scene_is_directly_playable(self):
+        scene = self.read("debug/TutorialLevelPlaytest.tscn")
+        script = self.read("debug/tutorial_level_playtest.gd")
+
+        for scene_path in [
+            "res://debug/tutorial_level_playtest.gd",
+            "res://scenes/levels/TutorialLevel.tscn",
+            "res://scenes/player/Boat.tscn",
+            "res://scenes/camera/GameCamera.tscn",
+            "res://scenes/ui/HUD.tscn",
+            "res://scenes/ui/PauseMenu.tscn",
+        ]:
+            self.assertIn(scene_path, scene)
+
+        for node_name in [
+            "World",
+            "TutorialLevel",
+            "Player",
+            "GameCamera",
+            "HUD",
+            "PauseMenu",
+        ]:
+            self.assertIn(f'name="{node_name}"', scene)
+
+        for expected in [
+            "level.setup(player)",
+            "player.global_position = level.get_start_position()",
+            "event.is_action_pressed(\"pause\")",
+            "event.is_action_pressed(\"debug_reset\")",
+            "get_tree().reload_current_scene()",
+        ]:
+            self.assertIn(expected, script)
 
     def test_prototype_level_contains_core_gameplay_parts(self):
         scene = self.read("scenes/levels/LevelPrototypeSlope.tscn")
