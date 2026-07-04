@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var level := $世界/关卡原型
+@onready var level := $世界/关卡
 @onready var player := $玩家
 @onready var pause_menu := $暂停菜单
 
