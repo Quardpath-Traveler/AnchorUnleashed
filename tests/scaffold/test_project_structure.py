@@ -156,6 +156,26 @@ class ProjectStructureTest(unittest.TestCase):
         ]:
             self.assertTrue((ROOT / relative_path).is_file(), relative_path)
 
+    def test_game_state_has_central_reward_api(self):
+        script = self.read("scripts/autoload/GameState.gd")
+
+        for expected in [
+            "const COIN_SCORE_VALUE: int = 10",
+            "const RESCUE_SCORE_VALUE: int = 100",
+            "const TRICK_360_SCORE_VALUE: int = 250",
+            "func award_coin_pickup(amount: int = 1) -> void:",
+            "if amount <= 0:",
+            "add_coin(amount)",
+            "add_score(amount * COIN_SCORE_VALUE)",
+            "func award_rescue(amount: int = 1) -> void:",
+            "add_rescued(amount)",
+            "add_score(amount * RESCUE_SCORE_VALUE)",
+            "func award_trick(trick_name: String, amount: int) -> void:",
+            "if trick_name.is_empty():",
+            "add_score(amount)",
+        ]:
+            self.assertIn(expected, script)
+
     def test_scene_script_references_are_present(self):
         expected_references = {
             "scenes/main/Main.tscn": "res://scripts/main/main.gd",
