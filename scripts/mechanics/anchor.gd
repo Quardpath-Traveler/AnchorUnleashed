@@ -13,6 +13,9 @@ enum State { READY, AIMING, FLYING, HOOKED }
 @export var launch_gravity_scale: float = 1.05
 @export var rope_visual_segments: int = 8
 @export var rope_slack_pixels: float = 32.0
+@export var aim_indicator_length: float = 150.0
+@export var aim_indicator_head_length: float = 18.0
+@export var aim_indicator_head_width: float = 12.0
 @export var debug_logging_enabled: bool = false
 @export var debug_log_interval_seconds: float = 0.25
 @export var anchor_log_prefix: String = "ANCHOR_DEBUG"
@@ -32,11 +35,14 @@ var _debug_log_elapsed: float = 0.0
 
 @onready var rope_line: Line2D = %RopeLine
 @onready var head: Area2D = %Head
+@onready var aim_direction_line: Line2D = %AimDirectionLine
+@onready var aim_direction_head: Line2D = %AimDirectionHead
 
 
 func _ready() -> void:
 	head.position = Vector2.ZERO
 	rope_line.visible = false
+	_hide_aim_indicator()
 	head.area_entered.connect(_on_head_area_entered)
 	_reset_to_socket()
 
@@ -69,6 +75,7 @@ func start_aim() -> void:
 	throw_origin_global = _get_rope_start_global()
 	state = State.AIMING
 	is_aiming = true
+	_update_aim_indicator(throw_origin_global + Vector2.RIGHT)
 	aim_started.emit()
 
 
@@ -93,6 +100,7 @@ func launch(target_position: Vector2) -> void:
 	state = State.FLYING
 	is_aiming = false
 	is_ready = false
+	_hide_aim_indicator()
 	rope_line.visible = true
 	_update_rope_visual()
 	_emit_anchor_log_if_enabled(true)
@@ -121,6 +129,7 @@ func recall() -> void:
 	is_aiming = false
 	is_ready = true
 	rope_line.visible = false
+	_hide_aim_indicator()
 	_reset_to_socket()
 	_emit_anchor_log_if_enabled(true)
 	recalled.emit()
@@ -143,6 +152,14 @@ func get_hook_global_position() -> Vector2:
 		return attached_hook_point.global_position
 
 	return global_position
+
+
+func update_aim_target(target_position: Vector2) -> void:
+	if state != State.AIMING:
+		_hide_aim_indicator()
+		return
+
+	_update_aim_indicator(target_position)
 
 
 func get_anchor_log_data() -> Dictionary:
@@ -231,6 +248,48 @@ func _update_rope_visual() -> void:
 	rope_line.points = _build_slack_rope_points(_get_rope_start_global(), global_position)
 
 
+func _update_aim_indicator(target_position: Vector2) -> void:
+	var start_global := _get_rope_start_global()
+	var direction := start_global.direction_to(target_position)
+	if direction.is_zero_approx():
+		direction = Vector2.RIGHT
+
+	var clamped_length := minf(aim_indicator_length, max_length)
+	var end_global := start_global + direction * clamped_length
+	var start_local := to_local(start_global)
+	var end_local := to_local(end_global)
+	var direction_local := (end_local - start_local).normalized()
+	var perpendicular_local := Vector2(-direction_local.y, direction_local.x)
+	var head_base := end_local - direction_local * aim_indicator_head_length
+	var head_half_width := aim_indicator_head_width * 0.5
+
+	aim_direction_line.visible = true
+	aim_direction_head.visible = true
+	aim_direction_line.points = PackedVector2Array([
+		start_local,
+		end_local,
+	])
+	aim_direction_head.points = PackedVector2Array([
+		head_base + perpendicular_local * head_half_width,
+		end_local,
+		head_base - perpendicular_local * head_half_width,
+	])
+
+
+func _hide_aim_indicator() -> void:
+	aim_direction_line.visible = false
+	aim_direction_head.visible = false
+	aim_direction_line.points = PackedVector2Array([
+		Vector2.ZERO,
+		Vector2.ZERO,
+	])
+	aim_direction_head.points = PackedVector2Array([
+		Vector2.ZERO,
+		Vector2.ZERO,
+		Vector2.ZERO,
+	])
+
+
 func _build_slack_rope_points(start_global: Vector2, end_global: Vector2) -> PackedVector2Array:
 	var start_local := to_local(start_global)
 	var end_local := to_local(end_global)
@@ -271,6 +330,7 @@ func _reset_to_socket() -> void:
 	launch_initial_velocity = Vector2.ZERO
 	launch_carrier_velocity = Vector2.ZERO
 	head.position = Vector2.ZERO
+	_hide_aim_indicator()
 	rope_line.points = PackedVector2Array([
 		Vector2.ZERO,
 		Vector2.ZERO,

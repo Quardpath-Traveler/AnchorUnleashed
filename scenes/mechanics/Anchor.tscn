@@ -15,6 +15,26 @@ points = PackedVector2Array(0, 0, 32, 0)
 width = 3.0
 default_color = Color(0.92, 0.86, 0.66, 1)
 
+[node name="AimDirectionLine" type="Line2D" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 4
+points = PackedVector2Array(0, 0, 128, 0)
+width = 5.0
+default_color = Color(1, 0.91, 0.36, 0.72)
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="AimDirectionHead" type="Line2D" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 4
+points = PackedVector2Array(110, -8, 128, 0, 110, 8)
+width = 5.0
+default_color = Color(1, 0.91, 0.36, 0.72)
+begin_cap_mode = 2
+end_cap_mode = 2
+
 [node name="Head" type="Area2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(32, 0)

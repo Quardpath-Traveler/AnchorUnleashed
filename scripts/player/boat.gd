@@ -88,6 +88,8 @@ func _physics_process(delta: float) -> void:
 		_update_posture_log(delta)
 		return
 
+	_update_anchor_aim_target()
+
 	var rotation_input := Input.get_axis("move_left", "move_right")
 	if is_airborne():
 		if not anchor.is_hooked():
@@ -227,6 +229,11 @@ func _sync_crew_visuals() -> void:
 		)
 		crew_member.scale = crew_visual_scale
 		crew_visuals.add_child(crew_member)
+
+
+func _update_anchor_aim_target() -> void:
+	if anchor.is_aiming:
+		anchor.update_aim_target(get_global_mouse_position())
 
 
 func is_respawning() -> bool:
@@ -519,7 +526,7 @@ func _vector_to_log_data(value: Vector2) -> Dictionary:
 
 
 func _on_anchor_aim_started() -> void:
-	pass
+	_update_anchor_aim_target()
 
 
 func _on_anchor_launched(_target_position: Vector2) -> void:
