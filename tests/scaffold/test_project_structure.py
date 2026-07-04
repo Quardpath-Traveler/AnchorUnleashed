@@ -886,17 +886,16 @@ class ProjectStructureTest(unittest.TestCase):
             self.assertIn(expected, npc_scene)
 
         for expected in [
-            "name=\"CrewLabel\"",
-            "text = \"Crew: 3/5\"",
+            "name=\"RescuedLabel\"",
+            "text = \"15/13\"",
         ]:
             self.assertIn(expected, hud_scene)
 
         for expected in [
-            "@onready var crew_label: Label = %CrewLabel",
-            "EventBus.player_spawned.connect(_on_player_spawned)",
-            "boat.crew_count_changed.connect(_on_crew_count_changed)",
-            "crew_label.text = \"Crew: %d/%d\"",
-            "boat.max_crew_count",
+            "@onready var rescued_label: Label = %RescuedLabel",
+            "GameState.rescued_changed.connect(_on_rescued_changed)",
+            "func _on_rescued_changed(count: int, target: int) -> void:",
+            "rescued_label.text = \"%d/%d\"",
         ]:
             self.assertIn(expected, hud_script)
 
