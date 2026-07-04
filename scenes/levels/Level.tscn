@@ -400,9 +400,6 @@ position = Vector2(3431, 1717)
 [node name="WaveChaser" parent="." unique_id=10999686 instance=ExtResource("4_litjp")]
 position = Vector2(-120, 270)
 
-[node name="Obstacle" parent="." unique_id=66557457 instance=ExtResource("5_mn2x6")]
-position = Vector2(1597, 450)
-
 [node name="CanCollectible" parent="." unique_id=1479361518 instance=ExtResource("6_wlcp4")]
 position = Vector2(1068, 400)
 
