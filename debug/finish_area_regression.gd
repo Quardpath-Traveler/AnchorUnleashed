@@ -12,8 +12,17 @@ var _completed: bool = false
 
 func _ready() -> void:
 	GameState.current_level_scene = "res://debug/FinishAreaRegression.tscn"
+	GameState.reset()
+	_sync_crew_tracking()
 	_boat.global_position = _level.get_start_position()
 	_level.level_completed.connect(_on_level_completed)
+
+
+func _sync_crew_tracking() -> void:
+	var npc_count := _level.find_children("*", "FloatingNPC").size()
+	var initial_crew := _boat.crew_count
+	GameState.set_rescued_count(initial_crew)
+	GameState.set_rescued_target(npc_count + initial_crew)
 
 
 func _physics_process(delta: float) -> void:
