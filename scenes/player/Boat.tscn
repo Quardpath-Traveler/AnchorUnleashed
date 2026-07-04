@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cgdpl2y4glvwl"]
+[gd_scene format=3 uid="uid://cgdpl2y4glvwl"]
 
 [ext_resource type="Script" uid="uid://bbohlaa00mhar" path="res://scripts/player/boat.gd" id="1_boat"]
-[ext_resource type="PackedScene" path="res://scenes/mechanics/Anchor.tscn" id="2_anchor"]
+[ext_resource type="PackedScene" uid="uid://dok12jc4dbvx1" path="res://scenes/mechanics/Anchor.tscn" id="2_anchor"]
 [ext_resource type="Texture2D" uid="uid://d3fsljulrym1l" path="res://assets/art/Character Prop Assets/kayak.png" id="2_kayak"]
-[ext_resource type="PackedScene" path="res://scenes/characters/Boatman.tscn" id="3_boatman"]
+[ext_resource type="PackedScene" uid="uid://52f4uc1qkh47" path="res://scenes/characters/Boatman.tscn" id="3_boatman"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_boat"]
 size = Vector2(72, 28)
@@ -13,17 +13,16 @@ mass = 10.0
 gravity_scale = 1.2
 script = ExtResource("1_boat")
 max_linear_speed = 880.0
-crew_visual_origin = Vector2(0, 13)
-crew_visual_spacing = 12.5
-crew_visual_scale = Vector2(0.42, 0.42)
 
 [node name="KayakSprite" type="Sprite2D" parent="." unique_id=216690964]
+z_index = 10
 scale = Vector2(0.12, 0.12)
 texture = ExtResource("2_kayak")
 
 [node name="CrewVisuals" type="Node2D" parent="." unique_id=1905388021]
 unique_name_in_owner = true
 z_index = 2
+position = Vector2(0, -4.36)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=963683348]
 shape = SubResource("RectangleShape2D_boat")
@@ -31,10 +30,10 @@ shape = SubResource("RectangleShape2D_boat")
 [node name="AnchorSocket" type="Marker2D" parent="." unique_id=792766921]
 position = Vector2(34, -8)
 
-[node name="Boatman" parent="." instance=ExtResource("3_boatman")]
-position = Vector2(28, -8)
+[node name="Boatman" parent="." unique_id=422447904 instance=ExtResource("3_boatman")]
+position = Vector2(28, -4)
 
-[node name="Anchor" parent="Boatman/HandPivot" unique_id=2089304412 instance=ExtResource("2_anchor")]
+[node name="Anchor" parent="Boatman/HandPivot" parent_id_path=PackedInt32Array(422447904, 90366945) index="1" unique_id=2089304412 instance=ExtResource("2_anchor")]
 unique_name_in_owner = true
 launch_gravity_scale = 0.3
 socket_offset = Vector2(6, 10)
