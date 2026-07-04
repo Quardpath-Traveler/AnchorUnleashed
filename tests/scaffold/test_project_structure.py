@@ -116,12 +116,18 @@ class ProjectStructureTest(unittest.TestCase):
             "debug/AnchorThrowRegression.tscn",
             "debug/AnchorRelativeLaunchVelocityRegression.tscn",
             "debug/AnchorBulletTimeRegression.tscn",
+            "debug/TutorialLevelRegression.tscn",
+            "debug/TutorialLevelPlaytest.tscn",
             "debug/anchor_throw_regression.gd",
             "debug/anchor_throw_regression.gd.uid",
             "debug/anchor_relative_launch_velocity_regression.gd",
             "debug/anchor_relative_launch_velocity_regression.gd.uid",
             "debug/anchor_bullet_time_regression.gd",
             "debug/anchor_bullet_time_regression.gd.uid",
+            "debug/tutorial_level_regression.gd",
+            "debug/tutorial_level_regression.gd.uid",
+            "debug/tutorial_level_playtest.gd",
+            "debug/tutorial_level_playtest.gd.uid",
         ]:
             self.assertTrue((ROOT / relative_path).is_file(), relative_path)
 
@@ -146,6 +152,8 @@ class ProjectStructureTest(unittest.TestCase):
             "debug/AnchorThrowRegression.tscn": "res://debug/anchor_throw_regression.gd",
             "debug/AnchorRelativeLaunchVelocityRegression.tscn": "res://debug/anchor_relative_launch_velocity_regression.gd",
             "debug/AnchorBulletTimeRegression.tscn": "res://debug/anchor_bullet_time_regression.gd",
+            "debug/TutorialLevelRegression.tscn": "res://debug/tutorial_level_regression.gd",
+            "debug/TutorialLevelPlaytest.tscn": "res://debug/tutorial_level_playtest.gd",
         }
 
         for scene_path, script_path in expected_references.items():
@@ -259,6 +267,39 @@ class ProjectStructureTest(unittest.TestCase):
             "body.is_in_group(\"boats\")",
         ]:
             self.assertIn(expected, trigger_script)
+
+    def test_tutorial_level_playtest_scene_is_directly_playable(self):
+        scene = self.read("debug/TutorialLevelPlaytest.tscn")
+        script = self.read("debug/tutorial_level_playtest.gd")
+
+        for scene_path in [
+            "res://debug/tutorial_level_playtest.gd",
+            "res://scenes/levels/TutorialLevel.tscn",
+            "res://scenes/player/Boat.tscn",
+            "res://scenes/camera/GameCamera.tscn",
+            "res://scenes/ui/HUD.tscn",
+            "res://scenes/ui/PauseMenu.tscn",
+        ]:
+            self.assertIn(scene_path, scene)
+
+        for node_name in [
+            "World",
+            "TutorialLevel",
+            "Player",
+            "GameCamera",
+            "HUD",
+            "PauseMenu",
+        ]:
+            self.assertIn(f'name="{node_name}"', scene)
+
+        for expected in [
+            "level.setup(player)",
+            "player.global_position = level.get_start_position()",
+            "event.is_action_pressed(\"pause\")",
+            "event.is_action_pressed(\"debug_reset\")",
+            "get_tree().reload_current_scene()",
+        ]:
+            self.assertIn(expected, script)
 
     def test_prototype_level_contains_core_gameplay_parts(self):
         scene = self.read("scenes/levels/LevelPrototypeSlope.tscn")

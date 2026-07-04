@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cgdpl2y4glvwl"]
+[gd_scene format=3 uid="uid://cgdpl2y4glvwl"]
 
 [ext_resource type="Script" uid="uid://bbohlaa00mhar" path="res://scripts/player/boat.gd" id="1_boat"]
 [ext_resource type="PackedScene" path="res://scenes/mechanics/Anchor.tscn" id="2_anchor"]
@@ -24,3 +24,4 @@ position = Vector2(34, -8)
 
 [node name="Anchor" parent="AnchorSocket" unique_id=2089304412 instance=ExtResource("2_anchor")]
 unique_name_in_owner = true
+launch_gravity_scale = 0.3
