@@ -169,7 +169,7 @@ class ProjectStructureTest(unittest.TestCase):
         scene = self.read("scenes/game/Game.tscn")
         script = self.read("scripts/game/game.gd")
 
-        self.assertIn("res://scenes/levels/LevelPrototypeSlope.tscn", scene)
+        self.assertIn("res://scenes/levels/Level.tscn", scene)
         self.assertIn("res://scenes/player/Boat.tscn", scene)
         self.assertIn("res://scenes/ui/HUD.tscn", scene)
         self.assertIn("res://scenes/ui/PauseMenu.tscn", scene)
