@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/mechanics/anchor.gd" id="1_anchor"]
+[ext_resource type="Texture2D" uid="uid://ds17c0s58r4j" path="res://assets/art/Character Prop Assets/anchor.png" id="2_anchor_texture"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_head"]
 radius = 8.0
@@ -21,6 +22,6 @@ position = Vector2(32, 0)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
 shape = SubResource("CircleShape2D_head")
 
-[node name="HeadVisual" type="Polygon2D" parent="Head"]
-color = Color(0.18, 0.18, 0.2, 1)
-polygon = PackedVector2Array(0, -12, 9, 6, 0, 12, -9, 6)
+[node name="AnchorSprite" type="Sprite2D" parent="Head"]
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("2_anchor_texture")

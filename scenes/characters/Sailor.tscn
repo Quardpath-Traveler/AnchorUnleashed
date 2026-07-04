@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" uid="uid://cvppfcj0xkbw8" path="res://assets/art/Character Art Assets/Protagonist Assets/sailor.png" id="1_sailor"]
+
+[node name="Sailor" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -258.5)
+texture = ExtResource("1_sailor")

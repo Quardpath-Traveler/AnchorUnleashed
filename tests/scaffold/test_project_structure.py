@@ -147,6 +147,24 @@ class ProjectStructureTest(unittest.TestCase):
         for scene_path, script_path in expected_references.items():
             self.assertIn(script_path, self.read(scene_path))
 
+    def test_character_prop_art_is_bound_to_gameplay_scenes(self):
+        anchor_scene = self.read("scenes/mechanics/Anchor.tscn")
+        boat_scene = self.read("scenes/player/Boat.tscn")
+
+        self.assertIn("res://assets/art/Character Prop Assets/anchor.png", anchor_scene)
+        self.assertIn('[node name="AnchorSprite" type="Sprite2D" parent="Head"]', anchor_scene)
+        self.assertIn("res://assets/art/Character Prop Assets/kayak.png", boat_scene)
+        self.assertIn('[node name="KayakSprite" type="Sprite2D" parent="."', boat_scene)
+
+    def test_environment_art_has_reusable_scenes(self):
+        mountain_scene = self.read("scenes/environment/Mountain.tscn")
+        sky_scene = self.read("scenes/environment/SkyBackground.tscn")
+
+        self.assertIn("res://assets/art/Scene Assets/mountain1.png", mountain_scene)
+        self.assertIn('[node name="MountainSprite" type="Sprite2D" parent="."]', mountain_scene)
+        self.assertIn("res://assets/art/Scene Assets/sky.png", sky_scene)
+        self.assertIn('[node name="SkySprite" type="Sprite2D" parent="."]', sky_scene)
+
     def test_game_scene_contains_player_hud_and_pause_menu(self):
         scene = self.read("scenes/game/Game.tscn")
         script = self.read("scripts/game/game.gd")
