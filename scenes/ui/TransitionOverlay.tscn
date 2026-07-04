@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://d38gvjfqv56ey"]
+
+[ext_resource type="Script" uid="uid://fhm4emxv9ehwe" path="res://scripts/ui/transition_overlay.gd" id="1_overlay"]
+[ext_resource type="Texture2D" uid="uid://znmhzok6ev7as" path="res://assets/art/ui/transition/water_ripple.png" id="2_ripple"]
+
+[node name="TransitionOverlay" type="CanvasLayer"]
+process_mode = 3
+layer = 100
+script = ExtResource("1_overlay")
+
+[node name="WipeImage" type="TextureRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+mouse_filter = 0
+texture = ExtResource("2_ripple")
+expand_mode = 0
+stretch_mode = 0

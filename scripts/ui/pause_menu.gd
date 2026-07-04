@@ -71,10 +71,12 @@ func _on_continue_button_pressed() -> void:
 
 
 func _on_restart_button_pressed() -> void:
-	EventBus.scene_transition_requested.emit(GameState.current_level_scene)
+	GameState.set_paused(false)
+	SceneLoader.reload_scene()
 
 
 func _on_main_menu_button_pressed() -> void:
+	GameState.set_paused(false)
 	EventBus.scene_transition_requested.emit("res://scenes/main/Main.tscn")
 
 
