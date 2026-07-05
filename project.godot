@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="CGJ2026"
-run/main_scene="uid://d02drkeo2d52j"
+run/main_scene="uid://ccuich16dlhsm"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 GameState="*res://scripts/autoload/GameState.gd"
 EventBus="*res://scripts/autoload/EventBus.gd"
 SceneLoader="*res://scripts/autoload/SceneLoader.gd"
+LevelManager="*res://scenes/autoload/LevelManager.tscn"
 
 [display]
 

@@ -5,7 +5,6 @@
 
 [node name="MainScreen" type="CanvasLayer" unique_id=899972478]
 script = ExtResource("1_main_screen")
-level_scene = "res://debug/FinishAreaRegression.tscn"
 
 [node name="Root" type="Control" parent="." unique_id=1450862878]
 layout_mode = 3

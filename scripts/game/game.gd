@@ -1,27 +1,47 @@
 extends Node2D
 
-@onready var level := $世界/关卡
-@onready var player := $玩家
+@onready var level_container := $世界/关卡容器
+@onready var player: Boat = $玩家
 @onready var pause_menu := $暂停菜单
+
+var current_level: Node2D = null
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	GameState.reset()
+	_instantiate_level()
 	_sync_crew_tracking()
 	GameState.pause_changed.connect(_on_pause_changed)
-	if level.has_method("setup"):
-		level.setup(player)
-	if level.has_method("get_start_position"):
-		player.global_position = level.get_start_position()
 	_on_pause_changed(GameState.is_paused)
 
 
+func _instantiate_level() -> void:
+	var level_packed := LevelManager.get_current_level_packed()
+	if level_packed == null:
+		return
+	current_level = level_packed.instantiate()
+	level_container.add_child(current_level)
+	if current_level.has_method("setup"):
+		current_level.setup(player)
+	if current_level.has_method("get_start_position"):
+		player.global_position = current_level.get_start_position()
+	if current_level.has_signal("level_completed"):
+		current_level.level_completed.connect(_on_level_completed)
+
+
 func _sync_crew_tracking() -> void:
-	var npc_count := level.find_children("*", "FloatingNPC").size()
-	var initial_crew := player.crew_count
+	if current_level == null:
+		return
+	var npc_count: int = current_level.find_children("*", "FloatingNPC").size()
+	var initial_crew: int = player.crew_count
 	GameState.set_rescued_count(initial_crew)
 	GameState.set_rescued_target(npc_count + initial_crew)
+
+
+func _on_level_completed() -> void:
+	LevelManager.on_level_completed()
+	EventBus.game_completed.emit()
 
 
 func _unhandled_input(event: InputEvent) -> void:
