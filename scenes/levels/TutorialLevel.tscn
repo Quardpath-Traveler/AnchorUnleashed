@@ -26,6 +26,8 @@
 [ext_resource type="Texture2D" uid="uid://l5iuvx2bwghw" path="res://assets/art/UI/TutorialComponents/adjust_balance_collect_coins_dodge_obstacles.png" id="25_aircontrol_img"]
 [ext_resource type="PackedScene" uid="uid://15x2tduve777" path="res://scenes/characters/NPC.tscn" id="26_nrjxp"]
 [ext_resource type="Texture2D" uid="uid://dkd01v8yfdim1" path="res://assets/art/UI/TutorialComponents/rescue_more_before_flood.png" id="26_wave_img"]
+[ext_resource type="Texture2D" uid="uid://bse31fb743qd0" path="res://assets/art/Scene Assets/mountain/fill gaps3.png" id="27_xf0cw"]
+[ext_resource type="Texture2D" uid="uid://bsgjx6g8k4smk" path="res://assets/art/Scene Assets/mountain/safe house.png" id="28_tmhee"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_finish"]
 size = Vector2(90, 190)
@@ -43,7 +45,7 @@ script = ExtResource("1_level")
 z_index = -100
 
 [node name="Sky" type="Sprite2D" parent="Background" unique_id=1790350994]
-position = Vector2(1446.0146, -53.830658)
+position = Vector2(1102, -146)
 rotation = 0.0012651181
 scale = Vector2(2.7591639, 1.413475)
 texture = ExtResource("10_sky")
@@ -58,8 +60,8 @@ scale = Vector2(0.5212769, 0.5324004)
 texture = ExtResource("16_cloud4")
 
 [node name="Cloud1" type="Sprite2D" parent="Background/Clouds/Cloud4" unique_id=1773469772]
-position = Vector2(655.4195, -295.6978)
-rotation = -0.24932583
+position = Vector2(576.86194, -366.1792)
+rotation = -0.35388505
 scale = Vector2(0.9983449, 1.0198972)
 skew = -0.010286808
 texture = ExtResource("18_cloud1")
@@ -72,7 +74,7 @@ skew = -0.0074493885
 texture = ExtResource("16_cloud4")
 
 [node name="Cloud6" type="Sprite2D" parent="Background/Clouds/Cloud4" unique_id=534519101]
-position = Vector2(1043.4337, -293.23102)
+position = Vector2(990.54553, -321.46332)
 rotation = -0.14889663
 scale = Vector2(1.3840529, 1.1767558)
 skew = -0.006321907
@@ -93,9 +95,9 @@ skew = -0.0073314905
 texture = ExtResource("19_cloud5")
 
 [node name="Cloud3" type="Sprite2D" parent="Background/Clouds/Cloud4" unique_id=1467371035]
-position = Vector2(1352.5848, -875.78595)
-rotation = -0.4139401
-scale = Vector2(1.9117076, 1.8850619)
+position = Vector2(1277.93, -836.8122)
+rotation = -0.42820847
+scale = Vector2(1.3859799, 1.3666617)
 skew = -0.015772581
 texture = ExtResource("18_cloud1")
 
@@ -106,17 +108,115 @@ scale = Vector2(1.2630699, 1.1455039)
 skew = -0.009741306
 texture = ExtResource("17_cloud2")
 
+[node name="Cloud5" type="Sprite2D" parent="Background/Clouds" unique_id=572121304]
+position = Vector2(1244, 54.99996)
+rotation = 0.28968108
+scale = Vector2(0.5212769, 0.5324004)
+texture = ExtResource("16_cloud4")
+
+[node name="Cloud1" type="Sprite2D" parent="Background/Clouds/Cloud5" unique_id=466317563]
+position = Vector2(2385.535, -988.2218)
+rotation = -0.35388505
+scale = Vector2(0.9983449, 1.0198972)
+skew = -0.010286808
+texture = ExtResource("18_cloud1")
+
+[node name="Cloud5" type="Sprite2D" parent="Background/Clouds/Cloud5" unique_id=1624425216]
+z_as_relative = false
+position = Vector2(1724.9336, -666.0766)
+rotation = -0.17658599
+scale = Vector2(1.6631638, 1.5818046)
+skew = -0.0074493885
+texture = ExtResource("16_cloud4")
+
+[node name="Cloud6" type="Sprite2D" parent="Background/Clouds/Cloud5" unique_id=1828703584]
+position = Vector2(990.54553, -321.46332)
+rotation = -0.14889663
+scale = Vector2(1.3840529, 1.1767558)
+skew = -0.006321907
+texture = ExtResource("19_cloud5")
+
+[node name="Cloud7" type="Sprite2D" parent="Background/Clouds/Cloud5" unique_id=834320182]
+position = Vector2(1660.2578, -1174.4275)
+rotation = -0.13360508
+scale = Vector2(1.4538541, 1.3581716)
+skew = -0.005690098
+texture = ExtResource("16_cloud4")
+
+[node name="Cloud8" type="Sprite2D" parent="Background/Clouds/Cloud5" unique_id=1726375927]
+position = Vector2(-385.14618, -38.24646)
+rotation = -0.17366457
+scale = Vector2(1.2599287, 1.3400551)
+skew = -0.0073314905
+texture = ExtResource("19_cloud5")
+
+[node name="Cloud3" type="Sprite2D" parent="Background/Clouds/Cloud5" unique_id=1468412817]
+position = Vector2(1361.0703, -872.36755)
+rotation = -0.2964592
+scale = Vector2(0.97102416, 0.9574896)
+skew = -0.015772581
+texture = ExtResource("18_cloud1")
+
+[node name="Cloud9" type="Sprite2D" parent="Background/Clouds/Cloud5" unique_id=1012644001]
+position = Vector2(403.32907, -509.69598)
+rotation = -0.23492171
+scale = Vector2(1.2630699, 1.1455039)
+skew = -0.009741306
+texture = ExtResource("17_cloud2")
+
 [node name="Mountains" type="Node2D" parent="Background" unique_id=1758376664]
 z_index = 20
 
 [node name="Mountain5" type="Sprite2D" parent="Background/Mountains" unique_id=1990790964]
+position = Vector2(-390, -4.9999924)
+rotation = 0.13306564
+scale = Vector2(0.58498687, 0.6235519)
+skew = 0.0102574825
+texture = ExtResource("11_mountain3")
+
+[node name="Mountain6" type="Sprite2D" parent="Background/Mountains/Mountain5" unique_id=864629096]
+position = Vector2(1296.8466, 52.63069)
+rotation = 0.02171105
+scale = Vector2(1.3337883, 0.73013884)
+skew = 0.004028797
+texture = ExtResource("13_mountain4")
+
+[node name="Mountain12" type="Sprite2D" parent="Background/Mountains/Mountain5" unique_id=747011086]
+show_behind_parent = true
+position = Vector2(4996.633, -369.11)
+rotation = -0.12881984
+scale = Vector2(1, 1.0167344)
+texture = ExtResource("11_mountain3")
+
+[node name="Mountain7" type="Sprite2D" parent="Background/Mountains" unique_id=1668043931]
+position = Vector2(-876, -91.99999)
+rotation = 0.13306564
+scale = Vector2(0.58498687, 0.6235519)
+skew = 0.0102574825
+texture = ExtResource("11_mountain3")
+
+[node name="Mountain6" type="Sprite2D" parent="Background/Mountains/Mountain7" unique_id=601176774]
+position = Vector2(1296.8466, 52.63069)
+rotation = 0.02171105
+scale = Vector2(1.3337883, 0.73013884)
+skew = 0.004028797
+texture = ExtResource("13_mountain4")
+
+[node name="Mountain12" type="Sprite2D" parent="Background/Mountains/Mountain7" unique_id=1608165110]
+show_behind_parent = true
+position = Vector2(4996.633, -369.11)
+rotation = -0.12881984
+scale = Vector2(1, 1.0167344)
+texture = ExtResource("11_mountain3")
+
+[node name="Mountain6" type="Sprite2D" parent="Background/Mountains" unique_id=799377653]
 position = Vector2(375.69434, 106.024445)
 rotation = 0.22057043
 scale = Vector2(0.58498687, 0.6235519)
 skew = 0.0102574825
 texture = ExtResource("11_mountain3")
 
-[node name="Mountain6" type="Sprite2D" parent="Background/Mountains/Mountain5" unique_id=864629096]
+[node name="Mountain6" type="Sprite2D" parent="Background/Mountains/Mountain6" unique_id=537037593]
 position = Vector2(1296.8466, 52.63069)
 rotation = 0.02171105
 scale = Vector2(1.3337883, 0.73013884)
@@ -130,15 +230,22 @@ scale = Vector2(0.5192233, 0.40910587)
 texture = ExtResource("12_mountain1")
 
 [node name="Mountain3" type="Sprite2D" parent="Background/Mountains" unique_id=864193041]
-position = Vector2(759.1619, 139.4498)
+position = Vector2(770.0004, 142.15819)
 rotation = 0.24487086
-scale = Vector2(0.5703404, 1.2148749)
+scale = Vector2(0.589503, 1.2148749)
 texture = ExtResource("14_mountain2")
 
 [node name="FillGaps" type="Sprite2D" parent="Background/Mountains/Mountain3" unique_id=312093964]
 position = Vector2(79.41333, 288.95316)
 rotation = 0.011394596
 scale = Vector2(0.85224336, 0.5414064)
+skew = 0.040261865
+texture = ExtResource("15_fill_gaps")
+
+[node name="FillGaps2" type="Sprite2D" parent="Background/Mountains/Mountain3" unique_id=782838486]
+position = Vector2(70.41501, 498.80978)
+rotation = 0.011394596
+scale = Vector2(0.85224336, 0.6148384)
 skew = 0.040261865
 texture = ExtResource("15_fill_gaps")
 
@@ -149,9 +256,10 @@ scale = Vector2(0.60272515, 0.5865994)
 texture = ExtResource("20_fill_gaps2")
 
 [node name="Mountain4" type="Sprite2D" parent="Background/Mountains/FillGaps2" unique_id=601034913]
-position = Vector2(-53.534424, -445.5657)
+z_as_relative = false
+position = Vector2(-55.566463, -524.32697)
 rotation = -0.027231358
-scale = Vector2(1.0500249, 1.897762)
+scale = Vector2(1.0500249, 1.4741734)
 skew = 0.001437068
 texture = ExtResource("14_mountain2")
 
@@ -163,12 +271,12 @@ position = Vector2(-704, 3)
 position = Vector2(998, 196)
 
 [node name="DeathZone" parent="." unique_id=1245395156 node_paths=PackedStringArray("respawn_marker") instance=ExtResource("9_death")]
-position = Vector2(711, 809)
+position = Vector2(711, 555)
 scale = Vector2(2, 1)
 respawn_marker = NodePath("../StartMarker")
 
 [node name="DeathZone2" parent="." unique_id=1017762343 node_paths=PackedStringArray("respawn_marker") instance=ExtResource("9_death")]
-position = Vector2(2310, 781)
+position = Vector2(2307, 638)
 scale = Vector2(2, 1)
 respawn_marker = NodePath("../RebrithPoint2")
 
@@ -331,3 +439,321 @@ drift_speed_multiplier = 0.1
 [node name="NPC2" parent="." unique_id=779138418 instance=ExtResource("26_nrjxp")]
 position = Vector2(2499, 267)
 drift_speed_multiplier = 0.05
+
+[node name="FillGaps11" type="Sprite2D" parent="." unique_id=2008984272]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+self_modulate = Color(0.615, 0.75, 0.7455, 1)
+position = Vector2(-153.5517, 508.8201)
+rotation = 0.1467899
+scale = Vector2(0.977431, 0.5199781)
+skew = 0.046401024
+texture = ExtResource("27_xf0cw")
+
+[node name="FillGaps12" type="Sprite2D" parent="." unique_id=2063720243]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+self_modulate = Color(0.711, 0.7755167, 0.79, 1)
+position = Vector2(1380.3989, 502.15747)
+rotation = 0.07244676
+scale = Vector2(0.8997734, 0.53096104)
+skew = 0.046401024
+texture = ExtResource("27_xf0cw")
+
+[node name="FillGaps13" type="Sprite2D" parent="." unique_id=1845128604]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+self_modulate = Color(0.74234575, 0.85027313, 0.7981757, 1)
+position = Vector2(2848.7886, 487.59653)
+rotation = 0.057028305
+scale = Vector2(1.1801038, 0.53096104)
+skew = 0.046401024
+texture = ExtResource("27_xf0cw")
+
+[node name="Mountain16" type="Sprite2D" parent="." unique_id=1037325211]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+self_modulate = Color(0.71042156, 0.71042156, 0.71042156, 1)
+z_index = 15
+position = Vector2(-902.9999, -54.999996)
+rotation = 0.033307746
+scale = Vector2(0.5273505, 0.8843116)
+skew = 0.0676018
+texture = ExtResource("14_mountain2")
+
+[node name="FillGaps10" type="Sprite2D" parent="Mountain16" unique_id=1767673923]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+position = Vector2(91.57666, 762.3252)
+rotation = -0.022291226
+scale = Vector2(0.9748422, 1.8408991)
+skew = -0.12789404
+texture = ExtResource("27_xf0cw")
+
+[node name="FillGaps8" type="Sprite2D" parent="Mountain16" unique_id=446796877]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+position = Vector2(65.13135, 578.21655)
+rotation = -0.022291226
+scale = Vector2(1.0010135, 0.690012)
+skew = -0.12789404
+texture = ExtResource("27_xf0cw")
+
+[node name="FillGaps9" type="Sprite2D" parent="Mountain16" unique_id=1674976053]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+position = Vector2(14.315918, 313.66785)
+rotation = -0.022291226
+scale = Vector2(1.0266517, 0.8735812)
+skew = -0.12789404
+texture = ExtResource("15_fill_gaps")
+
+[node name="Mountain17" type="Sprite2D" parent="." unique_id=1146179820]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+self_modulate = Color(0.71042156, 0.71042156, 0.71042156, 1)
+z_index = 11
+z_as_relative = false
+position = Vector2(500.3808, 269.92307)
+rotation = 0.033307746
+scale = Vector2(0.25407493, 0.55376273)
+skew = 0.0676018
+texture = ExtResource("14_mountain2")
+
+[node name="FillGaps10" type="Sprite2D" parent="Mountain17" unique_id=741896746]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+position = Vector2(91.57666, 762.3252)
+rotation = -0.022291226
+scale = Vector2(0.9748422, 1.8408992)
+skew = -0.12789404
+texture = ExtResource("27_xf0cw")
+
+[node name="FillGaps8" type="Sprite2D" parent="Mountain17" unique_id=415505912]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+position = Vector2(65.13135, 578.21655)
+rotation = -0.022291226
+scale = Vector2(1.0010135, 0.690012)
+skew = -0.12789404
+texture = ExtResource("27_xf0cw")
+
+[node name="FillGaps9" type="Sprite2D" parent="Mountain17" unique_id=1236704604]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+position = Vector2(14.315918, 313.66785)
+rotation = -0.022291226
+scale = Vector2(1.0266517, 0.8735812)
+skew = -0.12789404
+texture = ExtResource("15_fill_gaps")
+
+[node name="Mountain18" type="Sprite2D" parent="." unique_id=1851803297]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+self_modulate = Color(0.71042156, 0.71042156, 0.71042156, 1)
+z_index = 11
+z_as_relative = false
+position = Vector2(881.0652, 298.51758)
+rotation = -0.19282873
+scale = Vector2(0.15518634, 0.41909295)
+skew = 0.0676018
+texture = ExtResource("14_mountain2")
+
+[node name="FillGaps10" type="Sprite2D" parent="Mountain18" unique_id=36967869]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+position = Vector2(91.57666, 762.3252)
+rotation = -0.022291226
+scale = Vector2(0.9748422, 1.8408992)
+skew = -0.12789404
+texture = ExtResource("27_xf0cw")
+
+[node name="FillGaps8" type="Sprite2D" parent="Mountain18" unique_id=1068225711]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+position = Vector2(65.13135, 578.21655)
+rotation = -0.022291226
+scale = Vector2(1.0010135, 0.690012)
+skew = -0.12789404
+texture = ExtResource("27_xf0cw")
+
+[node name="FillGaps9" type="Sprite2D" parent="Mountain18" unique_id=670775112]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+position = Vector2(14.315918, 313.66785)
+rotation = -0.022291226
+scale = Vector2(1.0266517, 0.8735812)
+skew = -0.12789404
+texture = ExtResource("15_fill_gaps")
+
+[node name="Mountain19" type="Sprite2D" parent="." unique_id=398789869]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+self_modulate = Color(0.71042156, 0.71042156, 0.71042156, 1)
+z_index = 11
+z_as_relative = false
+position = Vector2(1865, 335)
+rotation = 0.10254596
+scale = Vector2(0.15930262, 0.45779172)
+skew = 0.0676018
+texture = ExtResource("14_mountain2")
+
+[node name="FillGaps10" type="Sprite2D" parent="Mountain19" unique_id=1446134966]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+position = Vector2(91.57666, 762.3252)
+rotation = -0.022291226
+scale = Vector2(0.9748422, 1.8408992)
+skew = -0.12789404
+texture = ExtResource("27_xf0cw")
+
+[node name="FillGaps8" type="Sprite2D" parent="Mountain19" unique_id=851501527]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+position = Vector2(65.13135, 578.21655)
+rotation = -0.022291226
+scale = Vector2(1.0010135, 0.690012)
+skew = -0.12789404
+texture = ExtResource("27_xf0cw")
+
+[node name="FillGaps9" type="Sprite2D" parent="Mountain19" unique_id=1855585980]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+position = Vector2(14.315918, 313.66785)
+rotation = -0.022291226
+scale = Vector2(1.0266517, 0.8735812)
+skew = -0.12789404
+texture = ExtResource("15_fill_gaps")
+
+[node name="Mountain20" type="Sprite2D" parent="." unique_id=1024443324]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+self_modulate = Color(0.71042156, 0.71042156, 0.71042156, 1)
+z_index = 11
+z_as_relative = false
+position = Vector2(2207.0002, 263)
+rotation = -0.1113234
+scale = Vector2(0.1698847, 0.45779172)
+skew = 0.0676018
+texture = ExtResource("14_mountain2")
+
+[node name="FillGaps10" type="Sprite2D" parent="Mountain20" unique_id=220146655]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+position = Vector2(91.57666, 762.3252)
+rotation = -0.022291226
+scale = Vector2(0.9748422, 1.8408992)
+skew = -0.12789404
+texture = ExtResource("27_xf0cw")
+
+[node name="FillGaps8" type="Sprite2D" parent="Mountain20" unique_id=1948092073]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+position = Vector2(65.13135, 578.21655)
+rotation = -0.022291226
+scale = Vector2(1.0010135, 0.690012)
+skew = -0.12789404
+texture = ExtResource("27_xf0cw")
+
+[node name="FillGaps9" type="Sprite2D" parent="Mountain20" unique_id=106704867]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+position = Vector2(14.315918, 313.66785)
+rotation = -0.022291226
+scale = Vector2(1.0266517, 0.8735812)
+skew = -0.12789404
+texture = ExtResource("15_fill_gaps")
+
+[node name="SafeHouse" type="Sprite2D" parent="." unique_id=31711425]
+top_level = true
+z_index = 11
+position = Vector2(3535, 411)
+rotation = 0.007805596
+scale = Vector2(1.151165, 1.151165)
+texture = ExtResource("28_tmhee")
+
+[node name="FillGaps11" type="Sprite2D" parent="SafeHouse" unique_id=212965521]
+modulate = Color(0.4089, 0.47, 0.47, 1)
+position = Vector2(1.2145996, 288.18103)
+scale = Vector2(0.33389202, 0.4328272)
+texture = ExtResource("27_xf0cw")
+
+[node name="FillGaps3" type="Sprite2D" parent="SafeHouse" unique_id=358649192]
+modulate = Color(0.4386, 0.49929002, 0.51, 1)
+position = Vector2(3.6794987, 322.21127)
+scale = Vector2(0.3554098, 0.9383362)
+texture = ExtResource("27_xf0cw")
+
+[node name="Mountain10" type="Sprite2D" parent="SafeHouse" unique_id=1620307776]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+self_modulate = Color(0.71042156, 0.71042156, 0.71042156, 1)
+show_behind_parent = true
+position = Vector2(398.42517, -374.04984)
+rotation = 0.02550215
+scale = Vector2(0.5116744, 0.7681885)
+skew = 0.0676018
+texture = ExtResource("14_mountain2")
+
+[node name="FillGaps10" type="Sprite2D" parent="SafeHouse/Mountain10" unique_id=2132384561]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+show_behind_parent = true
+position = Vector2(91.57666, 762.3252)
+rotation = -0.022291226
+scale = Vector2(0.9748422, 1.8408991)
+skew = -0.12789404
+texture = ExtResource("27_xf0cw")
+
+[node name="FillGaps8" type="Sprite2D" parent="SafeHouse/Mountain10" unique_id=917632004]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+show_behind_parent = true
+position = Vector2(65.13135, 578.21655)
+rotation = -0.022291226
+scale = Vector2(1.0010135, 0.690012)
+skew = -0.12789404
+texture = ExtResource("27_xf0cw")
+
+[node name="FillGaps9" type="Sprite2D" parent="SafeHouse/Mountain10" unique_id=524338844]
+modulate = Color(0.59607846, 0.6862745, 0.6862745, 1)
+show_behind_parent = true
+position = Vector2(14.315918, 313.66785)
+rotation = -0.022291226
+scale = Vector2(1.0266517, 0.8735812)
+skew = -0.12789404
+texture = ExtResource("15_fill_gaps")
+
+[node name="Cloud1" type="Sprite2D" parent="." unique_id=539423052]
+z_index = 16
+position = Vector2(610, 299.00003)
+scale = Vector2(0.2839229, 0.312236)
+texture = ExtResource("18_cloud1")
+
+[node name="Cloud4" type="Sprite2D" parent="." unique_id=1657055673]
+z_index = 16
+position = Vector2(610, 299.00003)
+rotation = -6.260707e-05
+scale = Vector2(0.2839229, 0.312236)
+texture = ExtResource("18_cloud1")
+
+[node name="Cloud5" type="Sprite2D" parent="." unique_id=540805474]
+z_index = 16
+position = Vector2(-717, -39.000008)
+rotation = -6.260707e-05
+scale = Vector2(0.3610749, 0.39402914)
+texture = ExtResource("18_cloud1")
+
+[node name="Cloud2" type="Sprite2D" parent="." unique_id=154880594]
+z_index = 16
+position = Vector2(363, 370)
+scale = Vector2(0.21112119, 0.23217443)
+texture = ExtResource("18_cloud1")
+
+[node name="Cloud3" type="Sprite2D" parent="." unique_id=1914269206]
+z_index = 16
+position = Vector2(2136, 364)
+scale = Vector2(0.25795266, 0.2735366)
+texture = ExtResource("18_cloud1")
+
+[node name="FillGaps7" type="Sprite2D" parent="." unique_id=1500507437]
+modulate = Color(0.9764706, 1, 1, 0.68235296)
+show_behind_parent = true
+position = Vector2(1832.5001, 481.68774)
+scale = Vector2(0.89676297, 1.049147)
+texture = ExtResource("20_fill_gaps2")
+
+[node name="Mountain12" type="Sprite2D" parent="." unique_id=1233855176]
+show_behind_parent = true
+position = Vector2(1957.0005, 125.5)
+texture = ExtResource("11_mountain3")
+
+[node name="Mountain13" type="Sprite2D" parent="." unique_id=596775874]
+show_behind_parent = true
+position = Vector2(2539.0005, -32.5)
+texture = ExtResource("13_mountain4")
+
+[node name="Mountain15" type="Sprite2D" parent="." unique_id=204315955]
+show_behind_parent = true
+position = Vector2(3062, 138)
+scale = Vector2(1, 0.6736227)
+texture = ExtResource("13_mountain4")
+
+[node name="Mountain14" type="Sprite2D" parent="." unique_id=1988568114]
+show_behind_parent = true
+position = Vector2(2276.0005, 528.5)
+texture = ExtResource("11_mountain3")

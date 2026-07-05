@@ -14,6 +14,7 @@ script = ExtResource("1_debug")
 [node name="World" type="Node2D" parent="." unique_id=908269437]
 
 [node name="Level" parent="World" unique_id=397669392 instance=ExtResource("2_level")]
+rotation = -0.00077433034
 
 [node name="NPC" parent="World/Level" unique_id=287807003 instance=ExtResource("7_npc")]
 position = Vector2(220, 360)
