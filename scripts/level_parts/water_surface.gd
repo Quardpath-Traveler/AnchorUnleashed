@@ -324,7 +324,8 @@ func _sync_collision_shape() -> void:
 	if collision_shape == null or rectangle == null:
 		return
 	var extra_height := waterfall_height if enable_waterfall else 0.0
-	rectangle.size = Vector2(water_width, water_depth + wave_amplitude * 2.0 + extra_height)
+	var total_amplitude := wave_amplitude + secondary_wave_amplitude
+	rectangle.size = Vector2(water_width, water_depth + total_amplitude * 2.0 + extra_height)
 	collision_shape.position = Vector2(0.0, surface_y + (water_depth + extra_height) * 0.5)
 
 

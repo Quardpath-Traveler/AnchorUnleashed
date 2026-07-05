@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://bvsw85rnosol7" path="res://assets/art/UI/TutorialComponents/timing_the_swing.png" id="23_swing_img"]
 [ext_resource type="Texture2D" uid="uid://bbwiivkr412tv" path="res://assets/art/UI/TutorialComponents/enter_bullet_time.png" id="24_bullet_img"]
 [ext_resource type="Texture2D" uid="uid://l5iuvx2bwghw" path="res://assets/art/UI/TutorialComponents/adjust_balance_collect_coins_dodge_obstacles.png" id="25_aircontrol_img"]
+[ext_resource type="PackedScene" uid="uid://15x2tduve777" path="res://scenes/characters/NPC.tscn" id="26_nrjxp"]
 [ext_resource type="Texture2D" uid="uid://dkd01v8yfdim1" path="res://assets/art/UI/TutorialComponents/rescue_more_before_flood.png" id="26_wave_img"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_finish"]
@@ -177,6 +178,8 @@ rotation = 0.13962634
 water_width = 2000.0
 water_depth = 300.0
 surface_y = -36.0
+wave_amplitude = 9.0
+secondary_wave_amplitude = 4.0
 current_flow_speed = 195.0
 current_force = 220.0
 buoyancy_force = 5000.0
@@ -198,6 +201,8 @@ rotation = 0.0837758
 water_width = 1000.0
 water_depth = 120.0
 surface_y = -36.0
+wave_amplitude = 9.0
+secondary_wave_amplitude = 4.0
 current_flow_speed = 195.0
 current_force = 220.0
 buoyancy_force = 5000.0
@@ -311,8 +316,18 @@ rotation = 0.05235988
 water_width = 1300.0
 water_depth = 120.0
 surface_y = -36.0
+wave_amplitude = 9.0
+secondary_wave_amplitude = 4.0
 current_flow_speed = 195.0
 current_force = 220.0
 buoyancy_force = 5000.0
 max_buoyancy_force = 11130.0
 enable_waterfall = false
+
+[node name="NPC" parent="." unique_id=759507777 instance=ExtResource("26_nrjxp")]
+position = Vector2(1018, 270)
+drift_speed_multiplier = 0.1
+
+[node name="NPC2" parent="." unique_id=779138418 instance=ExtResource("26_nrjxp")]
+position = Vector2(2499, 267)
+drift_speed_multiplier = 0.05
