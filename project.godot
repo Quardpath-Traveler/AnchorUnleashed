@@ -10,10 +10,11 @@ config_version=5
 
 [application]
 
-config/name="CGJ2026"
+config/name="锚不住了"
+config/description="什么？我们新的景区项目被人投诉太容易落水，还有乘客失踪！！！老卜，快拿上船锚在漂流起点待命，保证所有游客的完美体验。快去，别管那么多。“可是老板，真锚不住了啊”"
 run/main_scene="uid://ccuich16dlhsm"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://cmasyp7bqtk7j"
 
 [autoload]
 

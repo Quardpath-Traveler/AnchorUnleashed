@@ -307,7 +307,7 @@ position = Vector2(1317, 361)
 position = Vector2(1122, 428)
 
 [node name="CanCollectible2" parent="." unique_id=603378020 instance=ExtResource("17_x3oy0")]
-position = Vector2(3078, 209)
+position = Vector2(2919, 451)
 
 [node name="CanCollectible3" parent="." unique_id=200780182 instance=ExtResource("17_x3oy0")]
 position = Vector2(3083, 549)
