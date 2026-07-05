@@ -810,10 +810,12 @@ class ProjectStructureTest(unittest.TestCase):
             "_get_tangent_direction",
             "_align_bow_to_anchor_swing",
             "_update_anchor_swing_target_rotation",
+            "_get_anchor_swing_upright_rotation",
             "_update_swing_direction_from_gravity",
             "sqrt(2.0 * maxf(_swing_locked_energy - potential_energy, 0.0))",
             "state.linear_velocity = tangent_direction * target_tangent_speed * _swing_tangent_sign",
-            "_update_anchor_swing_target_rotation(state.linear_velocity.angle(), state)",
+            "_get_anchor_swing_upright_rotation(state.linear_velocity.angle(), rope_direction)",
+            "Vector2.from_angle(desired_rotation - PI * 0.5)",
             "state.angular_velocity = desired_angular_velocity",
             "is_airborne()",
             "func _apply_airborne_nose_down",
@@ -845,6 +847,14 @@ class ProjectStructureTest(unittest.TestCase):
             "Engine.time_scale = lerpf",
         ]:
             self.assertIn(expected, script)
+
+        reverse_swing_scene = self.read("debug/AnchorSwingReverseRegression.tscn")
+        for expected in [
+            "res://debug/anchor_swing_regression.gd",
+            "start_horizontal_sign = 1.0",
+            "fail_on_top_orientation = true",
+        ]:
+            self.assertIn(expected, reverse_swing_scene)
 
         integrate_forces_body = script[
             script.index("func _integrate_forces(state: PhysicsDirectBodyState2D)"):

@@ -2,8 +2,9 @@
 
 [ext_resource type="Script" path="res://debug/anchor_swing_regression.gd" id="1_swing"]
 
-[node name="AnchorSwingRegression" type="Node2D"]
+[node name="AnchorSwingReverseRegression" type="Node2D"]
 script = ExtResource("1_swing")
+start_horizontal_sign = 1.0
 fail_on_stall = true
 fail_on_alignment = true
 fail_on_top_orientation = true

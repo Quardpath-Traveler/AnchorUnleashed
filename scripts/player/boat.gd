@@ -380,7 +380,10 @@ func _apply_anchor_constraint(state: PhysicsDirectBodyState2D) -> void:
 	if target_tangent_speed <= swing_turnaround_speed:
 		_update_swing_direction_from_gravity(tangent_direction)
 	state.linear_velocity = tangent_direction * target_tangent_speed * _swing_tangent_sign
-	_update_anchor_swing_target_rotation(state.linear_velocity.angle(), state)
+	_update_anchor_swing_target_rotation(
+		_get_anchor_swing_upright_rotation(state.linear_velocity.angle(), rope_direction),
+		state
+	)
 	_align_bow_to_anchor_swing(state)
 
 
@@ -477,6 +480,15 @@ func _update_anchor_swing_target_rotation(
 		-PI,
 		PI
 	)
+
+
+func _get_anchor_swing_upright_rotation(desired_rotation: float, rope_direction: Vector2) -> float:
+	var direction_to_hook := -rope_direction
+	var top_direction := Vector2.from_angle(desired_rotation - PI * 0.5)
+	if top_direction.dot(direction_to_hook) < 0.0:
+		return wrapf(desired_rotation + PI, -PI, PI)
+
+	return desired_rotation
 
 
 func _align_bow_to_anchor_swing(state: PhysicsDirectBodyState2D) -> void:
