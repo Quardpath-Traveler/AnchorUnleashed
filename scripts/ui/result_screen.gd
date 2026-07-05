@@ -6,6 +6,10 @@ const _FACE_NOT_BAD := preload("res://assets/art/UI/result_screen/not_bad_face.p
 const _TITLE_PERFECT := preload("res://assets/art/UI/result_screen/still_can_anchor.png")
 const _TITLE_ALMOST := preload("res://assets/art/UI/result_screen/almost_there.png")
 const _TITLE_NOT_BAD := preload("res://assets/art/UI/result_screen/not_bad.png")
+const _RETRY_NORMAL := preload("res://assets/art/UI/result_screen/restart.png")
+const _RETRY_HOVER := preload("res://assets/art/UI/result_screen/restart_press.png")
+const _MAIN_MENU_NORMAL := preload("res://assets/art/UI/result_screen/back_to_main_menu.png")
+const _MAIN_MENU_HOVER := preload("res://assets/art/UI/result_screen/back_to_main_menu_press.png")
 
 @onready var panel: TextureRect = %Panel
 @onready var character_avatar: TextureRect = %CharacterAvatar
@@ -24,10 +28,18 @@ func _ready() -> void:
 	GameState.score_changed.connect(_on_score_changed)
 	GameState.coin_changed.connect(_on_coin_changed)
 	GameState.rescued_changed.connect(_on_rescued_changed)
+	_setup_button_hover(retry_button, "RetryIcon", _RETRY_NORMAL, _RETRY_HOVER)
+	_setup_button_hover(main_menu_button, "TextureRect", _MAIN_MENU_NORMAL, _MAIN_MENU_HOVER)
 	_on_score_changed(GameState.score)
 	_on_coin_changed(GameState.coin)
 	_on_rescued_changed(GameState.rescued_count, GameState.rescued_target)
 	_play_panel_slide_in()
+
+
+func _setup_button_hover(button: Button, icon_name: String, normal_tex: Texture2D, hover_tex: Texture2D) -> void:
+	var icon: TextureRect = button.get_node(icon_name)
+	button.mouse_entered.connect(func() -> void: icon.texture = hover_tex)
+	button.mouse_exited.connect(func() -> void: icon.texture = normal_tex)
 
 
 func _play_panel_slide_in() -> void:

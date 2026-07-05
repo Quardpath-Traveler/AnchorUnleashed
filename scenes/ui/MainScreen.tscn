@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://chudh2m0juvxv"]
 
 [ext_resource type="Script" uid="uid://7af10b7kswif" path="res://scripts/ui/main_screen.gd" id="1_main_screen"]
-[ext_resource type="Texture2D" uid="uid://b01r4yc2241wu" path="res://assets/art/UI/main_menu/press_any_key_to_start.png" id="2_lqsbq"]
+[ext_resource type="Texture2D" uid="uid://dphqvionw4vns" path="res://assets/art/UI/main_menu/press_any_key_to_start.png" id="2_lqsbq"]
+[ext_resource type="Texture2D" uid="uid://bvho47hbr01ua" path="res://assets/art/UI/main_menu/game_title.png" id="3_i7pwy"]
 
 [node name="MainScreen" type="CanvasLayer" unique_id=899972478]
 script = ExtResource("1_main_screen")
+metadata/_edit_vertical_guides_ = [32.0, 1152.0, 1120.0]
 
 [node name="Root" type="Control" parent="." unique_id=1450862878]
 layout_mode = 3
@@ -17,13 +19,30 @@ mouse_filter = 2
 
 [node name="TextureRect" type="TextureRect" parent="Root" unique_id=22194927]
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = 7
+anchor_left = 0.5
 anchor_top = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 46.999996
-offset_top = -136.0
-offset_right = 2272.0
-offset_bottom = 248.0
+offset_left = -110.0
+offset_top = -65.0
+offset_right = 988.6096
+offset_bottom = 144.0
+grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_lqsbq")
+expand_mode = 1
+
+[node name="GameTitle" type="TextureRect" parent="Root" unique_id=1467438706]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -541.8967
+offset_top = 18.0
+offset_right = 545.61975
+offset_bottom = 305.0
+grow_horizontal = 2
+texture = ExtResource("3_i7pwy")
+expand_mode = 1

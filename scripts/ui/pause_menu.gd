@@ -2,6 +2,15 @@ extends CanvasLayer
 
 signal resume_requested
 
+const _RESUME_NORMAL := preload("res://assets/art/UI/pause_menu/pause_button.png")
+const _RESUME_HOVER := preload("res://assets/art/UI/pause_menu/pause_button_press.png")
+const _CONTINUE_NORMAL := preload("res://assets/art/UI/pause_menu/resume_game.png")
+const _CONTINUE_HOVER := preload("res://assets/art/UI/pause_menu/resume_game_press.png")
+const _RESTART_NORMAL := preload("res://assets/art/UI/pause_menu/restart.png")
+const _RESTART_HOVER := preload("res://assets/art/UI/pause_menu/restart_press.png")
+const _MAIN_MENU_NORMAL := preload("res://assets/art/UI/pause_menu/back_to_main_menu.png")
+const _MAIN_MENU_HOVER := preload("res://assets/art/UI/pause_menu/back_to_main_menu_press.png")
+
 @onready var score_label: Label = %ScoreLabel
 @onready var coin_label: Label = %CoinLabel
 @onready var rescued_label: Label = %RescuedLabel
@@ -26,6 +35,11 @@ func _ready() -> void:
 	restart_button.pressed.connect(_on_restart_button_pressed)
 	main_menu_button.pressed.connect(_on_main_menu_button_pressed)
 
+	_setup_button_hover(resume_button, "ResumeIcon", _RESUME_NORMAL, _RESUME_HOVER)
+	_setup_button_hover(continue_button, "TextureRect", _CONTINUE_NORMAL, _CONTINUE_HOVER)
+	_setup_button_hover(restart_button, "TextureRect", _RESTART_NORMAL, _RESTART_HOVER)
+	_setup_button_hover(main_menu_button, "TextureRect", _MAIN_MENU_NORMAL, _MAIN_MENU_HOVER)
+
 	sound_slider.value_changed.connect(_on_sound_slider_changed)
 	music_slider.value_changed.connect(_on_music_slider_changed)
 
@@ -36,6 +50,12 @@ func _ready() -> void:
 	_on_coin_changed(GameState.coin)
 	_on_rescued_changed(GameState.rescued_count, GameState.rescued_target)
 	_on_pause_changed(GameState.is_paused)
+
+
+func _setup_button_hover(button: Button, icon_name: String, normal_tex: Texture2D, hover_tex: Texture2D) -> void:
+	var icon: TextureRect = button.get_node(icon_name)
+	button.mouse_entered.connect(func() -> void: icon.texture = hover_tex)
+	button.mouse_exited.connect(func() -> void: icon.texture = normal_tex)
 
 
 func _unhandled_input(event: InputEvent) -> void:
