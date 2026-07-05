@@ -58,3 +58,5 @@ func _reset_current_scene() -> void:
 
 func _on_pause_changed(is_paused: bool) -> void:
 	pause_menu.visible = is_paused
+	if is_paused:
+		AudioManager.play_pause_menu()

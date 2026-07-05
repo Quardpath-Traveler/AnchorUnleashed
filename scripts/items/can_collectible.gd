@@ -13,5 +13,6 @@ func _ready() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("boats"):
 		GameState.award_coin_pickup(value)
+		AudioManager.play_coin_pickup()
 		collected.emit(value)
 		queue_free()

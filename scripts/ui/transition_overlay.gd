@@ -28,6 +28,7 @@ func play_enter() -> void:
 	var viewport_size := get_viewport().get_visible_rect().size
 	wipe_image.position = Vector2(-viewport_size.x, 0.0)
 	visible = true
+	AudioManager.play_transition()
 
 	var tween := create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)

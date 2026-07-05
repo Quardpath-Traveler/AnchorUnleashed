@@ -395,6 +395,8 @@ func _update_manual_bullet_time(delta: float) -> void:
 		_manual_bullet_time_target_scale = next_target_scale
 		_manual_bullet_time_start_scale = Engine.time_scale
 		_manual_bullet_time_transition_elapsed = 0.0
+		if not is_equal_approx(next_target_scale, 1.0):
+			AudioManager.play_bullet_time()
 
 	var transition_seconds := bullet_time_slowdown_seconds
 	if is_equal_approx(_manual_bullet_time_target_scale, 1.0):
@@ -577,10 +579,12 @@ func _on_anchor_aim_started() -> void:
 
 func _on_anchor_launched(_target_position: Vector2) -> void:
 	_reset_anchor_swing_state()
+	AudioManager.play_anchor_launch()
 
 
 func _on_anchor_hooked(_hook_point: Node2D) -> void:
 	_reset_anchor_swing_state()
+	AudioManager.play_anchor_hook()
 
 
 func _on_anchor_recalled() -> void:

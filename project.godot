@@ -21,6 +21,7 @@ GameState="*res://scripts/autoload/GameState.gd"
 EventBus="*res://scripts/autoload/EventBus.gd"
 SceneLoader="*res://scripts/autoload/SceneLoader.gd"
 LevelManager="*res://scenes/autoload/LevelManager.tscn"
+AudioManager="*res://scripts/autoload/AudioManager.gd"
 
 [display]
 

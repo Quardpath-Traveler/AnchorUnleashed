@@ -61,11 +61,13 @@ func _on_rescued_changed(count: int, target: int) -> void:
 
 
 func _on_resume_button_pressed() -> void:
+	AudioManager.play_button_click()
 	GameState.set_paused(false)
 	resume_requested.emit()
 
 
 func _on_continue_button_pressed() -> void:
+	AudioManager.play_button_click()
 	GameState.set_paused(false)
 	resume_requested.emit()
 
