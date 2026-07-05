@@ -31,6 +31,8 @@ signal boat_bad_landing(boat: Node2D, landing_angle_degrees: float, target_rotat
 @export var secondary_wave_frequency: float = 0.057
 ## Visual flow speed and entry impulse strength along the water direction.
 @export var current_flow_speed: float = 90.0
+## Current flow side in local space: positive for right, negative for left.
+@export var current_flow_direction: int = 1
 ## Continuous force applied to floating boats along the water direction.
 @export var current_force: float = 260.0
 ## Base upward force applied to submerged boats.
@@ -192,7 +194,7 @@ func get_water_up_direction() -> Vector2:
 
 ## Returns the water's global flow direction after node rotation.
 func get_water_flow_direction() -> Vector2:
-	return global_transform.basis_xform(Vector2.RIGHT).normalized()
+	return global_transform.basis_xform(Vector2.RIGHT * _get_current_flow_direction_sign()).normalized()
 
 
 ## Returns the waterfall drop direction in this node's local drawing space.
@@ -318,6 +320,13 @@ func _is_in_waterfall_edge(local_position: Vector2) -> bool:
 	return is_in_edge_strip and is_near_surface
 
 
+func _get_current_flow_direction_sign() -> float:
+	var direction := signi(current_flow_direction)
+	if direction == 0:
+		direction = 1
+	return float(direction)
+
+
 func _sync_collision_shape() -> void:
 	var collision_shape := _get_collision_shape()
 	var rectangle := _get_unique_rectangle_shape()
@@ -343,8 +352,9 @@ func _build_surface_points() -> PackedVector2Array:
 
 
 func _sample_surface_y(x: float) -> float:
-	var primary := sin(x * wave_frequency + _time * current_flow_speed * 0.03) * wave_amplitude
-	var secondary := sin(x * secondary_wave_frequency - _time * current_flow_speed * 0.045) * secondary_wave_amplitude
+	var signed_flow_speed := current_flow_speed * _get_current_flow_direction_sign()
+	var primary := sin(x * wave_frequency + _time * signed_flow_speed * 0.03) * wave_amplitude
+	var secondary := sin(x * secondary_wave_frequency - _time * signed_flow_speed * 0.045) * secondary_wave_amplitude
 	return surface_y + primary + secondary
 
 
@@ -355,7 +365,10 @@ func _draw_flow_lines() -> void:
 	for index in range(line_count):
 		var lane_progress := float(index + 1) / float(line_count + 1)
 		var y := surface_y + water_depth * lane_progress
-		var offset := fposmod(_time * current_flow_speed + float(index * 113), water_width + 120.0)
+		var offset := fposmod(
+			_time * current_flow_speed * _get_current_flow_direction_sign() + float(index * 113),
+			water_width + 120.0
+		)
 		var x := left - 60.0 + offset
 		var start := Vector2(x - 42.0, y + sin(_time * 2.0 + index) * 3.0)
 		var end := Vector2(x + 42.0, y + sin(_time * 2.0 + index + 0.8) * 3.0)

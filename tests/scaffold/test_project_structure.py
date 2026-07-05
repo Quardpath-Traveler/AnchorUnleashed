@@ -539,6 +539,7 @@ class ProjectStructureTest(unittest.TestCase):
             "signal boat_bad_landing",
             "reference_boat_mass",
             "current_flow_speed",
+            "current_flow_direction",
             "fountain_impulse",
             "buoyancy_force",
             "target_float_depth",
@@ -562,6 +563,7 @@ class ProjectStructureTest(unittest.TestCase):
             "func get_surface_depth_at_global_position(global_position: Vector2) -> float",
             "func get_water_up_direction() -> Vector2",
             "func get_water_flow_direction() -> Vector2",
+            "func _get_current_flow_direction_sign() -> float",
             "func get_waterfall_drop_direction() -> Vector2",
             "func get_boat_target_rotation() -> float",
             "func _apply_buoyancy_to_boat(boat: Node2D)",
@@ -581,6 +583,7 @@ class ProjectStructureTest(unittest.TestCase):
             "draw_polyline",
             "draw_arc",
             "apply_central_force",
+            "Vector2.RIGHT * _get_current_flow_direction_sign()",
             "get_mass_force_scale",
             "rigid_body.mass / reference_boat_mass",
             "float_force * mass_force_scale",
@@ -600,6 +603,14 @@ class ProjectStructureTest(unittest.TestCase):
             "func get_surface_height_at_global_position(global_position: Vector2) -> float",
         ]:
             self.assertIn(expected, script)
+
+        level_scene = self.read("scenes/levels/Level.tscn")
+        water_surface3_section = level_scene[
+            level_scene.index('[node name="WaterSurface3"'):
+            level_scene.index('[node name="WaterSurface4"')
+        ]
+        self.assertIn("current_flow_direction = -1", water_surface3_section)
+        self.assertNotIn("scale = Vector2(-1, 1)", water_surface3_section)
 
         boat_script = self.read("scripts/player/boat.gd")
         for expected in [
