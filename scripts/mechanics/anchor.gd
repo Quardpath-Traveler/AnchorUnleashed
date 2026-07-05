@@ -55,8 +55,9 @@ func _physics_process(delta: float) -> void:
 			_update_rope_visual()
 		State.FLYING:
 			global_position = _get_parabolic_flight_position(delta)
-			rope_length = minf(global_position.distance_to(throw_origin_global), max_length)
-			if global_position.distance_to(throw_origin_global) >= max_length:
+			var current_origin := _get_rope_start_global()
+			rope_length = minf(global_position.distance_to(current_origin), max_length)
+			if global_position.distance_to(current_origin) >= max_length:
 				recall()
 				return
 			_update_rope_visual()
@@ -65,6 +66,10 @@ func _physics_process(delta: float) -> void:
 				recall()
 				return
 			global_position = attached_hook_point.global_position
+			var current_origin := _get_rope_start_global()
+			if current_origin.distance_to(attached_hook_point.global_position) > max_length:
+				recall()
+				return
 			_update_rope_visual()
 
 	_update_debug_log(delta)

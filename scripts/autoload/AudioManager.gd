@@ -22,6 +22,7 @@ const MUSIC_FADE_IN_SECONDS := 1.0
 const MUSIC_FADE_OUT_SECONDS := 0.5
 const MUSIC_FADE_START_DB := -80.0
 const MUSIC_TARGET_DB := 0.0
+const DEFAULT_VOLUME_LINEAR := 0.5
 
 var _sfx_pool: Array[AudioStreamPlayer] = []
 var _music_player: AudioStreamPlayer
@@ -48,6 +49,7 @@ func _ensure_bus(bus_name: String) -> void:
 		var idx := AudioServer.bus_count - 1
 		AudioServer.set_bus_name(idx, bus_name)
 		AudioServer.set_bus_send(idx, "Master")
+		AudioServer.set_bus_volume_db(idx, linear_to_db(DEFAULT_VOLUME_LINEAR))
 
 
 func _create_sfx_pool() -> void:

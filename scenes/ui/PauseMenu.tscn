@@ -186,7 +186,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 max_value = 1.0
 step = 0.01
-value = 1.0
+value = 0.5
 
 [node name="MusicRow" type="HBoxContainer" parent="Root/BottomBar/VolumePanel" unique_id=-1294967286]
 layout_mode = 2
@@ -205,7 +205,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 max_value = 1.0
 step = 0.01
-value = 1.0
+value = 0.5
 
 [node name="ButtonsPanel" type="HBoxContainer" parent="Root/BottomBar" unique_id=-1294967282]
 layout_mode = 2

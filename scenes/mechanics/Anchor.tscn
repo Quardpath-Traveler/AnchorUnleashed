@@ -4,10 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://ds17c0s58r4j" path="res://assets/art/Character Prop Assets/anchor.png" id="2_anchor_texture"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_head"]
-radius = 8.0
+radius = 19.0
 
 [node name="Anchor" type="Node2D" unique_id=345779189]
 script = ExtResource("1_anchor")
+max_length = 240.0
 
 [node name="RopeLine" type="Line2D" parent="." unique_id=133670759]
 unique_name_in_owner = true
@@ -43,5 +44,6 @@ position = Vector2(32, 0)
 shape = SubResource("CircleShape2D_head")
 
 [node name="AnchorSprite" type="Sprite2D" parent="Head" unique_id=48152984]
-scale = Vector2(0.06, 0.06)
+position = Vector2(-4.7683716e-07, 0)
+scale = Vector2(0.11160573, 0.11160573)
 texture = ExtResource("2_anchor_texture")
