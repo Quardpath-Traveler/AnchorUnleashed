@@ -102,7 +102,6 @@ class ProjectStructureTest(unittest.TestCase):
             "scenes/ui/HUD.tscn",
             "scenes/ui/PauseMenu.tscn",
             "scenes/ui/ResultScreen.tscn",
-            "scenes/ui/TutorialPrompt.tscn",
             "scripts/items/can_collectible.gd",
             "scripts/level_parts/obstacle.gd",
             "scripts/level_parts/water_surface.gd",
@@ -122,7 +121,6 @@ class ProjectStructureTest(unittest.TestCase):
             "scripts/ui/hud.gd",
             "scripts/ui/pause_menu.gd",
             "scripts/ui/result_screen.gd",
-            "scripts/ui/tutorial_prompt.gd",
             "scripts/autoload/GameState.gd",
             "scripts/autoload/EventBus.gd",
             "scripts/autoload/SceneLoader.gd",
@@ -244,7 +242,6 @@ class ProjectStructureTest(unittest.TestCase):
             "scenes/ui/HUD.tscn": "res://scripts/ui/hud.gd",
             "scenes/ui/PauseMenu.tscn": "res://scripts/ui/pause_menu.gd",
             "scenes/ui/ResultScreen.tscn": "res://scripts/ui/result_screen.gd",
-            "scenes/ui/TutorialPrompt.tscn": "res://scripts/ui/tutorial_prompt.gd",
             "debug/AnchorThrowRegression.tscn": "res://debug/anchor_throw_regression.gd",
             "debug/AnchorRelativeLaunchVelocityRegression.tscn": "res://debug/anchor_relative_launch_velocity_regression.gd",
             "debug/AnchorBulletTimeRegression.tscn": "res://debug/anchor_bullet_time_regression.gd",
@@ -385,14 +382,12 @@ class ProjectStructureTest(unittest.TestCase):
             "res://scenes/level_parts/WaveChaser.tscn",
             "res://scenes/level_parts/Obstacle.tscn",
             "res://scenes/items/CanCollectible.tscn",
-            "res://scenes/ui/TutorialPrompt.tscn",
         ]:
             self.assertIn(scene_path, scene)
 
         for node_name in [
             "StartMarker",
             "FinishArea",
-            "TutorialPrompt",
             "TutorialTriggers",
             "HookPointThrowIntro",
             "HookPointFinal",
@@ -402,39 +397,43 @@ class ProjectStructureTest(unittest.TestCase):
         ]:
             self.assertIn(f'name="{node_name}"', scene)
 
-        for prompt_text in [
-            "顺着坡道前进。",
-            "按住鼠标左键瞄准。",
-            "松开发射锚。",
-            "勾住后让船甩起来。",
-            "再次点击收回锚，借惯性飞出去。",
-            "空中按 A / D 调整船体倾角。",
-            "收集罐子，避开障碍。",
-            "巨浪会追上来，继续向终点前进。",
-            "到达终点。",
+        for trigger_name in [
+            "AimPrompt",
+            "ThrowPrompt",
+            "SwingPrompt",
+            "BulletTimePrompt",
+            "AirControlPrompt",
+            "WavePrompt",
         ]:
-            self.assertIn(prompt_text, scene)
+            self.assertIn(f'name="PromptSprite" type="Sprite2D" parent="TutorialTriggers/{trigger_name}"', scene)
+
+        for image_path in [
+            "res://assets/art/UI/TutorialComponents/aim_at_rock_launch_anchor.png",
+            "res://assets/art/UI/TutorialComponents/release_anchor.png",
+            "res://assets/art/UI/TutorialComponents/timing_the_swing.png",
+            "res://assets/art/UI/TutorialComponents/enter_bullet_time.png",
+            "res://assets/art/UI/TutorialComponents/adjust_balance_collect_coins_dodge_obstacles.png",
+            "res://assets/art/UI/TutorialComponents/rescue_more_before_flood.png",
+        ]:
+            self.assertIn(image_path, scene)
 
         for expected in [
             "class_name TutorialLevel",
             "signal level_completed",
             "func setup(active_player: Node2D) -> void",
             "func get_start_position() -> Vector2",
-            "func _connect_tutorial_triggers() -> void",
-            "func _on_tutorial_trigger_body_entered(body: Node2D, trigger: TutorialTrigger) -> void",
-            "tutorial_prompt.show_prompt(trigger.prompt_text)",
             "wave_chaser.target = active_player",
         ]:
             self.assertIn(expected, script)
 
         for expected in [
             "class_name TutorialTrigger",
-            "@export_multiline var prompt_text",
             "@export var one_shot",
-            "@export_range(0.0, 10.0, 0.1) var auto_hide_seconds",
+            "var has_triggered: bool = false",
+            "@onready var prompt_sprite: Sprite2D = $PromptSprite",
             "func can_trigger(body: Node2D) -> bool",
             "func mark_triggered() -> void",
-            "body.is_in_group(\"boats\")",
+            "body.is_in_group(",
         ]:
             self.assertIn(expected, trigger_script)
 

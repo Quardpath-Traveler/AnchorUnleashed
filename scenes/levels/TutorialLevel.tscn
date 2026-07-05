@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" path="res://scenes/level_parts/WaveChaser.tscn" id="5_wave"]
 [ext_resource type="PackedScene" path="res://scenes/level_parts/Obstacle.tscn" id="6_obstacle"]
 [ext_resource type="PackedScene" path="res://scenes/items/CanCollectible.tscn" id="7_can"]
-[ext_resource type="PackedScene" path="res://scenes/ui/TutorialPrompt.tscn" id="8_prompt"]
 [ext_resource type="PackedScene" path="res://scenes/mechanics/DeathZone.tscn" id="9_death"]
 [ext_resource type="Texture2D" uid="uid://bc7w5dhl4757f" path="res://assets/art/Scene Assets/sky.png" id="10_sky"]
 [ext_resource type="Texture2D" uid="uid://cx6rdyh1qy5xs" path="res://assets/art/Scene Assets/mountain/mountain3.png" id="11_mountain3"]
@@ -20,15 +19,21 @@
 [ext_resource type="Texture2D" uid="uid://bkoqshsjfemj0" path="res://assets/art/Scene Assets/cloud/cloud1.png" id="18_cloud1"]
 [ext_resource type="Texture2D" uid="uid://hmlsgcmc8sjd" path="res://assets/art/Scene Assets/cloud/cloud5.png" id="19_cloud5"]
 [ext_resource type="Texture2D" uid="uid://r2heekhlan7s" path="res://assets/art/Scene Assets/mountain/fill gaps2.png" id="20_fill_gaps2"]
+[ext_resource type="Texture2D" uid="uid://bwu46l7yb4n52" path="res://assets/art/UI/TutorialComponents/aim_at_rock_launch_anchor.png" id="21_aim_img"]
+[ext_resource type="Texture2D" uid="uid://c7bt1v5fpi2vl" path="res://assets/art/UI/TutorialComponents/release_anchor.png" id="22_release_img"]
+[ext_resource type="Texture2D" uid="uid://bvsw85rnosol7" path="res://assets/art/UI/TutorialComponents/timing_the_swing.png" id="23_swing_img"]
+[ext_resource type="Texture2D" uid="uid://bbwiivkr412tv" path="res://assets/art/UI/TutorialComponents/enter_bullet_time.png" id="24_bullet_img"]
+[ext_resource type="Texture2D" uid="uid://l5iuvx2bwghw" path="res://assets/art/UI/TutorialComponents/adjust_balance_collect_coins_dodge_obstacles.png" id="25_aircontrol_img"]
+[ext_resource type="Texture2D" uid="uid://dkd01v8yfdim1" path="res://assets/art/UI/TutorialComponents/rescue_more_before_flood.png" id="26_wave_img"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_finish"]
 size = Vector2(90, 190)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_prompt"]
-size = Vector2(180, 180)
+size = Vector2(449.5, 235)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_prompt_wide"]
-size = Vector2(260, 200)
+size = Vector2(404.49976, 233)
 
 [node name="TutorialLevel" type="Node2D" unique_id=226315810]
 script = ExtResource("1_level")
@@ -37,9 +42,9 @@ script = ExtResource("1_level")
 z_index = -100
 
 [node name="Sky" type="Sprite2D" parent="Background" unique_id=1790350994]
-position = Vector2(1147, -135)
+position = Vector2(1446.0146, -53.830658)
 rotation = 0.0012651181
-scale = Vector2(1.4472903, 1.413475)
+scale = Vector2(2.7591639, 1.413475)
 texture = ExtResource("10_sky")
 
 [node name="Clouds" type="Node2D" parent="Background" unique_id=1672533211]
@@ -151,18 +156,26 @@ texture = ExtResource("14_mountain2")
 
 [node name="StartMarker" type="Marker2D" parent="." unique_id=1855019591]
 unique_name_in_owner = true
-position = Vector2(120, 130)
+position = Vector2(-704, 3)
+
+[node name="RebrithPoint2" type="Marker2D" parent="." unique_id=2059072459]
+position = Vector2(998, 196)
 
 [node name="DeathZone" parent="." unique_id=1245395156 node_paths=PackedStringArray("respawn_marker") instance=ExtResource("9_death")]
-position = Vector2(1326, 788)
-scale = Vector2(3.68, 1)
+position = Vector2(711, 809)
+scale = Vector2(2, 1)
 respawn_marker = NodePath("../StartMarker")
 
+[node name="DeathZone2" parent="." unique_id=1017762343 node_paths=PackedStringArray("respawn_marker") instance=ExtResource("9_death")]
+position = Vector2(2310, 781)
+scale = Vector2(2, 1)
+respawn_marker = NodePath("../RebrithPoint2")
+
 [node name="WaterSurface" parent="." unique_id=313835308 instance=ExtResource("4_water")]
-position = Vector2(152.99997, 175.99997)
-rotation = 0.230383
-water_width = 918.69
-water_depth = 700.0
+position = Vector2(-439.99997, 121)
+rotation = 0.13962634
+water_width = 2000.0
+water_depth = 300.0
 surface_y = -36.0
 current_flow_speed = 195.0
 current_force = 220.0
@@ -171,19 +184,19 @@ max_buoyancy_force = 11130.0
 enable_waterfall = false
 
 [node name="HookPointThrowIntro" parent="." unique_id=923746207 instance=ExtResource("3_hook")]
-position = Vector2(656, 165)
+position = Vector2(706, 165)
 
 [node name="CanCollectible" parent="." unique_id=1578559747 instance=ExtResource("7_can")]
-position = Vector2(936, 239)
+position = Vector2(2144, 149)
 
 [node name="Obstacle" parent="." unique_id=603796150 instance=ExtResource("6_obstacle")]
-position = Vector2(902, 334)
+position = Vector2(884, 310)
 
 [node name="WaterSurface2" parent="." unique_id=155695590 instance=ExtResource("4_water")]
-position = Vector2(1144.9999, 418)
-rotation = 0.230383
-water_width = 580.0
-water_depth = 700.0
+position = Vector2(1392, 308)
+rotation = 0.0837758
+water_width = 1000.0
+water_depth = 120.0
 surface_y = -36.0
 current_flow_speed = 195.0
 current_force = 220.0
@@ -192,17 +205,17 @@ max_buoyancy_force = 11130.0
 enable_waterfall = false
 
 [node name="HookPointFinal" parent="." unique_id=816175866 instance=ExtResource("3_hook")]
-position = Vector2(1569, 389)
+position = Vector2(2030, 222)
 
 [node name="WaveChaser" parent="." unique_id=922305947 instance=ExtResource("5_wave")]
 unique_name_in_owner = true
-position = Vector2(-262, 76)
+position = Vector2(-1342, -76)
 chase_speed = 52.0
 max_distance_from_target = 740.0
 
 [node name="FinishArea" type="Area2D" parent="." unique_id=2015988553]
 unique_name_in_owner = true
-position = Vector2(2475, 644)
+position = Vector2(3514, 285)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FinishArea" unique_id=1989538445]
 shape = SubResource("RectangleShape2D_finish")
@@ -211,94 +224,92 @@ shape = SubResource("RectangleShape2D_finish")
 color = Color(0.24, 0.76, 0.36, 0.35)
 polygon = PackedVector2Array(-45, -95, 45, -95, 45, 95, -45, 95)
 
-[node name="TutorialPrompt" parent="." unique_id=176569266 instance=ExtResource("8_prompt")]
-unique_name_in_owner = true
-
 [node name="TutorialTriggers" type="Node2D" parent="." unique_id=1025217352]
 unique_name_in_owner = true
-visible = false
-
-[node name="StartSlidePrompt" type="Area2D" parent="TutorialTriggers" unique_id=3412792]
-position = Vector2(106, 86)
-script = ExtResource("2_trigger")
-prompt_text = "顺着坡道前进。"
-auto_hide_seconds = 2.4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TutorialTriggers/StartSlidePrompt" unique_id=1537792597]
-shape = SubResource("RectangleShape2D_prompt")
 
 [node name="AimPrompt" type="Area2D" parent="TutorialTriggers" unique_id=390776515]
-position = Vector2(344, 156)
+position = Vector2(597, 484)
 script = ExtResource("2_trigger")
-prompt_text = "按住鼠标左键瞄准。"
+
+[node name="PromptSprite" type="Sprite2D" parent="TutorialTriggers/AimPrompt" unique_id=1768282503]
+position = Vector2(-97.99998, -472)
+scale = Vector2(0.28439155, 0.28439155)
+texture = ExtResource("21_aim_img")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TutorialTriggers/AimPrompt" unique_id=1183953888]
+position = Vector2(-352, -314)
 shape = SubResource("RectangleShape2D_prompt")
 
 [node name="ThrowPrompt" type="Area2D" parent="TutorialTriggers" unique_id=277387977]
-position = Vector2(485, 189)
+position = Vector2(681, 287)
 script = ExtResource("2_trigger")
-prompt_text = "松开发射锚。"
+
+[node name="PromptSprite" type="Sprite2D" parent="TutorialTriggers/ThrowPrompt" unique_id=1581692739]
+position = Vector2(282, -174)
+scale = Vector2(0.27445108, 0.2744511)
+texture = ExtResource("22_release_img")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TutorialTriggers/ThrowPrompt" unique_id=396476642]
+position = Vector2(46, -109)
 shape = SubResource("RectangleShape2D_prompt")
 
 [node name="SwingPrompt" type="Area2D" parent="TutorialTriggers" unique_id=938180285]
-position = Vector2(645, 173)
+position = Vector2(1263, 259)
 script = ExtResource("2_trigger")
-prompt_text = "勾住后让船甩起来。"
+
+[node name="PromptSprite" type="Sprite2D" parent="TutorialTriggers/SwingPrompt" unique_id=1870450004]
+position = Vector2(151, -135)
+scale = Vector2(0.2589009, 0.2589009)
+texture = ExtResource("23_swing_img")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TutorialTriggers/SwingPrompt" unique_id=1573957609]
+position = Vector2(49.5, 16.5)
 shape = SubResource("RectangleShape2D_prompt_wide")
 
-[node name="RecallPrompt" type="Area2D" parent="TutorialTriggers" unique_id=659895648]
-position = Vector2(832, 183)
+[node name="BulletTimePrompt" type="Area2D" parent="TutorialTriggers" unique_id=-1546967295]
+position = Vector2(5, 163)
 script = ExtResource("2_trigger")
-prompt_text = "再次点击收回锚，借惯性飞出去。"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TutorialTriggers/RecallPrompt" unique_id=1515495638]
-shape = SubResource("RectangleShape2D_prompt_wide")
+[node name="PromptSprite" type="Sprite2D" parent="TutorialTriggers/BulletTimePrompt" unique_id=1195141184]
+position = Vector2(-74.00002, -259)
+scale = Vector2(0.40508476, 0.40508476)
+texture = ExtResource("24_bullet_img")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TutorialTriggers/BulletTimePrompt" unique_id=-1546967293]
+position = Vector2(-364, -100)
+shape = SubResource("RectangleShape2D_prompt")
 
 [node name="AirControlPrompt" type="Area2D" parent="TutorialTriggers" unique_id=922353614]
-position = Vector2(1605, 351)
+position = Vector2(2046, 129)
 script = ExtResource("2_trigger")
-prompt_text = "空中按 A / D 调整船体倾角。"
+
+[node name="PromptSprite" type="Sprite2D" parent="TutorialTriggers/AirControlPrompt" unique_id=1534130079]
+position = Vector2(48, -91)
+scale = Vector2(0.27595627, 0.27595627)
+texture = ExtResource("25_aircontrol_img")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TutorialTriggers/AirControlPrompt" unique_id=467225476]
-shape = SubResource("RectangleShape2D_prompt_wide")
-
-[node name="CollectObstaclePrompt" type="Area2D" parent="TutorialTriggers" unique_id=700353553]
-position = Vector2(983, 237)
-script = ExtResource("2_trigger")
-prompt_text = "收集罐子，避开障碍。"
-auto_hide_seconds = 3.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TutorialTriggers/CollectObstaclePrompt" unique_id=1229208361]
+position = Vector2(-9.588623, 80.77893)
 shape = SubResource("RectangleShape2D_prompt_wide")
 
 [node name="WavePrompt" type="Area2D" parent="TutorialTriggers" unique_id=299275247]
-position = Vector2(1845, 487)
+position = Vector2(2738.0002, 212)
 script = ExtResource("2_trigger")
-prompt_text = "巨浪会追上来，继续向终点前进。"
-auto_hide_seconds = 3.0
+
+[node name="PromptSprite" type="Sprite2D" parent="TutorialTriggers/WavePrompt" unique_id=593854835]
+position = Vector2(159.37941, -165.95499)
+scale = Vector2(0.24307142, 0.24307144)
+texture = ExtResource("26_wave_img")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TutorialTriggers/WavePrompt" unique_id=1529841190]
-shape = SubResource("RectangleShape2D_prompt_wide")
-
-[node name="FinishPrompt" type="Area2D" parent="TutorialTriggers" unique_id=789460876]
-position = Vector2(2247, 572)
-script = ExtResource("2_trigger")
-prompt_text = "到达终点。"
-auto_hide_seconds = 2.4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TutorialTriggers/FinishPrompt" unique_id=1179774565]
+position = Vector2(22.749756, 0)
 shape = SubResource("RectangleShape2D_prompt_wide")
 
 [node name="WaterSurface3" parent="." unique_id=1247063147 instance=ExtResource("4_water")]
-position = Vector2(2155.9998, 559)
-rotation = 0.230383
-water_width = 960.0
-water_depth = 500.0
+position = Vector2(2859, 293.99997)
+rotation = 0.05235988
+water_width = 1300.0
+water_depth = 120.0
 surface_y = -36.0
 current_flow_speed = 195.0
 current_force = 220.0

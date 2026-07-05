@@ -80,30 +80,37 @@ func _check_water_surface_alignment() -> void:
 
 
 func _check_prompt_sequence() -> void:
-	var expected_prompts := [
-		"顺着坡道前进。",
-		"按住鼠标左键瞄准。",
-		"松开发射锚。",
-		"勾住后让船甩起来。",
-		"再次点击收回锚，借惯性飞出去。",
-		"空中按 A / D 调整船体倾角。",
-		"收集罐子，避开障碍。",
-		"巨浪会追上来，继续向终点前进。",
-		"到达终点。",
+	var expected_image_paths := [
+		"res://assets/art/UI/TutorialComponents/aim_at_rock_launch_anchor.png",
+		"res://assets/art/UI/TutorialComponents/release_anchor.png",
+		"res://assets/art/UI/TutorialComponents/timing_the_swing.png",
+		"res://assets/art/UI/TutorialComponents/enter_bullet_time.png",
+		"res://assets/art/UI/TutorialComponents/adjust_balance_collect_coins_dodge_obstacles.png",
+		"res://assets/art/UI/TutorialComponents/rescue_more_before_flood.png",
 	]
-	var prompt_label := _level.get_node("TutorialPrompt/PanelContainer/PromptLabel") as Label
-	for index in range(expected_prompts.size()):
+	for index in range(expected_image_paths.size()):
 		var trigger := _level.tutorial_triggers.get_child(index) as TutorialTrigger
 		if trigger == null:
 			_failed_checks.append("prompt_trigger_%d_missing" % index)
 			continue
 
-		trigger.body_entered.emit(_boat)
-		if prompt_label.text != expected_prompts[index]:
+		var prompt_sprite := trigger.get_node_or_null("PromptSprite") as Sprite2D
+		if prompt_sprite == null:
+			_failed_checks.append("prompt_sprite_%d_missing" % index)
+			continue
+
+		var texture := prompt_sprite.texture as Texture2D
+		var actual := texture.resource_path if texture != null else "<null>"
+		if actual != expected_image_paths[index]:
 			_failed_checks.append(
 				"prompt_%d expected=%s actual=%s"
-				% [index, expected_prompts[index], prompt_label.text]
+				% [index, expected_image_paths[index], actual]
 			)
+
+		trigger.body_entered.emit(_boat)
+		await get_tree().process_frame
+		if not prompt_sprite.visible:
+			_failed_checks.append("prompt_%d not visible after trigger" % index)
 
 
 func _check_anchor_sequence() -> void:
