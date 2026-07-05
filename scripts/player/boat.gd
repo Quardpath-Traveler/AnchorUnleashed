@@ -575,9 +575,10 @@ func _recall_anchor_for_respawn() -> void:
 
 
 func _execute_respawn_launch(state: PhysicsDirectBodyState2D) -> void:
-	state.transform.origin = _respawn_target
+	state.transform = Transform2D(0.0, _respawn_target)
 	state.linear_velocity = Vector2.ZERO
 	state.angular_velocity = 0.0
+	_righting_timer = 0.0
 	_reset_trick_tracking()
 	if crew_count > 0:
 		lose_crew(1)

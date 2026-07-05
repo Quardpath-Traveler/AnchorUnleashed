@@ -265,10 +265,10 @@ texture = ExtResource("14_mountain2")
 
 [node name="StartMarker" type="Marker2D" parent="." unique_id=1855019591]
 unique_name_in_owner = true
-position = Vector2(-704, 3)
+position = Vector2(-696, 4)
 
 [node name="RebrithPoint2" type="Marker2D" parent="." unique_id=2059072459]
-position = Vector2(998, 196)
+position = Vector2(1011, 189)
 
 [node name="DeathZone" parent="." unique_id=1245395156 node_paths=PackedStringArray("respawn_marker") instance=ExtResource("9_death")]
 position = Vector2(711, 555)

@@ -270,7 +270,7 @@ flip_h = true
 
 [node name="StartMarker" type="Marker2D" parent="." unique_id=1082883030]
 unique_name_in_owner = true
-position = Vector2(120, 130)
+position = Vector2(85, 293)
 
 [node name="WaterSurface" parent="." unique_id=194159359 instance=ExtResource("14_e3atx")]
 position = Vector2(465.00003, 512)
@@ -377,6 +377,15 @@ drift_speed_multiplier = 0.0
 position = Vector2(3920, 1034)
 drift_speed_multiplier = 0.0
 
+[node name="DeathZone2" parent="." unique_id=1102604642 node_paths=PackedStringArray("respawn_marker") instance=ExtResource("20_cbvap")]
+position = Vector2(1402.0002, 978)
+rotation = -1.548107
+respawn_marker = NodePath("StartMarker2")
+
+[node name="StartMarker2" type="Marker2D" parent="DeathZone2" unique_id=1983823845 groups=["StartMarker2"]]
+position = Vector2(647.05994, -1327.0219)
+rotation = -0.2655507
+
 [node name="DeathZone" parent="." unique_id=724025732 node_paths=PackedStringArray("respawn_marker") instance=ExtResource("20_cbvap")]
 position = Vector2(1298.0001, 959)
 rotation = 0.03347358
@@ -402,7 +411,7 @@ rotation = -0.005508089
 respawn_marker = NodePath("StartMarker2")
 
 [node name="StartMarker2" type="Marker2D" parent="DeathZone4" unique_id=1817931682 groups=["StartMarker2"]]
-position = Vector2(-1201.5894, -985.63336)
+position = Vector2(-1169.8431, -939.4579)
 rotation = -0.2655507
 
 [node name="HookPointB2" parent="." unique_id=695728318 instance=ExtResource("15_2hum8")]

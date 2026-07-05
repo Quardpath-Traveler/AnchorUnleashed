@@ -15,13 +15,12 @@ script = ExtResource("1_boat")
 max_linear_speed = 880.0
 
 [node name="KayakSprite" type="Sprite2D" parent="." unique_id=216690964]
-z_index = 10
+z_index = 5
 scale = Vector2(0.12, 0.12)
 texture = ExtResource("2_kayak")
 
 [node name="CrewVisuals" type="Node2D" parent="." unique_id=1905388021]
 unique_name_in_owner = true
-z_index = 2
 position = Vector2(0, -4.36)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=963683348]
@@ -32,6 +31,9 @@ position = Vector2(34, -8)
 
 [node name="Boatman" parent="." unique_id=422447904 instance=ExtResource("3_boatman")]
 position = Vector2(28, -4)
+
+[node name="BodySprite" parent="Boatman" index="0" unique_id=1212818406]
+z_index = -3
 
 [node name="Anchor" parent="Boatman/HandPivot" parent_id_path=PackedInt32Array(422447904, 90366945) index="1" unique_id=2089304412 instance=ExtResource("2_anchor")]
 unique_name_in_owner = true

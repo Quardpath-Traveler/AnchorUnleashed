@@ -522,7 +522,7 @@ rotation = 0.016275167
 respawn_marker = NodePath("StartMarker2")
 
 [node name="StartMarker2" type="Marker2D" parent="DeathZone3" unique_id=1065408859]
-position = Vector2(432.73425, -327.08585)
+position = Vector2(-1014.9428, -725.5784)
 rotation = -0.2655507
 
 [node name="HookPointB2" parent="." unique_id=695728318 instance=ExtResource("3_iv3rn")]
