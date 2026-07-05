@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://chya0leno7ddn"]
 
 [ext_resource type="Script" uid="uid://cvt0hbp00c7sw" path="res://scripts/ui/pause_menu.gd" id="1_pause"]
-[ext_resource type="Texture2D" uid="uid://ca8tibv5ifslt" path="res://assets/art/UI/pause_menu/continue_game.png" id="2_7ida2"]
+[ext_resource type="Texture2D" uid="uid://cwhku2oxxlq4h" path="res://assets/art/UI/pause_menu/resume_game.png" id="2_7ida2"]
 [ext_resource type="Texture2D" uid="uid://2cmxxqg8uda6" path="res://assets/art/UI/pause_menu/pause_button.png" id="2_cctyv"]
 [ext_resource type="Texture2D" uid="uid://dgshdpvcap2qv" path="res://assets/art/UI/pause_menu/score.png" id="2_rw35d"]
 [ext_resource type="Texture2D" uid="uid://daphmmtsswb3d" path="res://assets/art/UI/pause_menu/paused.png" id="2_v5pi0"]
@@ -9,7 +9,7 @@
 [ext_resource type="FontFile" uid="uid://cyojbog2ulc66" path="res://assets/fonts/Bebas-Neue/BebasNeue-1.otf" id="3_o0a0r"]
 [ext_resource type="Texture2D" uid="uid://cpss7co81jd1b" path="res://assets/art/UI/game_hud/coin.png" id="3_px486"]
 [ext_resource type="Texture2D" uid="uid://ckdygmo28wm2o" path="res://assets/art/UI/pause_menu/rescue_count_logo.png" id="4_px486"]
-[ext_resource type="Texture2D" uid="uid://c6qba4d3xp4o7" path="res://assets/art/UI/pause_menu/return_to_main_menu.png" id="4_v5pi0"]
+[ext_resource type="Texture2D" uid="uid://ds8tabilnugft" path="res://assets/art/UI/pause_menu/back_to_main_menu.png" id="4_v5pi0"]
 
 [node name="PauseMenu" type="CanvasLayer" unique_id=1242282370]
 script = ExtResource("1_pause")

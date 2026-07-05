@@ -9,10 +9,12 @@
 [ext_resource type="Texture2D" uid="uid://3yr360v5akmj" path="res://assets/art/UI/result_screen/restart.png" id="6_1tvin"]
 [ext_resource type="Texture2D" uid="uid://cb4asucl55p2s" path="res://assets/art/UI/result_screen/rescue_count_logo.png" id="6_o5afk"]
 [ext_resource type="FontFile" uid="uid://cyojbog2ulc66" path="res://assets/fonts/Bebas-Neue/BebasNeue-1.otf" id="6_rikjr"]
-[ext_resource type="Texture2D" uid="uid://btmoqwbgb27gu" path="res://assets/art/UI/result_screen/return_to_main_menu.png" id="7_2ck2r"]
+[ext_resource type="Texture2D" uid="uid://bkua4ik0c3ikq" path="res://assets/art/UI/result_screen/back_to_main_menu.png" id="7_2ck2r"]
+[ext_resource type="Texture2D" uid="uid://cgshlhcrrxf7" path="res://assets/art/UI/result_screen/next_level.png" id="8_next"]
 
 [node name="ResultScreen" type="CanvasLayer" unique_id=1630884730]
 script = ExtResource("1_result")
+metadata/_edit_vertical_guides_ = [906.0]
 
 [node name="Background" type="ColorRect" parent="." unique_id=1903587224]
 anchors_preset = 15
@@ -185,7 +187,9 @@ theme_override_constants/margin_right = 30
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
-theme_override_constants/separation = 70
+offset_transform_enabled = true
+offset_transform_position = Vector2(-26.89, 0)
+theme_override_constants/separation = 100
 
 [node name="RetryButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer2/HBoxContainer" unique_id=1084920065]
 unique_name_in_owner = true
@@ -201,6 +205,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_1tvin")
+expand_mode = 3
+
+[node name="NextLevelButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer2/HBoxContainer" unique_id=1183953889]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+flat = true
+
+[node name="NextLevelIcon" type="TextureRect" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer2/HBoxContainer/NextLevelButton" unique_id=1917796231]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_next")
 expand_mode = 3
 
 [node name="MainMenuButton" type="Button" parent="Panel/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/MarginContainer2/HBoxContainer" unique_id=161292076]
