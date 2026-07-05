@@ -69,6 +69,7 @@ var _righting_timer: float = 0.0
 var _righting_target_rotation: float = 0.0
 var _last_bad_landing_water: Node2D = null
 var _last_bad_landing_time: float = -1000.0
+var _pending_bad_landing: bool = false
 
 @onready var anchor: Variant = %Anchor
 @onready var crew_visuals: Node2D = %CrewVisuals
@@ -282,6 +283,7 @@ func respawn_at(target_position: Vector2) -> void:
 	if _respawn_recovery_timer > 0.0:
 		return
 	_reset_trick_tracking()
+	_pending_bad_landing = false
 	_respawn_state = RespawnState.RECALL
 	_respawn_target = target_position
 
@@ -293,11 +295,17 @@ func on_bad_landing(angle_degrees: float, target_rotation: float, water_surface:
 		if Time.get_ticks_msec() / 1000.0 - _last_bad_landing_time < bad_landing_min_trigger_interval:
 			return
 
-	lose_crew(1)
 	_righting_timer = bad_landing_righting_duration
 	_righting_target_rotation = target_rotation
 	_last_bad_landing_water = water_surface
 	_last_bad_landing_time = Time.get_ticks_msec() / 1000.0
+
+	# 钩住锚点时保护不掉人，等松开时再判定
+	if anchor.is_hooked():
+		_pending_bad_landing = true
+		return
+
+	lose_crew(1)
 
 
 func on_safe_landing(landing_angle_degrees: float, water_surface: Node2D) -> void:
@@ -589,3 +597,13 @@ func _on_anchor_hooked(_hook_point: Node2D) -> void:
 
 func _on_anchor_recalled() -> void:
 	_reset_anchor_swing_state()
+	_check_pending_bad_landing()
+
+
+func _check_pending_bad_landing() -> void:
+	if not _pending_bad_landing:
+		return
+	_pending_bad_landing = false
+	# 松开锚时仍在水中 → 掉人；已出水 → 不掉
+	if is_in_water():
+		lose_crew(1)
