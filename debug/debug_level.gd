@@ -6,7 +6,6 @@ extends Node2D
 
 
 func _ready() -> void:
-	process_mode = Node.PROCESS_MODE_ALWAYS
 	GameState.reset()
 	_sync_crew_tracking()
 	GameState.pause_changed.connect(_on_pause_changed)

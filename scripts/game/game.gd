@@ -8,7 +8,6 @@ var current_level: Node2D = null
 
 
 func _ready() -> void:
-	process_mode = Node.PROCESS_MODE_ALWAYS
 	GameState.reset()
 	_instantiate_level()
 	_sync_crew_tracking()

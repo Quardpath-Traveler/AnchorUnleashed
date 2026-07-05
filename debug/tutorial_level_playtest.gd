@@ -6,7 +6,6 @@ extends Node2D
 
 
 func _ready() -> void:
-	process_mode = Node.PROCESS_MODE_ALWAYS
 	GameState.reset()
 	GameState.pause_changed.connect(_on_pause_changed)
 	level.setup(player)

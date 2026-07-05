@@ -112,6 +112,8 @@ func _physics_process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if GameState.is_paused:
+		return
 	if _respawn_state != RespawnState.NONE:
 		return
 
