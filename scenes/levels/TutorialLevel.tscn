@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" path="res://scenes/mechanics/HookPoint.tscn" id="3_hook"]
 [ext_resource type="PackedScene" uid="uid://be70x01usqr0h" path="res://scenes/level_parts/WaterSurface.tscn" id="4_water"]
 [ext_resource type="PackedScene" path="res://scenes/level_parts/WaveChaser.tscn" id="5_wave"]
-[ext_resource type="PackedScene" path="res://scenes/level_parts/Obstacle.tscn" id="6_obstacle"]
 [ext_resource type="PackedScene" path="res://scenes/items/CanCollectible.tscn" id="7_can"]
 [ext_resource type="PackedScene" path="res://scenes/mechanics/DeathZone.tscn" id="9_death"]
 [ext_resource type="Texture2D" uid="uid://bc7w5dhl4757f" path="res://assets/art/Scene Assets/sky.png" id="10_sky"]
@@ -299,9 +298,6 @@ position = Vector2(706, 165)
 
 [node name="CanCollectible" parent="." unique_id=1578559747 instance=ExtResource("7_can")]
 position = Vector2(2144, 149)
-
-[node name="Obstacle" parent="." unique_id=603796150 instance=ExtResource("6_obstacle")]
-position = Vector2(884, 310)
 
 [node name="WaterSurface2" parent="." unique_id=155695590 instance=ExtResource("4_water")]
 position = Vector2(1392, 308)
