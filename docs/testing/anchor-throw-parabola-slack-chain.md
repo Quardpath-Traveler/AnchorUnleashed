@@ -58,11 +58,7 @@ python3 -m unittest tests/scaffold/test_project_structure.py
 
 ### Godot 回归场景
 
-运行：
-
-```bash
-/Users/macbook/.local/bin/godot --headless --path . debug/AnchorThrowRegression.tscn
-```
+通过 Godot MCP 运行 `debug/AnchorThrowRegression.tscn`，读取 debug output 并在验证结束后停止项目实例。
 
 验证内容：
 
@@ -140,8 +136,8 @@ OK
 
 已执行：
 
-```bash
-/Users/macbook/.local/bin/godot --headless --path . debug/AnchorThrowRegression.tscn
+```text
+Godot MCP run_project scene=debug/AnchorThrowRegression.tscn
 ```
 
 结果：
@@ -152,8 +148,8 @@ ANCHOR_THROW_RESULT {"arc_deviation":32.507,"chain_point_count":9,"chain_slack":
 
 同时执行了蓄力投掷回归场景，避免抛物线和松弛铁链改动破坏锚的蓄力速度验证：
 
-```bash
-/Users/macbook/.local/bin/godot --headless --path . debug/AnchorChargeRegression.tscn
+```text
+Godot MCP run_project scene=debug/AnchorChargeRegression.tscn
 ```
 
 结果：

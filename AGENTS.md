@@ -22,6 +22,10 @@ lark-cli docs +fetch --doc C54QdoaCko2b6wxtNDpcp385nQb --format json
 
 Before testing new gameplay, UI, scene, physics, or node logic features, agents should first check `docs/testing/new-feature-testing.md`. Use it to plan what needs to be tested, what pre-work is required, how to add temporary logs, how to build a focused debug scene, and how to verify behavior by running the scene and inspecting logs.
 
+## Godot workflow
+
+Use Godot MCP for Godot-related operations, including launching the editor, running the project or a specific scene, inspecting debug output, and editing scenes. Do not use the local `godot` command line to launch the editor unless MCP is unavailable and the user explicitly approves the fallback.
+
 ## Git workflow
 
 For every commit, push, pull, or conflict in this project, invoke the `godot-gamejam-git-workflow` skill.
